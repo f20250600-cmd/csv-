@@ -17,6 +17,8 @@
 | Price vs Base NAV incl. platform | **+39%** | **+69%** |
 | Long-run power price the stock price requires (vs Base) | **+$12–14/MWh** → PJM West ~$72–75 | **+$15–22/MWh** → PJM West ~$76–83, ERCOT ~$66–73 |
 | Or, holding heat rates at Base: long-run Henry Hub required | $4.92–5.13 (Base $4.00) | $5.70–6.46 |
+| **NAV + FCF generated:** value at end-2030 (cumulative FCF + forward NAV), Low / **Base** / High / Extreme | $128 / **$262** / $399 / $601 | $50 / **$130** / $214 / $342 |
+| Implied annual return from today's price, Base / High | **−0.1% / +10.2%** | **−1.6% / +10.7%** |
 
 1. **What the assets are worth today.** If long-run prices settle near the cost of building new gas plants (the Base case), the assets support **~$173–190/share for CEG** and **~$55–80/share for VST**. Both stocks trade well above that.
 2. **What they could be worth with more AI demand.** The High case (data centers at ~14% of US load by 2030 and new supply held back) gives about CEG $270–287 and VST $115–140. That is roughly today's prices. The Extreme case (PJM's capacity price cap removed, a decade of shortage) gives CEG ~$415–432 and VST ~$205–230.
@@ -239,6 +241,61 @@ Asset cash margin is total revenue minus fuel, O&M and capex, before overhead, r
   - Retail margin, which is in the separately shown platform value.
 
 *Correction from the first version: the ~$0.5bn remaining Crane restart capex (dated 2027) had been dropped because Crane's cash flows only started in 2028. It is now included, which lowers CEG NAV by ~$1/share in every scenario. VST is unchanged.*
+
+---
+
+## 4c. NAV + FCF generated
+
+**Why this isn't just NAV + FCF.** Today's NAV is already the present value of every future year of cash, including 2027–2030. Adding cumulative FCF on top of it counts those four years twice. The consistent way to put "cash generated" on top of asset value is a **forward NAV**:
+
+> **Value per share at end-2030 = (a) cumulative equity FCF 2027–2030 + (b) equity NAV at end-2030 of the remaining plant life**
+
+- **(a) Equity FCF** starts from asset cash margin (revenue minus fuel, O&M and sustaining capex) and adds retail/platform EBITDA. It then deducts corporate overhead, interest (CEG ~5.3% on $13.8bn net debt; VST ~5.6% on $23.0bn), a 20% cash tax, and VST's preferred dividends (~$0.19bn).
+- **What's left out:** growth capex, working capital and hedge gains/losses. FCF is simply accumulated as cash; buybacks aren't modelled.
+- **(b)** revalues each plant at end-2030 on its cash flows from 2031 onward, subtracting the same claims.
+- **Return:** the end-2030 value compared with today's price gives an implied annual return over the 4.25 years.
+
+### CEG ($263.93)
+| $/share | Low | **Base** | High | Extreme |
+|---|---|---|---|---|
+| Equity FCF 2027 ($bn) / FCF yield on market cap | 8.0 / 8.5% | **8.0 / 8.6%** | 8.1 / 8.7% | 8.2 / 8.8% |
+| (a) Cumulative equity FCF 2027–30 | 73 | **88** | 103 | 126 |
+| (b) Equity NAV at end-2030 (incl. platform) | 56 | **175** | 295 | 474 |
+| **(a)+(b) Value at end-2030** | **128** | **262** | **399** | **601** |
+| **Implied annual return from today's price** | **−15.6%** | **−0.1%** | **+10.2%** | **+21.3%** |
+| Check: discounted to today at 9% (vs today's NAV incl. platform) | 100 (94) | 194 (190) | 290 (287) | 431 (432) |
+| ~~Today's NAV + cumulative FCF~~ (double counts, shown only for contrast) | ~~166~~ | ~~277~~ | ~~390~~ | ~~558~~ |
+
+### VST ($138.76)
+| $/share | Low | **Base** | High | Extreme |
+|---|---|---|---|---|
+| Equity FCF 2027 ($bn) / FCF yield on market cap | 5.8 / 12.3% | **5.9 / 12.5%** | 6.0 / 12.6% | 6.1 / 12.8% |
+| (a) Cumulative equity FCF 2027–30 | 48 | **59** | 71 | 89 |
+| (b) Equity NAV at end-2030 (incl. platform) | 2 | **70** | 142 | 253 |
+| **(a)+(b) Value at end-2030** | **50** | **130** | **214** | **342** |
+| **Implied annual return from today's price** | **−21.2%** | **−1.6%** | **+10.7%** | **+23.6%** |
+| Check: discounted to today at 9% (vs today's NAV incl. platform) | 43 (27) | 98 (82) | 157 (140) | 247 (229) |
+| ~~Today's NAV + cumulative FCF~~ (double counts) | ~~75~~ | ~~141~~ | ~~211~~ | ~~319~~ |
+
+### Base-case equity FCF build ($bn, nominal)
+| | 2027 | 2028 | 2029 | 2030 |
+|---|---|---|---|---|
+| CEG revenue / asset cash margin | 21.4 / 10.2 | 22.4 / 11.2 | 21.1 / 9.5 | 20.2 / 8.4 |
+| CEG + platform − overhead − interest − tax | +1.0 −0.5 −0.7 −2.0 | +1.0 −0.5 −0.7 −2.2 | +1.1 −0.5 −0.7 −1.9 | +1.1 −0.5 −0.7 −1.7 |
+| **CEG equity FCF** | **8.0** | **8.8** | **7.5** | **6.6** |
+| VST revenue / asset cash margin | 17.0 / 7.8 | 15.6 / 7.0 | 14.9 / 6.1 | 14.8 / 5.8 |
+| VST + platform − overhead − interest − tax − preferred | +1.5 −0.4 −1.3 −1.5 −0.2 | +1.5 −0.4 −1.3 −1.4 −0.2 | +1.6 −0.4 −1.3 −1.2 −0.2 | +1.6 −0.4 −1.3 −1.1 −0.2 |
+| **VST equity FCF** | **5.9** | **5.3** | **4.6** | **4.4** |
+
+**What it adds to the NAV view:**
+- **Near-term cash is strong, but it front-loads the value rather than adding to it.** FCF yields of ~8.6% (CEG) and ~12.5% (VST) in 2027 look cheap. But 2027–28 are marked to today's tight forwards in every scenario. In Base, FCF then falls ~25% by 2030 as prices normalise and PJM capacity prices come off the cap. Four years of cash is worth ~$88/share for CEG and ~$59 for VST. After that, the plants' remaining-life NAV is lower than today's.
+- **If Base plays out, the return is about zero.** CEG's end-2030 value ($262) roughly equals today's price, a return of about −0.1%/yr. VST's ($130) is about −1.6%/yr.
+- **The High case is needed for a normal equity return.** It gives ~+10%/yr for both. Extreme gives ~+21–24%/yr.
+- **VST's high FCF yield is levered.** It runs 12–13% only after $1.3bn of interest and $0.2bn of preferred dividends. In the Low case its end-2030 NAV is ~$2/share, so almost all of its value would be the cash it generates before 2030.
+- **The near-term FCF may be optimistic.** The model's 2027 VST FCF ($5.9bn, including Cogentrix) compares with Vistra's own 2026 guidance of $3.9–4.7bn free cash flow before growth, which is hedged and excludes Cogentrix. CEG's forward-marked numbers are similarly ~15–20% above its guidance run-rate. **A 20% haircut on 2027–30 FCF lowers the Base annual return to about −1.8% (CEG) and −3.7% (VST).**
+- **Reconciliation:** discounted back at 9%, the end-2030 value lands within ~$4/share of today's NAV for CEG. For VST it is ~$16 higher, because the equity view credits the interest tax shield and debt cheaper than the assets' discount rates, which the unlevered NAV doesn't. VST's Base NAV is therefore more like $82–98/share, still well below $139.
+
+Files: `outputs/fcf_nav.md`, `outputs/equity_fcf_annual.csv`, `outputs/nav_plus_fcf_summary.csv`, and the workbook sheets "NAV + FCF" and "Equity FCF annual". The code is in `fcf.py`.
 
 ---
 

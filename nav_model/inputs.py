@@ -259,3 +259,15 @@ COMP_MARK_COGENTRIX = (2.3e9 + 1.5e9 + 5e6 * 185) / 5.5e6   # price Vistra agree
 
 # Illustrative scenario weights (JUDGEMENT, not a forecast) used only for a probability-weighted NAV
 SCENARIO_WEIGHTS = {"Low": 0.20, "Base": 0.45, "High": 0.25, "Extreme": 0.10}
+
+# ---------------------------------------------------------------------------
+# Equity free-cash-flow layer (used by fcf.py for "forward NAV + FCF generated")
+# ---------------------------------------------------------------------------
+FCF_HORIZON_END = 2030             # FCF accumulated 2027..2030, then NAV of the remaining asset life at end-2030
+FINANCING = {
+    # net debt after pending-deal cash; cost of debt EST from coupon mix (not sourced from filings)
+    "CEG": {"net_debt_bn": 19.60 - 0.697 - 5.00 - 0.86 + 0.715, "cost_of_debt": 0.053, "pref_bn": 0.0, "pref_rate": 0.0},
+    "VST": {"net_debt_bn": 19.595 - 0.435 + 2.30 + 1.50, "cost_of_debt": 0.056, "pref_bn": 2.476, "pref_rate": 0.075},
+}
+RENEWABLE_CASH_YIELD = 0.09        # ASSUMPTION: annual cash from $/kW-valued wind/solar/storage as % of value
+EQUITY_DISCOUNT_RATE = 0.09        # ASSUMPTION: used only to discount the end-2030 total back to today for reconciliation

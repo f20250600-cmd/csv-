@@ -257,7 +257,7 @@ def value_asset(a, deck, opts):
 
 def corp_overhead_pv(co, disc_adj=0.0):
     oh = I.CORP_OVERHEAD_MM[co]
-    return sum(oh * Deck.infl(y) * (1 - I.CASH_TAX_RATE) * df(0.085 + disc_adj, y) for y in range(2027, 2057))
+    return sum(oh * Deck.infl(y) * (1 - I.CASH_TAX_RATE) * df(0.085 + disc_adj, y) for y in range(I.FIRST_YEAR, I.FIRST_YEAR + 30))
 
 
 def company_nav(co, deck, opts=None):
@@ -622,6 +622,8 @@ def main():
                         w.writerow([co, s, y] + [round(v, 1) for v in vals] + [round(sum(vals), 1)])
 
     write_xlsx(results, mkt, sens_rows, other_rows, implied, shifts, caps)
+    import fcf  # "NAV + FCF generated" layer (forward NAV); writes fcf_nav.md and adds two workbook sheets
+    fcf.run(results, mkt, OUT)
 
     # console summary
     for co in ("CEG", "VST"):
