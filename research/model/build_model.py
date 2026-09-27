@@ -485,6 +485,74 @@ for t in [
 ]:
     put(sm, f"A{rr}", t); rr += 1
 
+
+# ---------------- DEAL OVERLAY ----------------
+dl = wb.create_sheet("Deals", 2)
+dl.column_dimensions["A"].width = 60
+for col in "BCDEFGHI": dl.column_dimensions[col].width = 11
+dl.column_dimensions["J"].width = 80
+put(dl, "A1", "Deal overlay: what are Apple / Tesla-Terafab / OpenAI worth per share? (US$ bn)", TITLE)
+put(dl, "A2", "Each deal valued as incremental free cash flow ON TOP of the Base scenario (generous: Base already has $15bn of external foundry revenue by 2033, some of which is Apple). Blue = editable assumption.")
+header(dl, 4, ["Deal / line"] + YEARS + ["Terminal"], 1)
+DEALS = [
+ ("Apple (low-end M-series on 18A-P)", 0.70, [1, 4, 7, 10, 10.3, 10.6, 10.9], [0.15, 0.15, 0.15, 0.25, 0.25, 0.25, 0.25],
+  "Revenue path follows BofA's ~$10bn/yr by 2030 estimate; WSJ reports a PRELIMINARY deal (May 2026). Probability 70% = signed but not definitive. FCF margin after incremental capex."),
+ ("Tesla / SpaceX / xAI Terafab (14A)", 0.40, [0, 0.3, 1, 3, 5, 5.5, 6], [0.30, 0.30, 0.30, 0.30, 0.30, 0.30, 0.30],
+  "Intel named foundry partner 7 Apr 2026; 14A reportedly selected. Pilot fab target 100k wafers/mo at $20-25bn. Intel's revenue model (wafer sales vs. process license/operating fees) undisclosed; assumes fees/partial wafer revenue with JV-funded fabs (hence 30% FCF margin)."),
+ ("OpenAI (custom accelerator)", 0.25, [0, 0, 1, 4, 8, 8.5, 9], [0.20, 0.20, 0.20, 0.20, 0.20, 0.20, 0.20],
+  "Only an unconfirmed 'design win' report (Jul 2026). OpenAI's Titan is on TSMC N3 via Broadcom, next gen planned for TSMC A16. Low probability."),
+]
+r = 5; DTOT = []
+for name, p, revs, mg, note in DEALS:
+    put(dl, f"A{r}", name, BOLD); put(dl, f"J{r}", note); r += 1
+    rr, rm, rf, rd, rp = r, r+1, r+2, r+3, r+4
+    put(dl, f"A{rr}", "  Incremental revenue"); put(dl, f"A{rm}", "  FCF margin (after incremental capex)")
+    put(dl, f"A{rf}", "  Incremental FCF"); put(dl, f"A{rd}", "  Discount factor"); put(dl, f"A{rp}", "  PV of FCF")
+    for i, c in enumerate("BCDEFGH"):
+        put(dl, f"{c}{rr}", revs[i], BLUE, USD, YEL); put(dl, f"{c}{rm}", mg[i], BLUE, PCT, YEL)
+        put(dl, f"{c}{rf}", f"={c}{rr}*{c}{rm}", BLACK, USD)
+        put(dl, f"{c}{rd}", f"=1/(1+{I('wacc')})^({I('off')}+{i+1})", BLACK, '0.000')
+        put(dl, f"{c}{rp}", f"={c}{rf}*{c}{rd}", BLACK, USD)
+    put(dl, f"I{rf}", f"=H{rf}*(1+{I('g')})", BLACK, USD)
+    put(dl, f"I{rp}", f"=IF({I('wacc')}<={I('g')},0,I{rf}/({I('wacc')}-{I('g')})*H{rd})", BLACK, USD)
+    ro = rp + 1
+    put(dl, f"A{ro}", "  Deal value if it happens ($bn)"); put(dl, f"B{ro}", f"=SUM(B{rp}:I{rp})", BLACK, USD)
+    put(dl, f"A{ro+1}", "  Per share if it happens ($)"); put(dl, f"B{ro+1}", f"=IF({I('shares')}=0,0,B{ro}/{I('shares')})", BLACK, USD2)
+    put(dl, f"A{ro+2}", "  Probability (judgment)"); put(dl, f"B{ro+2}", p, BLUE, PCT, YEL)
+    put(dl, f"A{ro+3}", "  Probability-weighted per share ($)", BOLD); put(dl, f"B{ro+3}", f"=B{ro+1}*B{ro+2}", BLACK, USD2, GREY)
+    DTOT.append((ro+1, ro+3)); r = ro + 5
+put(dl, f"A{r}", "DO THE DEALS EXPLAIN THE PRICE?", BOLD); r += 1
+t0 = r
+bv = f"Base!B{SR['Base'][1]['vps']}"
+rows = [
+ ("Base scenario value per share ($)", f"={bv}", USD2),
+ ("+ All three deals, probability-weighted ($)", "=" + "+".join(f"B{b}" for a, b in DTOT), USD2),
+ ("+ All three deals at 100% probability ($)", "=" + "+".join(f"B{a}" for a, b in DTOT), USD2),
+ ("Total: Base + deals (probability-weighted) ($)", f"=B{t0}+B{t0+1}", USD2),
+ ("Total: Base + deals (all certain) ($)", f"=B{t0}+B{t0+2}", USD2),
+ ("Current share price ($)", f"={I('price')}", USD2),
+ ("Gap still unexplained, all deals certain ($/share)", f"=B{t0+5}-B{t0+4}", USD2),
+ ("Gap still unexplained ($bn of equity value)", f"=B{t0+6}*{I('shares')}", USD),
+ ("Deal-size multiple needed (all certain) to close the gap", f"=IF(B{t0+2}=0,0,(B{t0+5}-B{t0})/B{t0+2})", MULT),
+]
+for i, (lbl, f, fmt) in enumerate(rows):
+    put(dl, f"A{t0+i}", lbl, BOLD if i in (3, 4, 6) else BLACK); put(dl, f"B{t0+i}", f, BLACK, fmt)
+r = t0 + len(rows) + 1
+put(dl, f"A{r}", "WHAT SIZE OF FOUNDRY BUSINESS DOES THE GAP IMPLY?", BOLD); r += 1
+u0 = r
+rows2 = [
+ ("Year the extra foundry business reaches maturity", 2031, '0'),
+ ("Mature FCF margin of that business (TSMC-like)", 0.35, PCT),
+ ("Required perpetual FCF from that year to fill the gap ($bn/yr)", f"=B{t0+7}*({I('wacc')}-{I('g')})*(1+{I('wacc')})^(B{u0}-2026-{I('off')})", USD),
+ ("Required extra external foundry revenue ($bn/yr)", f"=IF(B{u0+1}=0,0,B{u0+2}/B{u0+1})", USD),
+ ("TSMC 2026 revenue, annualized from Q2 ($bn) for scale", "=40.2*4", USD),
+ ("Required extra revenue as % of TSMC's current size", f"=IF(B{u0+4}=0,0,B{u0+3}/B{u0+4})", PCT),
+]
+for i, (lbl, f, fmt) in enumerate(rows2):
+    put(dl, f"A{u0+i}", lbl); put(dl, f"B{u0+i}", f, BLUE if not isinstance(f, str) else BLACK, fmt, YEL if not isinstance(f, str) else None)
+put(dl, f"J{u0+4}", "TSMC Q2 2026 revenue $40.2bn (TSMC 6-K, 16 Jul 2026)")
+put(dl, f"J{u0+2}", "Gap equity value grown at WACC to the maturity year, times (WACC - g)")
+
 # ---------------- SENSITIVITY ----------------
 se = wb.create_sheet("Sensitivity", 2)
 se.column_dimensions["A"].width = 30

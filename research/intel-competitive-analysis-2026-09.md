@@ -636,6 +636,18 @@ I originally treated a Taiwan disruption as a footnote. That was a mistake: it i
 
 **[I]** The Taiwan scenario raises Intel's value, but on these numbers it doesn't bridge the gap to the current price by itself.
 
+### 10.3b Do the Apple, Tesla/Terafab and OpenAI deals explain the price?
+
+The status of each deal as of September 2026:
+
+- **Apple:** a *preliminary* chipmaking deal (WSJ, May 2026) for low-end M-series chips on 18A-P, ramping 2027–28. BofA estimates about $10bn a year of sales by 2030 [A] ([CNBC](https://www.cnbc.com/2026/05/08/intel-stock-apple-chip-deal.html), [Stocktwits/BofA](https://stocktwits.com/news-articles/markets/equity/intel-s-potential-foundry-deal-with-apple-could-add-10-b-annual-sales-by-2030-analyst/cZX9zwcReWp)).
+- **Tesla / SpaceX / xAI Terafab:** Intel was named foundry partner on 7 Apr 2026, and 14A was reportedly selected. Near-term revenue is small, and Intel's revenue model hasn't been disclosed [R/A] ([Electrek](https://electrek.co/2026/04/07/tesla-terafab-intel-joins-foundry/), [24/7 Wall St](https://247wallst.com/investing/2026/04/07/intel-lands-musks-25-billion-terafab-a-billion-dollar-foundry-win-in-the-making/)). Tesla's own AI5 and AI6 chips remain at TSMC and Samsung [R] ([Tom's Hardware](https://www.tomshardware.com/tech-industry/semiconductors/musk-confirms-tesla-ai5-and-ai6-will-be-made-at-samsung-and-tsmc)).
+- **OpenAI:** there is only an unconfirmed "design win" report [A] ([Wccftech](https://wccftech.com/intel-foundry-snags-amd-nvidia-openai-as-design-wins-on-18a-14a-nodes/)). OpenAI's first custom chip is on TSMC N3 via Broadcom [A] ([TrendForce](https://www.trendforce.com/news/2026/01/15/news-openai-reportedly-to-deploy-custom-ai-chip-on-tsmc-n3-by-end-2026-second-gen-planned-for-a16/)).
+
+**[I] Valuation (model, "Deals" sheet).** The three deals are worth about **$10.5/share if all are certain**, or about $5/share probability-weighted. Base plus all three deals is about $33, against a $123 price.
+
+The remaining gap of about $90/share (about $496bn) would require a new foundry business of roughly **$167bn a year of revenue at TSMC-like margins by 2031. That is about the size of TSMC today.** The deal *news* is real, but the deals as reported are an order of magnitude too small to explain the valuation by themselves. The price is betting that these are the first of many such customers.
+
 ### 10.4 Net effect on the conclusions
 
 - **Rankings (§4):** unchanged.

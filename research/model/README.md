@@ -9,6 +9,7 @@ File: `intel_valuation_model.xlsx`. It is built on the findings in `../intel-com
   - Yellow cells are key judgment calls, or placeholders to verify against the Q2-26 10-Q.
 - **Summary**: each scenario's value, the probability-weighted value, and a reverse DCF against today's price.
 - **Sensitivity**: live WACC × terminal-growth grids for all three scenarios, plus a Base-case tornado.
+- **Deals**: values the Apple, Tesla/Terafab and OpenAI deals as extra cash flow on top of the Base case, and tests whether they explain the price.
 - **Bear / Base / Bull / Taiwan**: identical 2026E–2033 forecasts by segment, discounted to 30 Sep 2026.
 
 The file was written without cached values; Excel or Google Sheets recalculates everything on open. The formulas were checked with a Python formula engine (0 errors), because LibreOffice's Calc engine isn't installed in the build environment.
@@ -81,6 +82,28 @@ China is a real but second-order valuation driver. It is smaller than foundry, s
 - damage to Intel's Malaysian assembly and test sites, and to its supply chain
 
 A friendlier outcome (TSMC keeps supplying the West after a peaceful reunification) would sit between Base and Taiwan.
+
+## Deal overlay: Apple, Tesla/Terafab, OpenAI (added)
+
+Each deal is valued as extra free cash flow *on top of* the Base case. That is generous, because Base already includes $15bn of external foundry revenue by 2033, some of it Apple.
+
+| Deal | Status (Sep 2026) | Peak revenue assumed | Value if certain | Probability | Weighted |
+|---|---|---|---|---|---|
+| Apple (low-end M-series, 18A-P) | Preliminary deal (WSJ, May 2026) | ~$10bn/yr by 2030 (BofA estimate) | $4.72/share | 70% | $3.30 |
+| Tesla/SpaceX/xAI Terafab (14A) | Intel named foundry partner (7 Apr 2026); revenue model undisclosed | ~$6bn/yr by 2033 | $2.88/share | 40% | $1.15 |
+| OpenAI | Unconfirmed "design win" report only; its first chip is on TSMC N3 via Broadcom | ~$9bn/yr by 2033 | $2.86/share | 25% | $0.72 |
+| **Total** | | | **$10.46** | | **$5.17** |
+
+**Results:**
+
+| | Value per share |
+|---|---|
+| Base + all three deals at 100% probability | ~$33 |
+| Current price | $123 |
+| **Gap still unexplained** | **~$90/share (about $496bn)** |
+
+- To close that gap, the deals would need to be **about 9.6×** the sizes assumed here.
+- Put another way: the gap equals a new foundry business earning about $59bn a year of FCF from 2031. At TSMC-like 35% FCF margins, that is about **$167bn of extra annual revenue, roughly 104% of TSMC's entire current revenue**.
 
 ## What to check before trusting this
 
