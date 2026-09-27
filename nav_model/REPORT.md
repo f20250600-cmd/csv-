@@ -1,7 +1,7 @@
 # CEG & VST — Asset-Based NAV Under AI / Data-Center Demand Scenarios
 
 *Valuation date 30-Sep-2026. Prices: CEG $263.93 (22-Sep-26), VST $138.76 (25-Sep-26). All values in US$, long-run power prices in 2026 dollars.*
-*The model is in `nav_model.py` + `inputs.py`. Full asset tables are in `outputs/tables.md`, `outputs/nav_model.xlsx` and the CSVs.*
+*The editable model is `outputs/CEG_VST_NAV_Model.xlsx`. The Python model (`nav_model.py` + `inputs.py`) regenerates the detailed tables and CSVs into `outputs/` when run.*
 
 ---
 
@@ -226,7 +226,7 @@ Every asset's cash flow is built from separate revenue and cost lines. Each line
 | VST: merchant energy / capacity / PPA | 13.9 / 2.4 / 0.8 | 11.4 / 1.4 / 2.0 | 12.4 / 1.6 / 2.3 | 14.1 / 2.0 / 2.0 | 15.2 / 2.2 / 2.3 |
 | **VST asset cash margin** | **7.7** | **5.7** | **6.1** | **8.9** | **9.6** |
 
-Asset cash margin is total revenue minus fuel, O&M and capex, before overhead, retail and tax. The full annual series for every scenario is in `outputs/revenue_streams_annual.csv` and on the workbook's "Revenue streams annual" sheet. Asset-by-stream PVs are in `outputs/revenue_streams_pv.csv`.
+Asset cash margin is total revenue minus fuel, O&M and capex, before overhead, retail and tax. The full annual series by asset and stream is on the `CEG_Model` / `VST_Model` sheets of the Excel model.
 
 **What the streams show:**
 - **All of the AI upside comes through merchant energy and capacity.** From Low to Extreme, energy adds +$93bn and capacity +$27bn for CEG, and +$55bn / +$14bn for VST. The data-center PPAs don't move at all: they are fixed-price, so they protect the Low case and give up upside in High and Extreme. At ~$80–100/MWh they are worth more than merchant sales in Base and less in Extreme.
@@ -297,7 +297,7 @@ Asset cash margin is total revenue minus fuel, O&M and capex, before overhead, r
 - **The near-term FCF may be optimistic.** The model's 2027 VST FCF ($5.9bn, including Cogentrix) compares with Vistra's own 2026 guidance of $3.9–4.7bn free cash flow before growth, which is hedged and excludes Cogentrix. CEG's forward-marked numbers are similarly ~15–20% above its guidance run-rate. **A 20% haircut on 2027–30 FCF lowers the Base annual return to about −1.8% (CEG) and −3.7% (VST).**
 - **Reconciliation:** discounted back at 9%, the end-2030 value lands within ~$4/share of today's NAV for CEG. For VST it is ~$16 higher, because the equity view credits the interest tax shield and debt cheaper than the assets' discount rates, which the unlevered NAV doesn't. VST's Base NAV is therefore more like $82–98/share, still well below $139.
 
-Files: `outputs/fcf_nav.md`, `outputs/equity_fcf_annual.csv`, `outputs/nav_plus_fcf_summary.csv`, and the workbook sheets "NAV + FCF" and "Equity FCF annual". The code is in `fcf.py`.
+In the Excel model: Summary section 2, and the consolidated FCF rows on `CEG_Model` / `VST_Model`. The code is in `fcf.py`.
 
 ---
 
@@ -332,7 +332,7 @@ Files: `outputs/fcf_nav.md`, `outputs/equity_fcf_annual.csv`, `outputs/nav_plus_
 | Market EV ÷ DRC: as new nuclear / as new gas | 0.81x / 2.02x | 1.06x / 1.64x |
 | Nuclear new-build cost the share price implies (Base, 5-yr FCF, same age haircut) | **~$5,700/kW** | **~$6,200/kW** |
 
-FCF-horizon grids (0/3/5/7/10 years × scenario) and the DRC for each asset group are in `outputs/replacement_cost.md`, `outputs/replacement_cost_*.csv`, and the workbook sheets "Replacement cost" and "Replacement + FCF".
+In the Excel model: Summary section 3, and the replacement-cost columns on `CEG_Assets` / `VST_Assets`. Change the FCF years and the nuclear basis on Inputs. The code is in `replacement.py`.
 
 **What it shows:**
 - **The gas-plant DRC matches what buyers actually pay.** Depreciated CCGTs come to ~$1,040–1,080/kW (45% of $2,350). Recent deals were $1,142/kW for LS Power's PJM package and ~$1,023/kW for Calpine. So for gas, replacement cost and the market agree, which independently supports the approach.
