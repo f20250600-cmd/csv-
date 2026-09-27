@@ -19,7 +19,7 @@ New-entrant CCGT break-even PJM West ATC (2026$, $2,350/kW, 8% real, $230/MW-day
 | Nuclear - Clinton (MISO) - Meta 20-yr PPA | nuclear | MISO | 1,080 | 2,814 | 3,012 | 3,217 | 3,507 | 2,789 | 386 |
 | Nuclear - New York (Nine Mile Pt, Ginna, FitzPatrick) | nuclear | NY | 3,000 | 3,942 | 7,040 | 10,271 | 14,828 | 2,347 | 1,241 |
 | Nuclear - South Texas Project 44% (ERCOT) | nuclear | ERCOT | 1,165 | 376 | 1,050 | 2,032 | 3,669 | 901 | 97 |
-| Nuclear - Crane restart (TMI-1) - Microsoft 20-yr PPA | nuclear | PJMW | 835 | 3,198 | 3,361 | 3,517 | 3,747 | 4,025 | 429 |
+| Nuclear - Crane restart (TMI-1) - Microsoft 20-yr PPA | nuclear | PJMW | 835 | 2,820 | 2,983 | 3,140 | 3,370 | 3,572 | 429 |
 | Hydro - Conowingo + Muddy Run pumped storage (PJM) | hydro | PJMW | 1,642 | 2,120 | 3,004 | 3,828 | 5,062 | 1,829 | 341 |
 | Wind & solar (legacy CEG, ~1.9 GW) | renewable | PJMW | 1,900 | 782 | 855 | 928 | 1,031 | 450 |  |
 | Gas - ERCOT CCGT (Colorado Bend II, Wolf Hollow II, etc.) | ccgt | ERCOT | 2,300 | 813 | 1,747 | 2,868 | 4,736 | 760 | 207 |
@@ -37,7 +37,7 @@ New-entrant CCGT break-even PJM West ATC (2026$, $2,350/kW, 8% real, $230/MW-day
 
 | Technology | MW | Low | Base | High | Extreme | Base $/kW |
 |---|---|---|---|---|---|---|
-| nuclear | 22,810 | 34.9 | 58.9 | 82.6 | 117.3 | 2,581 |
+| nuclear | 22,810 | 34.5 | 58.5 | 82.2 | 116.9 | 2,564 |
 | hydro | 1,642 | 2.1 | 3.0 | 3.8 | 5.1 | 1,829 |
 | renewable | 1,900 | 0.8 | 0.9 | 0.9 | 1.0 | 450 |
 | ccgt | 17,809 | 6.9 | 14.4 | 22.6 | 35.0 | 809 |
@@ -79,16 +79,16 @@ New-entrant CCGT break-even PJM West ATC (2026$, $2,350/kW, 8% real, $230/MW-day
 
 | Line | Low | Base | High | Extreme |
 |---|---|---|---|---|
-| Gross asset value (generation) | 47.4 | 81.4 | 115.9 | 167.1 |
+| Gross asset value (generation) | 47.0 | 81.0 | 115.5 | 166.7 |
 | Less: capitalised corporate overhead | 4.9 | 4.9 | 4.9 | 4.9 |
 | Less: net debt, preferred & other claims | 15.0 | 15.0 | 15.0 | 15.0 |
-| **Equity NAV - generation only** | 27.6 | 61.6 | 96.1 | 147.3 |
-| **NAV / share - generation only ($)** | 78 | 174 | 271 | 416 |
-| Premium(+)/discount(-) of price to NAV | +239% | +52% | -3% | -37% |
+| **Equity NAV - generation only** | 27.2 | 61.2 | 95.7 | 146.9 |
+| **NAV / share - generation only ($)** | 77 | 173 | 270 | 415 |
+| Premium(+)/discount(-) of price to NAV | +244% | +53% | -2% | -36% |
 | Add: retail/commercial platform (earnings-based, see note) | 6.0 | 6.0 | 6.0 | 6.0 |
-| **NAV / share incl. platform ($)** | 95 | 191 | 288 | 433 |
-| Premium(+)/discount(-) of price to NAV incl. platform | +179% | +38% | -8% | -39% |
-| GAV per kW ($) | 948 | 1,629 | 2,319 | 3,344 |
+| **NAV / share incl. platform ($)** | 94 | 190 | 287 | 432 |
+| Premium(+)/discount(-) of price to NAV incl. platform | +182% | +39% | -8% | -39% |
+| GAV per kW ($) | 941 | 1,621 | 2,312 | 3,336 |
 
 Market: market cap $93.5bn; net claims $15.0bn; **EV $108.5bn**; 49,970 MW pro forma -> **$2,171/kW**.
 
@@ -109,12 +109,76 @@ Market: market cap $93.5bn; net claims $15.0bn; **EV $108.5bn**; 49,970 MW pro f
 
 Market: market cap $47.3bn; net claims $26.6bn; **EV $73.9bn**; 49,141 MW pro forma -> **$1,504/kW**.
 
+### Revenue streams - after-tax PV by stream ($bn); costs negative
+
+#### CEG
+
+| Stream | Low | Base | High | Extreme | Base share of gross revenue PV | Change Low->Extreme |
+|---|---|---|---|---|---|---|
+| Merchant energy sales | 125.8 | 151.8 | 178.8 | 218.8 | 77% | +93.0 |
+| Capacity payments (PJM/NY/NE/MISO/CA RA) | 14.5 | 22.7 | 30.1 | 41.3 | 12% | +26.8 |
+| Long-term PPAs (data-center/hyperscaler, CCA) | 19.9 | 19.9 | 19.9 | 19.9 | 10% | +0.0 |
+| State nuclear support (NY ZEC) | 0.9 | 0.9 | 0.9 | 0.9 | 0% | +0.0 |
+| Federal 45U nuclear PTC (untaxed credit) | 0.2 | 0.0 | 0.0 | 0.0 | 0% | -0.2 |
+| Wind/solar/storage (valued at $/kW) | 0.8 | 0.9 | 0.9 | 1.0 | 0% | +0.2 |
+| Fuel + variable O&M (thermal) | -24.8 | -24.8 | -24.8 | -24.8 |  | +0.0 |
+| Nuclear all-in cost (fuel, O&M, sustaining capex) | -79.3 | -79.3 | -79.3 | -79.3 |  | +0.0 |
+| Fixed O&M + sustaining capex (non-nuclear) | -10.7 | -10.7 | -10.7 | -10.7 |  | +0.0 |
+| One-off capex (Crane restart) | -0.4 | -0.4 | -0.4 | -0.4 |  | +0.0 |
+| Mothball floor (loss-making years avoided) | 0.0 | 0.0 | 0.0 | 0.0 |  | -0.0 |
+| **Gross asset value** | **47.0** | **81.0** | **115.5** | **166.7** | | |
+| Contracted/policy revenue share of gross revenue PV (PPA + ZEC + 45U) | 13% | 11% | 9% | 7% | | |
+
+#### VST
+
+| Stream | Low | Base | High | Extreme | Base share of gross revenue PV | Change Low->Extreme |
+|---|---|---|---|---|---|---|
+| Merchant energy sales | 77.6 | 92.3 | 108.2 | 132.5 | 74% | +55.0 |
+| Capacity payments (PJM/NY/NE/MISO/CA RA) | 8.2 | 12.5 | 16.4 | 22.4 | 10% | +14.1 |
+| Long-term PPAs (data-center/hyperscaler, CCA) | 18.5 | 18.5 | 18.5 | 18.5 | 15% | +0.0 |
+| Federal 45U nuclear PTC (untaxed credit) | 0.2 | 0.0 | 0.0 | 0.0 | 0% | -0.2 |
+| Wind/solar/storage (valued at $/kW) | 0.8 | 0.9 | 1.0 | 1.1 | 1% | +0.3 |
+| Fuel + variable O&M (thermal) | -39.0 | -39.0 | -39.0 | -39.0 |  | +0.0 |
+| Nuclear all-in cost (fuel, O&M, sustaining capex) | -23.1 | -23.1 | -23.1 | -23.1 |  | +0.0 |
+| Fixed O&M + sustaining capex (non-nuclear) | -12.5 | -12.5 | -12.5 | -12.5 |  | +0.0 |
+| Mothball floor (loss-making years avoided) | 0.2 | 0.0 | 0.0 | 0.0 |  | -0.2 |
+| **Gross asset value** | **30.8** | **49.6** | **69.4** | **99.8** | | |
+| Contracted/policy revenue share of gross revenue PV (PPA + ZEC + 45U) | 18% | 15% | 13% | 11% | | |
+
+### Revenue streams - annual pre-tax, nominal ($bn) - Base and High
+
+#### CEG
+
+| Stream | Base 2027 | Base 2030 | Base 2035 | Base 2040 | High 2027 | High 2030 | High 2035 | High 2040 |
+|---|---|---|---|---|---|---|---|---|
+| Merchant energy sales | 16.39 | 15.47 | 17.08 | 18.93 | 16.47 | 18.92 | 20.89 | 23.05 |
+| Capacity payments (PJM/NY/NE/MISO/CA RA) | 2.73 | 2.23 | 2.47 | 2.62 | 2.73 | 3.13 | 3.46 | 3.67 |
+| Long-term PPAs (data-center/hyperscaler, CCA) | 1.82 | 2.51 | 2.51 | 2.03 | 1.82 | 2.51 | 2.51 | 2.03 |
+| State nuclear support (NY ZEC) | 0.44 | 0.00 | 0.00 | 0.00 | 0.44 | 0.00 | 0.00 | 0.00 |
+| Fuel + variable O&M (thermal) | -3.01 | -3.25 | -3.59 | -3.84 | -3.01 | -3.25 | -3.59 | -3.84 |
+| Nuclear all-in cost (fuel, O&M, sustaining capex) | -6.55 | -7.32 | -8.28 | -9.37 | -6.55 | -7.32 | -8.28 | -9.37 |
+| Fixed O&M + sustaining capex (non-nuclear) | -1.20 | -1.28 | -1.42 | -1.46 | -1.20 | -1.28 | -1.42 | -1.46 |
+| One-off capex (Crane restart) | -0.50 | 0.00 | 0.00 | 0.00 | -0.50 | 0.00 | 0.00 | 0.00 |
+| **Asset cash margin (pre-tax, after mothball floor)** | **10.13** | **8.36** | **8.76** | **8.92** | **10.21** | **12.71** | **13.56** | **14.09** |
+
+#### VST
+
+| Stream | Base 2027 | Base 2030 | Base 2035 | Base 2040 | High 2027 | High 2030 | High 2035 | High 2040 |
+|---|---|---|---|---|---|---|---|---|
+| Merchant energy sales | 13.89 | 11.44 | 12.40 | 12.08 | 13.97 | 14.05 | 15.23 | 14.77 |
+| Capacity payments (PJM/NY/NE/MISO/CA RA) | 2.35 | 1.42 | 1.56 | 1.55 | 2.35 | 2.01 | 2.22 | 2.20 |
+| Long-term PPAs (data-center/hyperscaler, CCA) | 0.77 | 1.97 | 2.30 | 2.30 | 0.77 | 1.97 | 2.30 | 2.30 |
+| Fuel + variable O&M (thermal) | -5.45 | -5.31 | -5.87 | -5.65 | -5.45 | -5.31 | -5.87 | -5.65 |
+| Nuclear all-in cost (fuel, O&M, sustaining capex) | -1.92 | -2.07 | -2.34 | -2.65 | -1.92 | -2.07 | -2.34 | -2.65 |
+| Fixed O&M + sustaining capex (non-nuclear) | -1.94 | -1.76 | -1.94 | -1.68 | -1.94 | -1.76 | -1.94 | -1.68 |
+| **Asset cash margin (pre-tax, after mothball floor)** | **7.68** | **5.69** | **6.11** | **5.95** | **7.77** | **8.90** | **9.60** | **9.30** |
+
 ### What the market price implies (solve: uniform long-run power price shift vs Base deck)
 
 | | Required LR price shift vs Base ($/MWh, 2026$) | Implied PJM West LR ATC | Implied ERCOT LR ATC | Implied PJM heat rate |
 |---|---|---|---|---|
-| CEG - generation only | +14.1 | $74 | $64 | 20.4 |
-| CEG - incl. platform | +11.5 | $72 | $62 | 19.6 |
+| CEG - generation only | +14.3 | $75 | $64 | 20.4 |
+| CEG - incl. platform | +11.6 | $72 | $62 | 19.7 |
 | VST - generation only | +22.5 | $83 | $73 | 22.7 |
 | VST - incl. platform | +15.5 | $76 | $66 | 20.7 |
 
@@ -122,8 +186,8 @@ Alternative solve - Henry Hub level (Base heat rates unchanged) needed to justif
 
 | | Required long-run Henry Hub (2026$/MMBtu) |
 |---|---|
-| CEG - generation only | $5.12 (vs $4.00 Base) |
-| CEG - incl. platform | $4.91 (vs $4.00 Base) |
+| CEG - generation only | $5.13 (vs $4.00 Base) |
+| CEG - incl. platform | $4.92 (vs $4.00 Base) |
 | VST - generation only | $6.46 (vs $4.00 Base) |
 | VST - incl. platform | $5.70 (vs $4.00 Base) |
 
@@ -131,7 +195,7 @@ Alternative solve - Henry Hub level (Base heat rates unchanged) needed to justif
 
 | | Modelled GAV Base $bn | Comps-lens GAV $bn | Equity NAV $bn | NAV/share gen-only $ | NAV/share incl. platform $ | Price $ |
 |---|---|---|---|---|---|---|
-| CEG | 81.4 | 90.3 | 70.5 | 199 | 216 | 263.93 |
+| CEG | 81.0 | 89.9 | 70.1 | 198 | 215 | 263.93 |
 | VST | 49.6 | 54.5 | 24.2 | 71 | 97 | 138.76 |
 
 ### What the market is paying for the nuclear fleet
@@ -140,27 +204,27 @@ Implied nuclear value = market EV + capitalised overhead - platform value - non-
 
 | | Market EV $bn | Non-nuclear assets $bn | Implied nuclear value $bn | Nuclear MW | Implied $/kW | Model $/kW Low | Base | High | Extreme |
 |---|---|---|---|---|---|---|---|---|---|
-| CEG | 108.5 | 31.4 | 75.9 | 22,810 | 3,328 | 1,531 | 2,581 | 3,619 | 5,143 |
+| CEG | 108.5 | 31.4 | 75.9 | 22,810 | 3,328 | 1,514 | 2,564 | 3,603 | 5,126 |
 | VST | 73.9 | 37.8 | 31.1 | 6,448 | 4,824 | 2,012 | 2,592 | 3,216 | 4,166 |
 
 ### Probability-weighted NAV (weights are an illustrative JUDGEMENT: Low 20%, Base 45%, High 25%, Extreme 10%)
 
 | | Weighted NAV/share gen-only $ | incl. platform $ | Price $ | Price vs weighted NAV |
 |---|---|---|---|---|
-| CEG | 203 | 220 | 263.93 | +20% (vs incl. platform) |
+| CEG | 202 | 219 | 263.93 | +21% (vs incl. platform) |
 | VST | 75 | 100 | 138.76 | +38% (vs incl. platform) |
 
 ### CEG NAV/share sensitivity - long-run energy price shift (rows, $/MWh vs Base) x PJM capacity price (cols, $/MW-day) - generation only
 
 | Shift \ Cap | 100 | 175 | 230 | 325 | 450 | PJM West ATC |
 |---|---|---|---|---|---|---|
-| -20 | 36 | 47 | 55 | 70 | 90 | $40 |
-| -10 | 89 | 101 | 110 | 126 | 147 | $50 |
-| +0 | 152 | 165 | 174 | 190 | 211 | $60 |
-| +10 | 216 | 228 | 238 | 254 | 274 | $70 |
-| +20 | 280 | 292 | 301 | 317 | 338 | $80 |
-| +30 | 344 | 356 | 365 | 381 | 402 | $90 |
-| +40 | 407 | 420 | 429 | 445 | 466 | $100 |
+| -20 | 35 | 46 | 54 | 69 | 89 | $40 |
+| -10 | 88 | 100 | 109 | 125 | 146 | $50 |
+| +0 | 151 | 164 | 173 | 189 | 209 | $60 |
+| +10 | 215 | 227 | 237 | 252 | 273 | $70 |
+| +20 | 279 | 291 | 300 | 316 | 337 | $80 |
+| +30 | 343 | 355 | 364 | 380 | 401 | $90 |
+| +40 | 406 | 419 | 428 | 444 | 465 | $100 |
 
 Current price: $263.93
 
@@ -182,18 +246,18 @@ Current price: $138.76
 
 | Sensitivity | CEG | VST |
 |---|---|---|
-| Base case | 174 | 56 |
-| Discount rates -1.0pt | 193 | 66 |
-| Discount rates +1.0pt | 157 | 47 |
-| Nuclear life ends 2045 (no subsequent license renewals) | 150 | 50 |
-| Nuclear life extended to 2065 | 186 | 60 |
-| Henry Hub -$1.00 (power follows via heat rate) | 94 | 25 |
-| Henry Hub +$1.00 | 254 | 90 |
-| Data-center PPA prices -$10/MWh | 167 | 50 |
-| Data-center PPA prices +$10/MWh | 180 | 63 |
-| Low scenario (with 45U floor) | 78 | 1 |
-| Low scenario, no 45U nuclear PTC floor | 77 | 1 |
-| PJM capacity cap persists at $325 forever (High energy, capped capacity) | 271 | 115 |
+| Base case | 173 | 56 |
+| Discount rates -1.0pt | 192 | 66 |
+| Discount rates +1.0pt | 156 | 47 |
+| Nuclear life ends 2045 (no subsequent license renewals) | 149 | 50 |
+| Nuclear life extended to 2065 | 185 | 60 |
+| Henry Hub -$1.00 (power follows via heat rate) | 93 | 25 |
+| Henry Hub +$1.00 | 253 | 90 |
+| Data-center PPA prices -$10/MWh | 166 | 50 |
+| Data-center PPA prices +$10/MWh | 179 | 63 |
+| Low scenario (with 45U floor) | 77 | 1 |
+| Low scenario, no 45U nuclear PTC floor | 76 | 1 |
+| PJM capacity cap persists at $325 forever (High energy, capped capacity) | 270 | 115 |
 
 ### Transaction comparables ($/kW) vs model
 
@@ -208,6 +272,6 @@ Current price: $138.76
 | CEG -> LS Power: Brazos Valley 606 MW ERCOT CCGT (Aug-2026) | 1,419 |
 | CEG <- Calpine: ~26 GW (Jan-2026 close, $26.6bn EV) | 1,023 |
 | Model: CEG gas fleet (CCGT+peakers), Base | 719 |
-| Model: CEG nuclear fleet, Base | 2,581 |
+| Model: CEG nuclear fleet, Base | 2,564 |
 | Model: VST gas fleet (CCGT+peakers), Base | 936 |
 | Model: VST nuclear fleet, Base | 2,592 |

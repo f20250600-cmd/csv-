@@ -11,22 +11,22 @@
 |---|---|---|
 | Market cap / EV (pro forma) | $93.5bn / **$108.5bn** | $47.3bn / **$73.9bn** |
 | EV per kW owned (pro forma MW) | **$2,171/kW** (49.97 GW) | **$1,504/kW** (49.1 GW) |
-| **NAV/share — Low / Base / High / Extreme** (generation only) | $78 / **$174** / $271 / $416 | $1 / **$56** / $115 / $204 |
-| NAV/share incl. retail platform (valued on earnings, shown separately) | $95 / **$191** / $288 / $433 | $27 / **$82** / $140 / $229 |
-| Private-market view (gas marked at deal $/kW, rest at Base), incl. platform | $216 | $97 |
-| Price vs Base NAV incl. platform | **+38%** | **+69%** |
-| Long-run power price the stock price requires (vs Base) | **+$11–14/MWh** → PJM West ~$72–74 | **+$15–22/MWh** → PJM West ~$76–83, ERCOT ~$66–73 |
-| Or, holding heat rates at Base: long-run Henry Hub required | $4.91–5.12 (Base $4.00) | $5.70–6.46 |
+| **NAV/share — Low / Base / High / Extreme** (generation only) | $77 / **$173** / $270 / $415 | $1 / **$56** / $115 / $204 |
+| NAV/share incl. retail platform (valued on earnings, shown separately) | $94 / **$190** / $287 / $432 | $27 / **$82** / $140 / $229 |
+| Private-market view (gas marked at deal $/kW, rest at Base), incl. platform | $215 | $97 |
+| Price vs Base NAV incl. platform | **+39%** | **+69%** |
+| Long-run power price the stock price requires (vs Base) | **+$12–14/MWh** → PJM West ~$72–75 | **+$15–22/MWh** → PJM West ~$76–83, ERCOT ~$66–73 |
+| Or, holding heat rates at Base: long-run Henry Hub required | $4.92–5.13 (Base $4.00) | $5.70–6.46 |
 
-1. **What the assets are worth today.** If long-run prices settle near the cost of building new gas plants (the Base case), the assets support **~$175–190/share for CEG** and **~$55–80/share for VST**. Both stocks trade well above that.
-2. **What they could be worth with more AI demand.** The High case (data centers at ~14% of US load by 2030 and new supply held back) gives about CEG $271–288 and VST $115–140. That is roughly today's prices. The Extreme case (PJM's capacity price cap removed, a decade of shortage) gives CEG ~$420–435 and VST ~$205–230.
+1. **What the assets are worth today.** If long-run prices settle near the cost of building new gas plants (the Base case), the assets support **~$173–190/share for CEG** and **~$55–80/share for VST**. Both stocks trade well above that.
+2. **What they could be worth with more AI demand.** The High case (data centers at ~14% of US load by 2030 and new supply held back) gives about CEG $270–287 and VST $115–140. That is roughly today's prices. The Extreme case (PJM's capacity price cap removed, a decade of shortage) gives CEG ~$415–432 and VST ~$205–230.
 3. **What the market is paying for.** At today's prices, the market is not paying for the Base case. It is paying for something close to the **High case**: long-run PJM West prices of about **$72–83/MWh in 2026 dollars, held indefinitely**. That is $12–23/MWh above what a new gas plant needs to earn a return (~$60). A price above new-build cost can only last if new plants can't get built fast enough. The two stocks are therefore bets that **new supply stays constrained**, more than bets that AI demand keeps growing.
 4. **CEG vs VST.** CEG's price needs less. Its nuclear fleet has long lives and low costs, and its debt is modest (~$15bn net claims against ~$81bn Base asset value). VST's price needs more, for two reasons:
    - **Leverage.** $26.6bn of debt, preferred stock and other claims means small changes in asset value swing the equity a lot. In the Low case VST's equity NAV is near zero.
    - **Fleet mix.** VST's fleet is mostly gas and coal. Their margins widen with scarcity, but they also compress most when new supply arrives.
-5. **The biggest single driver is gas, not AI.** A $1/MMBtu change in long-run Henry Hub moves Base NAV from $94 to $254 for CEG and from $25 to $90 for VST. That swing is larger than the gap between Base and High. Nuclear value is effectively a claim on gas price × market heat rate, and AI demand acts mainly on the heat rate.
+5. **The biggest single driver is gas, not AI.** A $1/MMBtu change in long-run Henry Hub moves Base NAV from $93 to $253 for CEG and from $25 to $90 for VST. That swing is larger than the gap between Base and High. Nuclear value is effectively a claim on gas price × market heat rate, and AI demand acts mainly on the heat rate.
 
-> In the terms of your framework: *"If long-run PJM prices are ~$74/MWh in 2026 dollars forever, the math says CEG is worth roughly its current price."* That is **not** my forecast. It is what has to be true for the price to be fair. §6 sets out why that is a demanding assumption.
+> In the terms of your framework: *"If long-run PJM prices are ~$75/MWh in 2026 dollars forever, the math says CEG is worth roughly its current price."* That is **not** my forecast. It is what has to be true for the price to be fair. §6 sets out why that is a demanding assumption.
 
 ---
 
@@ -143,16 +143,16 @@ In every scenario, 2027–28 are marked to forwards and the capacity prices alre
 ### CEG ($bn unless noted)
 | | Low | **Base** | High | Extreme |
 |---|---|---|---|---|
-| Nuclear (22.8 GW) | 34.9 | **58.9** | 82.6 | 117.3 |
-| — $/kW | 1,531 | **2,581** | 3,619 | 5,143 |
+| Nuclear (22.8 GW) | 34.5 | **58.5** | 82.2 | 116.9 |
+| — $/kW | 1,514 | **2,564** | 3,603 | 5,126 |
 | Gas CCGT + peakers (22.9 GW) | 7.9 | **16.4** | 25.9 | 40.2 |
 | Hydro, geothermal, renewables | 4.6 | **6.1** | 7.5 | 9.6 |
-| **Gross asset value** | 47.4 | **81.4** | 115.9 | 167.1 |
+| **Gross asset value** | 47.0 | **81.0** | 115.5 | 166.7 |
 | Less overhead / net claims | (4.9) / (15.0) | (4.9) / (15.0) | (4.9) / (15.0) | (4.9) / (15.0) |
-| **Equity NAV** | 27.6 | **61.6** | 96.1 | 147.3 |
-| **NAV/share (generation)** | **$78** | **$174** | **$271** | **$416** |
-| NAV/share incl. platform (+$6.0bn) | $95 | $191 | $288 | $433 |
-| Price vs NAV incl. platform | +179% | +38% | −8% | −39% |
+| **Equity NAV** | 27.2 | **61.2** | 95.7 | 146.9 |
+| **NAV/share (generation)** | **$77** | **$173** | **$270** | **$415** |
+| NAV/share incl. platform (+$6.0bn) | $94 | $190 | $287 | $432 |
+| Price vs NAV incl. platform | +182% | +39% | −8% | −39% |
 
 ### VST ($bn unless noted)
 | | Low | **Base** | High | Extreme |
@@ -179,18 +179,81 @@ In every scenario, 2027–28 are marked to forwards and the capacity prices alre
 
 ---
 
+## 4b. Revenue streams — where the asset value comes from
+
+Every asset's cash flow is built from separate revenue and cost lines. Each line is discounted at that asset's rate, and the lines add up exactly to the NAV above. Figures are after-tax PV in $bn; "share" is each stream's share of total revenue PV before costs.
+
+### CEG
+| Stream | Low | **Base** | High | Extreme | Base share | Low→Extreme |
+|---|---|---|---|---|---|---|
+| Merchant energy sales | 125.8 | **151.8** | 178.8 | 218.8 | 77% | +93.0 |
+| Capacity payments (PJM / NY / NE / MISO / CA RA) | 14.5 | **22.7** | 30.1 | 41.3 | 12% | +26.8 |
+| Long-term PPAs (Meta-Clinton, Microsoft-Crane, 920 MW new deals, Geysers) | 19.9 | **19.9** | 19.9 | 19.9 | 10% | 0 |
+| NY ZEC | 0.9 | **0.9** | 0.9 | 0.9 | <1% | 0 |
+| 45U nuclear tax credit | 0.2 | **0.0** | 0.0 | 0.0 | 0% | −0.2 |
+| Renewables (valued at $/kW) | 0.8 | **0.9** | 0.9 | 1.0 | <1% | +0.2 |
+| Nuclear all-in cost (fuel, O&M, capex) | (79.3) | **(79.3)** | (79.3) | (79.3) | | |
+| Gas fuel + variable O&M | (24.8) | **(24.8)** | (24.8) | (24.8) | | |
+| Fixed O&M + capex (non-nuclear) | (10.7) | **(10.7)** | (10.7) | (10.7) | | |
+| Crane restart capex | (0.4) | **(0.4)** | (0.4) | (0.4) | | |
+| **Gross asset value** | 47.0 | **81.0** | 115.5 | 166.7 | | |
+| Contracted + policy share of revenue | 13% | **11%** | 9% | 7% | | |
+
+### VST
+| Stream | Low | **Base** | High | Extreme | Base share | Low→Extreme |
+|---|---|---|---|---|---|---|
+| Merchant energy sales | 77.6 | **92.3** | 108.2 | 132.5 | 74% | +55.0 |
+| Capacity payments | 8.2 | **12.5** | 16.4 | 22.4 | 10% | +14.1 |
+| Long-term PPAs (Meta-Perry/Davis-Besse, Comanche Peak) | 18.5 | **18.5** | 18.5 | 18.5 | 15% | 0 |
+| 45U nuclear tax credit | 0.2 | **0.0** | 0.0 | 0.0 | 0% | −0.2 |
+| Renewables/storage (valued at $/kW) | 0.8 | **0.9** | 1.0 | 1.1 | 1% | +0.3 |
+| Nuclear all-in cost | (23.1) | **(23.1)** | (23.1) | (23.1) | | |
+| Gas/coal fuel + variable O&M | (39.0) | **(39.0)** | (39.0) | (39.0) | | |
+| Fixed O&M + capex (non-nuclear) | (12.5) | **(12.5)** | (12.5) | (12.5) | | |
+| Loss-making years avoided by mothballing | 0.2 | **0.0** | 0.0 | 0.0 | | |
+| **Gross asset value** | 30.8 | **49.6** | 69.4 | 99.8 | | |
+| Contracted + policy share of revenue | 18% | **15%** | 13% | 11% | | |
+
+### Annual asset cash margin, pre-tax and nominal ($bn; unhedged, marked to forwards in 2027)
+| | 2027 | Base 2030 | Base 2035 | High 2030 | High 2035 |
+|---|---|---|---|---|---|
+| CEG: merchant energy / capacity / PPA | 16.4 / 2.7 / 1.8 | 15.5 / 2.2 / 2.5 | 17.1 / 2.5 / 2.5 | 18.9 / 3.1 / 2.5 | 20.9 / 3.5 / 2.5 |
+| **CEG asset cash margin** | **10.6** | **8.4** | **8.8** | **12.7** | **13.6** |
+| VST: merchant energy / capacity / PPA | 13.9 / 2.4 / 0.8 | 11.4 / 1.4 / 2.0 | 12.4 / 1.6 / 2.3 | 14.1 / 2.0 / 2.0 | 15.2 / 2.2 / 2.3 |
+| **VST asset cash margin** | **7.7** | **5.7** | **6.1** | **8.9** | **9.6** |
+
+Asset cash margin is total revenue minus fuel, O&M and capex, before overhead, retail and tax. The full annual series for every scenario is in `outputs/revenue_streams_annual.csv` and on the workbook's "Revenue streams annual" sheet. Asset-by-stream PVs are in `outputs/revenue_streams_pv.csv`.
+
+**What the streams show:**
+- **All of the AI upside comes through merchant energy and capacity.** From Low to Extreme, energy adds +$93bn and capacity +$27bn for CEG, and +$55bn / +$14bn for VST. The data-center PPAs don't move at all: they are fixed-price, so they protect the Low case and give up upside in High and Extreme. At ~$80–100/MWh they are worth more than merchant sales in Base and less in Extreme.
+- **Contracted revenue is still small.** Long-term contracts plus policy support are only ~11% (CEG) and ~15% (VST) of revenue value in Base. Both companies are still mostly merchant, and that share falls as prices rise.
+- **Capacity payments matter less than headlines suggest.** They are 10–12% of revenue value. Their spike to ~$330/MW-day in 2027–28 fades by 2030 in Base: CEG capacity revenue goes from $2.7bn to $2.2bn, VST from $2.4bn to $1.4bn.
+- **Near-term margins are above the long-run level in Base.** 2027 asset margins ($10.6bn CEG, $7.7bn VST) are marked to today's tight forwards. In Base they fall ~20–25% by 2030 as prices move back toward what a new gas plant needs, and VST also retires its Illinois/Ohio coal. The High case assumes 2027's tightness persists and grows.
+- **The cost bases differ.** CEG's costs are mostly fixed nuclear costs ($79bn PV). VST's are mostly gas and coal fuel ($39bn). That's why a gas-price rise helps CEG's NAV proportionally more (§5).
+- **Policy support is minor.** The 45U tax credit is worth ~$0.2bn even in Low, because prices stay above its phase-out band. NY ZEC is ~$0.9bn and assumed to end in 2029.
+- **Streams not modelled separately:**
+  - Ancillary services.
+  - Clean-energy attributes (RECs/EACs) on merchant nuclear output.
+  - Co-location premiums, e.g. the CyrusOne deal at Freestone, which sits inside the merchant ERCOT gas value.
+  - Hedge gains and losses.
+  - Retail margin, which is in the separately shown platform value.
+
+*Correction from the first version: the ~$0.5bn remaining Crane restart capex (dated 2027) had been dropped because Crane's cash flows only started in 2028. It is now included, which lowers CEG NAV by ~$1/share in every scenario. VST is unchanged.*
+
+---
+
 ## 5. Sensitivity: long-run energy price × capacity price (NAV/share, generation only)
 
 **CEG** (current price $263.93)
 | LR energy shift \ PJM capacity $/MW-day | 100 | 175 | 230 | 325 | 450 | PJM West ATC |
 |---|---|---|---|---|---|---|
-| −$20 | 36 | 47 | 55 | 70 | 90 | $40 |
-| −$10 | 89 | 101 | 110 | 126 | 147 | $50 |
-| **Base** | 152 | 165 | **174** | 190 | 211 | $60 |
-| +$10 | 216 | 228 | 238 | 254 | 274 | $70 |
-| +$20 | 280 | 292 | 301 | 317 | 338 | $80 |
-| +$30 | 344 | 356 | 365 | 381 | 402 | $90 |
-| +$40 | 407 | 420 | 429 | 445 | 466 | $100 |
+| −$20 | 35 | 46 | 54 | 69 | 89 | $40 |
+| −$10 | 88 | 100 | 109 | 125 | 146 | $50 |
+| **Base** | 151 | 164 | **173** | 189 | 209 | $60 |
+| +$10 | 215 | 227 | 237 | 252 | 273 | $70 |
+| +$20 | 279 | 291 | 300 | 316 | 337 | $80 |
+| +$30 | 343 | 355 | 364 | 380 | 401 | $90 |
+| +$40 | 406 | 419 | 428 | 444 | 465 | $100 |
 
 **VST** (current price $138.76)
 | LR energy shift \ PJM capacity $/MW-day | 100 | 175 | 230 | 325 | 450 | PJM West ATC |
@@ -203,18 +266,18 @@ In every scenario, 2027–28 are marked to forwards and the capacity prices alre
 | +$30 | 153 | 161 | 166 | 176 | 188 | $90 |
 | +$40 | 190 | 198 | 203 | 212 | 225 | $100 |
 
-**Reading the grid:** each $10/MWh of long-run price is worth about **$63/share for CEG (~24% of the price)** and **$37/share for VST (~27% of the price)**. Capacity prices matter much less: moving from $230 to $325/MW-day adds only ~$16 and ~$10/share. The conclusion depends heavily on the long-run energy price, and a small change there flips it. That is why I show the solve below rather than a single point estimate.
+**Reading the grid:** each $10/MWh of long-run price is worth about **$64/share for CEG (~24% of the price)** and **$37/share for VST (~27% of the price)**. Capacity prices matter much less: moving from $230 to $325/MW-day adds only ~$16 and ~$10/share. The conclusion depends heavily on the long-run energy price, and a small change there flips it. That is why I show the solve below rather than a single point estimate.
 
 ### Other sensitivities (Base, NAV/share, generation only)
 | | CEG | VST |
 |---|---|---|
-| Base | 174 | 56 |
-| Discount rates −1pt / +1pt | 193 / 157 | 66 / 47 |
-| Nuclear life ends 2045 (no second license renewals) / extended to 2065 | 150 / 186 | 50 / 60 |
-| **Henry Hub −$1 / +$1** (power follows gas through the heat rate) | **94 / 254** | **25 / 90** |
-| Data-center PPA prices −$10 / +$10 | 167 / 180 | 50 / 63 |
-| Low scenario with / without the 45U floor | 78 / 77 | 1 / 1 |
-| High energy, PJM capacity capped at $325 permanently | 271 | 115 |
+| Base | 173 | 56 |
+| Discount rates −1pt / +1pt | 192 / 156 | 66 / 47 |
+| Nuclear life ends 2045 (no second license renewals) / extended to 2065 | 149 / 185 | 50 / 60 |
+| **Henry Hub −$1 / +$1** (power follows gas through the heat rate) | **93 / 253** | **25 / 90** |
+| Data-center PPA prices −$10 / +$10 | 166 / 179 | 50 / 63 |
+| Low scenario with / without the 45U floor | 77 / 76 | 1 / 1 |
+| High energy, PJM capacity capped at $325 permanently | 270 | 115 |
 
 The 45U credit hardly matters. In most outcomes prices sit above its phase-out band, so it protects only against a deep-trough scenario before 2032.
 
@@ -226,7 +289,7 @@ The 45U credit hardly matters. In most outcomes prices sit above its phase-out b
 - **CEG:**
   - EV of $108.5bn equals **$2,171 per kW owned**.
   - Take out the gas fleet at recent deal $/kW ($1,142 PJM, $1,419 ERCOT, $1,174 ISO-NE, $1,023 Calpine average) and hydro/geothermal/renewables at Base. Add back overhead and take out the platform.
-  - What's left implies the market pays **~$76bn, or ~$3,330/kW, for the nuclear fleet**. My model puts it at $2,581/kW in Base and $3,619/kW in High.
+  - What's left implies the market pays **~$76bn, or ~$3,330/kW, for the nuclear fleet**. My model puts it at $2,564/kW in Base and $3,603/kW in High.
   - So the market values CEG's nuclear at about **70% of the way from Base to High**.
 - **VST:**
   - EV of $73.9bn equals **$1,504/kW**.
@@ -237,8 +300,8 @@ The 45U credit hardly matters. In most outcomes prices sit above its phase-out b
 ### (b) The assumptions the current price requires
 | | Required long-run shift vs Base | Implied PJM West ATC (2026$) | Implied ERCOT | Implied PJM heat rate | Or: Henry Hub at Base heat rate |
 |---|---|---|---|---|---|
-| CEG, generation only | +$14.1 | $74 | $64 | 20.4 | $5.12 |
-| CEG, incl. platform | +$11.5 | $72 | $62 | 19.6 | $4.91 |
+| CEG, generation only | +$14.3 | $75 | $64 | 20.4 | $5.13 |
+| CEG, incl. platform | +$11.6 | $72 | $62 | 19.7 | $4.92 |
 | VST, generation only | +$22.5 | $83 | $73 | 22.7 | $6.46 |
 | VST, incl. platform | +$15.5 | $76 | $66 | 20.7 | $5.70 |
 
@@ -252,23 +315,23 @@ The 45U credit hardly matters. In most outcomes prices sit above its phase-out b
   - Brazos Valley sold at $1,419/kW, against my Base ERCOT CCGT value of ~$690/kW.
   - RISEC sold at $1,174/kW, against my ~$750–820/kW for New England.
   - Either those buyers underwrite a High-type ERCOT outlook, or my ERCOT spark-spread capture (1.20× ATC) is too low.
-  - Marking gas at deal prices raises Base NAV to **$216 for CEG and $97 for VST** (incl. platform). Both are still below the share price.
+  - Marking gas at deal prices raises Base NAV to **$215 for CEG and $97 for VST** (incl. platform). Both are still below the share price.
 
 ### (c) Probability-weighted
-With **illustrative** weights (Low 20% / Base 45% / High 25% / Extreme 10%, my judgment, not a forecast): CEG **$220** (price is +20% above) and VST **$100** (price is +38% above), both incl. platform. Hold Low at 20% and Extreme at 10%, and put **all** of the remaining 70% on High with **zero** on Base: CEG's weighted NAV then equals its price ($264), and VST's reaches only ~$126.
+With **illustrative** weights (Low 20% / Base 45% / High 25% / Extreme 10%, my judgment, not a forecast): CEG **$219** (price is +21% above) and VST **$100** (price is +38% above), both incl. platform. Hold Low at 20% and Extreme at 10%, and put **all** of the remaining 70% on High with **zero** on Base: CEG's weighted NAV then roughly equals its price (~$263 vs $264), and VST's reaches only ~$126.
 
 ### (d) So — is the market wrong?
 - **Assets today (Base):** below the price for both companies.
 - **Assets if AI-driven scarcity persists (High):** ≈ the price for both.
 - **What the price requires:** long-run PJM prices ~$12–23/MWh above new-entry cost, held indefinitely, **or** gas near $5–6.50.
 
-The market is not obviously wrong, because the High case is plausible. But it is already paying for most of the AI-scarcity upside, **while the Low case (CEG −64% to −70%, VST ≈ equity wipe-out on a generation basis) is not priced as a real risk**. CEG gives the better-balanced exposure: long-life assets, lower leverage, and ~12% contracted at premium prices. VST is a levered bet that spark spreads stay wide.
+The market is not obviously wrong, because the High case is plausible. But it is already paying for most of the AI-scarcity upside, **while the Low case (CEG −64% to −71%, VST ≈ equity wipe-out on a generation basis) is not priced as a real risk**. CEG gives the better-balanced exposure: long-life assets, lower leverage, and ~12% contracted at premium prices. VST is a levered bet that spark spreads stay wide.
 
 ---
 
 ## 7. Key assumptions to challenge (where the answer is fragile)
 
-1. **Long-run heat rate / power price.** This is the dominant driver (±$63/share per $10/MWh for CEG). Base (16.5) is above history, and High (20) is today's forward curve.
+1. **Long-run heat rate / power price.** This is the dominant driver (±$64/share per $10/MWh for CEG). Base (16.5) is above history, and High (20) is today's forward curve.
 2. **Gas price.** ±$1 roughly doubles or halves NAV. If AI demand raises gas burn *and* LNG exports grow, gas and heat rate could rise together. That would support High+.
 3. **New-entry cost.** Every $450/kW of CCGT capex moves the ceiling ~$6–7/MWh.
 4. **PPA prices are undisclosed.** I used analyst estimates ($80–100). They are worth ±$6–7/share.

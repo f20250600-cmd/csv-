@@ -4,7 +4,7 @@ CEG,"Nuclear - PJM ComEd (Byron, Braidwood, LaSalle, Dresden, Quad Cities 75%)",
 CEG,Nuclear - Clinton (MISO) - Meta 20-yr PPA,nuclear,MISO,1080,2814.1,3012.5,3217.5,3506.5,2789
 CEG,"Nuclear - New York (Nine Mile Pt, Ginna, FitzPatrick)",nuclear,NY,3000,3942.4,7040.2,10270.7,14828.0,2347
 CEG,Nuclear - South Texas Project 44% (ERCOT),nuclear,ERCOT,1165,375.9,1049.5,2031.7,3668.6,901
-CEG,Nuclear - Crane restart (TMI-1) - Microsoft 20-yr PPA,nuclear,PJMW,835,3197.7,3360.6,3517.5,3747.4,4025
+CEG,Nuclear - Crane restart (TMI-1) - Microsoft 20-yr PPA,nuclear,PJMW,835,2820.1,2983.0,3139.9,3369.8,3572
 CEG,Hydro - Conowingo + Muddy Run pumped storage (PJM),hydro,PJMW,1642,2119.9,3003.6,3827.9,5062.1,1829
 CEG,"Wind & solar (legacy CEG, ~1.9 GW)",renewable,PJMW,1900,782.5,855.0,927.5,1031.2,450
 CEG,"Gas - ERCOT CCGT (Colorado Bend II, Wolf Hollow II, etc.)",ccgt,ERCOT,2300,812.8,1747.0,2868.0,4736.5,760

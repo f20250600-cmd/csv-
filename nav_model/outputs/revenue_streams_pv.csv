@@ -1,0 +1,129 @@
+company,scenario,asset,tech,pv_mm_energy,pv_mm_capacity,pv_mm_ppa,pv_mm_zec,pv_mm_ptc45u,pv_mm_renewable,pv_mm_fuel_var,pv_mm_nuc_cost,pv_mm_fixed,pv_mm_capex,pv_mm_mothball,pv_mm_total
+CEG,Low,"Nuclear - PJM East (Limerick, Peach Bottom 50%, Calvert Cliffs, Salem 42.6%)",nuclear,29884.8,3791.1,0.0,0.0,0.0,0.0,0.0,-22174.8,0.0,0.0,0.0,11501.1
+CEG,Low,"Nuclear - PJM ComEd (Byron, Braidwood, LaSalle, Dresden, Quad Cities 75%)",nuclear,37591.0,5598.5,5626.6,0.0,71.8,0.0,0.0,-35803.0,0.0,0.0,0.0,13085.0
+CEG,Low,Nuclear - Clinton (MISO) - Meta 20-yr PPA,nuclear,613.1,39.9,6216.7,0.0,0.0,0.0,0.0,-4055.5,0.0,0.0,0.0,2814.1
+CEG,Low,"Nuclear - New York (Nine Mile Pt, Ginna, FitzPatrick)",nuclear,12548.8,778.3,0.0,929.6,31.6,0.0,0.0,-10345.9,0.0,0.0,0.0,3942.4
+CEG,Low,Nuclear - South Texas Project 44% (ERCOT),nuclear,4248.7,0.0,0.0,0.0,144.9,0.0,0.0,-4017.7,0.0,0.0,0.0,375.9
+CEG,Low,Nuclear - Crane restart (TMI-1) - Microsoft 20-yr PPA,nuclear,442.2,47.8,5628.1,0.0,0.0,0.0,0.0,-2920.5,0.0,-377.6,0.0,2820.1
+CEG,Low,Hydro - Conowingo + Muddy Run pumped storage (PJM),hydro,2143.6,713.3,0.0,0.0,0.0,0.0,0.0,0.0,-737.0,0.0,0.0,2119.9
+CEG,Low,"Wind & solar (legacy CEG, ~1.9 GW)",renewable,0.0,0.0,0.0,0.0,0.0,782.5,0.0,0.0,0.0,0.0,0.0,782.5
+CEG,Low,"Gas - ERCOT CCGT (Colorado Bend II, Wolf Hollow II, etc.)",ccgt,5089.0,0.0,0.0,0.0,0.0,0.0,-3355.1,0.0,-921.1,0.0,0.0,812.8
+CEG,Low,Gas/oil - ERCOT peakers & steam (legacy CEG),peaker,357.4,0.0,0.0,0.0,0.0,0.0,-201.9,0.0,-182.8,0.0,32.9,5.6
+CEG,Low,Gas/oil - PJM/NE/other peakers & oil (legacy CEG),peaker,909.2,617.2,0.0,0.0,0.0,0.0,-390.5,0.0,-369.7,0.0,0.0,766.2
+CEG,Low,"Calpine - ERCOT CCGT (Deer Park, Freestone, Channel, Baytown, etc.)",ccgt,14075.9,0.0,0.0,0.0,0.0,0.0,-9239.4,0.0,-2537.6,0.0,0.0,2299.0
+CEG,Low,Calpine - ERCOT peakers/cogen,peaker,122.0,0.0,0.0,0.0,0.0,0.0,-69.3,0.0,-62.7,0.0,11.7,1.8
+CEG,Low,Calpine - West CCGT (CAISO),ccgt,8984.1,1905.9,0.0,0.0,0.0,0.0,-6276.5,0.0,-1812.6,0.0,0.0,2800.9
+CEG,Low,Calpine - West peakers,peaker,280.9,197.1,0.0,0.0,0.0,0.0,-161.1,0.0,-125.4,0.0,0.0,191.4
+CEG,Low,Calpine - The Geysers geothermal,geothermal,1641.9,226.3,2466.6,0.0,0.0,0.0,0.0,0.0,-2653.3,0.0,0.0,1681.4
+CEG,Low,Calpine - East CCGT (NE/NY/PJM residual/SE),ccgt,5585.1,468.9,0.0,0.0,0.0,0.0,-4182.9,0.0,-1051.3,0.0,0.0,819.8
+CEG,Low,"RISEC (609 MW CCGT, ISO-NE) - pending, $715mm",ccgt,1284.4,107.5,0.0,0.0,0.0,0.0,-970.7,0.0,-243.9,0.0,0.0,177.2
+CEG,Base,"Nuclear - PJM East (Limerick, Peach Bottom 50%, Calvert Cliffs, Salem 42.6%)",nuclear,36132.9,6105.8,0.0,0.0,0.0,0.0,0.0,-22174.8,0.0,0.0,0.0,20063.9
+CEG,Base,"Nuclear - PJM ComEd (Byron, Braidwood, LaSalle, Dresden, Quad Cities 75%)",nuclear,45482.5,9037.4,5626.6,0.0,0.0,0.0,0.0,-35803.0,0.0,0.0,0.0,24343.6
+CEG,Base,Nuclear - Clinton (MISO) - Meta 20-yr PPA,nuclear,778.1,73.2,6216.7,0.0,0.0,0.0,0.0,-4055.5,0.0,0.0,0.0,3012.5
+CEG,Base,"Nuclear - New York (Nine Mile Pt, Ginna, FitzPatrick)",nuclear,15172.5,1284.1,0.0,929.6,0.0,0.0,0.0,-10345.9,0.0,0.0,0.0,7040.2
+CEG,Base,Nuclear - South Texas Project 44% (ERCOT),nuclear,5067.2,0.0,0.0,0.0,0.0,0.0,0.0,-4017.7,0.0,0.0,0.0,1049.5
+CEG,Base,Nuclear - Crane restart (TMI-1) - Microsoft 20-yr PPA,nuclear,561.3,91.7,5628.1,0.0,0.0,0.0,0.0,-2920.5,0.0,-377.6,0.0,2983.0
+CEG,Base,Hydro - Conowingo + Muddy Run pumped storage (PJM),hydro,2591.7,1148.9,0.0,0.0,0.0,0.0,0.0,0.0,-737.0,0.0,0.0,3003.6
+CEG,Base,"Wind & solar (legacy CEG, ~1.9 GW)",renewable,0.0,0.0,0.0,0.0,0.0,855.0,0.0,0.0,0.0,0.0,0.0,855.0
+CEG,Base,"Gas - ERCOT CCGT (Colorado Bend II, Wolf Hollow II, etc.)",ccgt,6023.3,0.0,0.0,0.0,0.0,0.0,-3355.1,0.0,-921.1,0.0,0.0,1747.0
+CEG,Base,Gas/oil - ERCOT peakers & steam (legacy CEG),peaker,518.4,0.0,0.0,0.0,0.0,0.0,-201.9,0.0,-182.8,0.0,0.0,133.7
+CEG,Base,Gas/oil - PJM/NE/other peakers & oil (legacy CEG),peaker,1328.7,896.3,0.0,0.0,0.0,0.0,-390.5,0.0,-369.7,0.0,0.0,1464.9
+CEG,Base,"Calpine - ERCOT CCGT (Deer Park, Freestone, Channel, Baytown, etc.)",ccgt,16582.8,0.0,0.0,0.0,0.0,0.0,-9239.4,0.0,-2537.6,0.0,0.0,4805.9
+CEG,Base,Calpine - ERCOT peakers/cogen,peaker,177.9,0.0,0.0,0.0,0.0,0.0,-69.3,0.0,-62.7,0.0,0.0,46.0
+CEG,Base,Calpine - West CCGT (CAISO),ccgt,10698.6,2580.2,0.0,0.0,0.0,0.0,-6276.5,0.0,-1812.6,0.0,0.0,5189.7
+CEG,Base,Calpine - West peakers,peaker,413.2,262.7,0.0,0.0,0.0,0.0,-161.1,0.0,-125.4,0.0,0.0,389.4
+CEG,Base,Calpine - The Geysers geothermal,geothermal,2083.9,331.9,2466.6,0.0,0.0,0.0,0.0,0.0,-2653.3,0.0,0.0,2229.1
+CEG,Base,Calpine - East CCGT (NE/NY/PJM residual/SE),ccgt,6650.9,748.2,0.0,0.0,0.0,0.0,-4182.9,0.0,-1051.3,0.0,0.0,2165.0
+CEG,Base,"RISEC (609 MW CCGT, ISO-NE) - pending, $715mm",ccgt,1538.2,173.6,0.0,0.0,0.0,0.0,-970.7,0.0,-243.9,0.0,0.0,497.2
+CEG,High,"Nuclear - PJM East (Limerick, Peach Bottom 50%, Calvert Cliffs, Salem 42.6%)",nuclear,42381.0,8104.8,0.0,0.0,0.0,0.0,0.0,-22174.8,0.0,0.0,0.0,28311.1
+CEG,High,"Nuclear - PJM ComEd (Byron, Braidwood, LaSalle, Dresden, Quad Cities 75%)",nuclear,53374.0,12007.5,5626.6,0.0,0.0,0.0,0.0,-35803.0,0.0,0.0,0.0,35205.1
+CEG,High,Nuclear - Clinton (MISO) - Meta 20-yr PPA,nuclear,943.2,113.2,6216.7,0.0,0.0,0.0,0.0,-4055.5,0.0,0.0,0.0,3217.5
+CEG,High,"Nuclear - New York (Nine Mile Pt, Ginna, FitzPatrick)",nuclear,17796.1,1891.0,0.0,929.6,0.0,0.0,0.0,-10345.9,0.0,0.0,0.0,10270.7
+CEG,High,Nuclear - South Texas Project 44% (ERCOT),nuclear,6049.3,0.0,0.0,0.0,0.0,0.0,0.0,-4017.7,0.0,0.0,0.0,2031.7
+CEG,High,Nuclear - Crane restart (TMI-1) - Microsoft 20-yr PPA,nuclear,680.4,129.5,5628.1,0.0,0.0,0.0,0.0,-2920.5,0.0,-377.6,0.0,3139.9
+CEG,High,Hydro - Conowingo + Muddy Run pumped storage (PJM),hydro,3039.9,1525.0,0.0,0.0,0.0,0.0,0.0,0.0,-737.0,0.0,0.0,3827.9
+CEG,High,"Wind & solar (legacy CEG, ~1.9 GW)",renewable,0.0,0.0,0.0,0.0,0.0,927.5,0.0,0.0,0.0,0.0,0.0,927.5
+CEG,High,"Gas - ERCOT CCGT (Colorado Bend II, Wolf Hollow II, etc.)",ccgt,7144.3,0.0,0.0,0.0,0.0,0.0,-3355.1,0.0,-921.1,0.0,0.0,2868.0
+CEG,High,Gas/oil - ERCOT peakers & steam (legacy CEG),peaker,725.2,0.0,0.0,0.0,0.0,0.0,-201.9,0.0,-182.8,0.0,0.0,340.5
+CEG,High,Gas/oil - PJM/NE/other peakers & oil (legacy CEG),peaker,1825.1,1137.4,0.0,0.0,0.0,0.0,-390.5,0.0,-369.7,0.0,0.0,2202.3
+CEG,High,"Calpine - ERCOT CCGT (Deer Park, Freestone, Channel, Baytown, etc.)",ccgt,19591.2,0.0,0.0,0.0,0.0,0.0,-9239.4,0.0,-2537.6,0.0,0.0,7814.3
+CEG,High,Calpine - ERCOT peakers/cogen,peaker,250.2,0.0,0.0,0.0,0.0,0.0,-69.3,0.0,-62.7,0.0,0.0,118.2
+CEG,High,Calpine - West CCGT (CAISO),ccgt,12413.0,3158.1,0.0,0.0,0.0,0.0,-6276.5,0.0,-1812.6,0.0,0.0,7482.1
+CEG,High,Calpine - West peakers,peaker,570.4,319.0,0.0,0.0,0.0,0.0,-161.1,0.0,-125.4,0.0,0.0,602.8
+CEG,High,Calpine - The Geysers geothermal,geothermal,2526.0,422.4,2466.6,0.0,0.0,0.0,0.0,0.0,-2653.3,0.0,0.0,2761.6
+CEG,High,Calpine - East CCGT (NE/NY/PJM residual/SE),ccgt,7716.7,1083.4,0.0,0.0,0.0,0.0,-4182.9,0.0,-1051.3,0.0,0.0,3566.0
+CEG,High,"RISEC (609 MW CCGT, ISO-NE) - pending, $715mm",ccgt,1792.1,253.0,0.0,0.0,0.0,0.0,-970.7,0.0,-243.9,0.0,0.0,830.4
+CEG,Extreme,"Nuclear - PJM East (Limerick, Peach Bottom 50%, Calvert Cliffs, Salem 42.6%)",nuclear,51307.0,11261.2,0.0,0.0,0.0,0.0,0.0,-22174.8,0.0,0.0,0.0,40393.4
+CEG,Extreme,"Nuclear - PJM ComEd (Byron, Braidwood, LaSalle, Dresden, Quad Cities 75%)",nuclear,64647.5,16697.0,5626.6,0.0,0.0,0.0,0.0,-35803.0,0.0,0.0,0.0,51168.2
+CEG,Extreme,Nuclear - Clinton (MISO) - Meta 20-yr PPA,nuclear,1179.0,166.4,6216.7,0.0,0.0,0.0,0.0,-4055.5,0.0,0.0,0.0,3506.5
+CEG,Extreme,"Nuclear - New York (Nine Mile Pt, Ginna, FitzPatrick)",nuclear,21544.1,2700.2,0.0,929.6,0.0,0.0,0.0,-10345.9,0.0,0.0,0.0,14828.0
+CEG,Extreme,Nuclear - South Texas Project 44% (ERCOT),nuclear,7686.3,0.0,0.0,0.0,0.0,0.0,0.0,-4017.7,0.0,0.0,0.0,3668.6
+CEG,Extreme,Nuclear - Crane restart (TMI-1) - Microsoft 20-yr PPA,nuclear,850.5,189.3,5628.1,0.0,0.0,0.0,0.0,-2920.5,0.0,-377.6,0.0,3369.8
+CEG,Extreme,Hydro - Conowingo + Muddy Run pumped storage (PJM),hydro,3680.1,2119.0,0.0,0.0,0.0,0.0,0.0,0.0,-737.0,0.0,0.0,5062.1
+CEG,Extreme,"Wind & solar (legacy CEG, ~1.9 GW)",renewable,0.0,0.0,0.0,0.0,0.0,1031.2,0.0,0.0,0.0,0.0,0.0,1031.2
+CEG,Extreme,"Gas - ERCOT CCGT (Colorado Bend II, Wolf Hollow II, etc.)",ccgt,9012.7,0.0,0.0,0.0,0.0,0.0,-3355.1,0.0,-921.1,0.0,0.0,4736.5
+CEG,Extreme,Gas/oil - ERCOT peakers & steam (legacy CEG),peaker,1076.5,0.0,0.0,0.0,0.0,0.0,-201.9,0.0,-182.8,0.0,0.0,691.8
+CEG,Extreme,Gas/oil - PJM/NE/other peakers & oil (legacy CEG),peaker,2585.4,1518.1,0.0,0.0,0.0,0.0,-390.5,0.0,-369.7,0.0,0.0,3343.4
+CEG,Extreme,"Calpine - ERCOT CCGT (Deer Park, Freestone, Channel, Baytown, etc.)",ccgt,24605.1,0.0,0.0,0.0,0.0,0.0,-9239.4,0.0,-2537.6,0.0,0.0,12828.2
+CEG,Extreme,Calpine - ERCOT peakers/cogen,peaker,373.4,0.0,0.0,0.0,0.0,0.0,-69.3,0.0,-62.7,0.0,0.0,241.4
+CEG,Extreme,Calpine - West CCGT (CAISO),ccgt,14862.3,3832.3,0.0,0.0,0.0,0.0,-6276.5,0.0,-1812.6,0.0,0.0,10605.6
+CEG,Extreme,Calpine - West peakers,peaker,812.2,384.6,0.0,0.0,0.0,0.0,-161.1,0.0,-125.4,0.0,0.0,910.2
+CEG,Extreme,Calpine - The Geysers geothermal,geothermal,3157.5,528.0,2466.6,0.0,0.0,0.0,0.0,0.0,-2653.3,0.0,0.0,3498.7
+CEG,Extreme,Calpine - East CCGT (NE/NY/PJM residual/SE),ccgt,9239.4,1530.4,0.0,0.0,0.0,0.0,-4182.9,0.0,-1051.3,0.0,0.0,5535.6
+CEG,Extreme,"RISEC (609 MW CCGT, ISO-NE) - pending, $715mm",ccgt,2154.7,358.8,0.0,0.0,0.0,0.0,-970.7,0.0,-243.9,0.0,0.0,1298.9
+VST,Low,"Nuclear - Comanche Peak (ERCOT) - 1,200 MW 20-yr PPA",nuclear,5635.5,0.0,5422.7,0.0,190.8,0.0,0.0,-8395.4,0.0,0.0,0.0,2853.6
+VST,Low,Nuclear - Perry + Davis-Besse (PJM ATSI) - Meta 20-yr PPAs,nuclear,1704.3,232.2,13050.1,0.0,0.0,0.0,0.0,-8216.0,0.0,0.0,0.0,6770.5
+VST,Low,Nuclear - Beaver Valley (PJM),nuclear,8700.5,1103.7,0.0,0.0,0.0,0.0,0.0,-6455.9,0.0,0.0,0.0,3348.4
+VST,Low,Gas - ERCOT CCGT,ccgt,19103.0,0.0,0.0,0.0,0.0,0.0,-12539.1,0.0,-3443.9,0.0,0.0,3120.0
+VST,Low,Gas - ERCOT peakers,peaker,701.6,0.0,0.0,0.0,0.0,0.0,-398.4,0.0,-360.6,0.0,67.5,10.2
+VST,Low,Gas - PJM CCGT (incl. Lotus),ccgt,16360.4,3231.6,0.0,0.0,0.0,0.0,-9757.6,0.0,-3081.3,0.0,0.0,6753.1
+VST,Low,Gas - NY/NE CCGT,ccgt,6099.3,512.1,0.0,0.0,0.0,0.0,-4568.0,0.0,-1148.1,0.0,0.0,895.3
+VST,Low,Gas - West CCGT (CAISO),ccgt,1553.2,328.6,0.0,0.0,0.0,0.0,-1067.1,0.0,-308.3,0.0,0.0,506.4
+VST,Low,Gas/oil - East peakers,peaker,954.0,647.5,0.0,0.0,0.0,0.0,-409.7,0.0,-387.8,0.0,0.0,803.9
+VST,Low,"Coal - ERCOT (Martin Lake, Oak Grove, Coleto Creek)",coal,4168.4,0.0,0.0,0.0,0.0,0.0,-2675.8,0.0,-1397.2,0.0,108.8,204.2
+VST,Low,"Coal - IL/OH (Baldwin, Kincaid, Newton, Miami Fort) - retiring ~2027",coal,1002.9,313.3,0.0,0.0,0.0,0.0,-395.9,0.0,-206.7,0.0,0.0,713.6
+VST,Low,Solar & batteries (Vistra Zero),renewable,0.0,0.0,0.0,0.0,0.0,816.1,0.0,0.0,0.0,0.0,0.0,816.1
+VST,Low,"Cogentrix (pending) - modern CCGT, PJM",ccgt,8114.9,1577.3,0.0,0.0,0.0,0.0,-4703.5,0.0,-1541.9,0.0,0.0,3446.8
+VST,Low,"Cogentrix (pending) - modern CCGT, NE",ccgt,3479.9,291.1,0.0,0.0,0.0,0.0,-2529.1,0.0,-660.8,0.0,0.0,581.1
+VST,Base,"Nuclear - Comanche Peak (ERCOT) - 1,200 MW 20-yr PPA",nuclear,6614.7,0.0,5422.7,0.0,0.0,0.0,0.0,-8395.4,0.0,0.0,0.0,3642.1
+VST,Base,Nuclear - Perry + Davis-Besse (PJM ATSI) - Meta 20-yr PPAs,nuclear,2039.2,359.3,13050.1,0.0,0.0,0.0,0.0,-8216.0,0.0,0.0,0.0,7232.6
+VST,Base,Nuclear - Beaver Valley (PJM),nuclear,10519.6,1777.6,0.0,0.0,0.0,0.0,0.0,-6455.9,0.0,0.0,0.0,5841.3
+VST,Base,Gas - ERCOT CCGT,ccgt,22505.3,0.0,0.0,0.0,0.0,0.0,-12539.1,0.0,-3443.9,0.0,0.0,6522.3
+VST,Base,Gas - ERCOT peakers,peaker,1023.2,0.0,0.0,0.0,0.0,0.0,-398.4,0.0,-360.6,0.0,0.0,264.2
+VST,Base,Gas - PJM CCGT (incl. Lotus),ccgt,19482.6,4959.4,0.0,0.0,0.0,0.0,-9757.6,0.0,-3081.3,0.0,0.0,11603.1
+VST,Base,Gas - NY/NE CCGT,ccgt,7263.3,817.1,0.0,0.0,0.0,0.0,-4568.0,0.0,-1148.1,0.0,0.0,2364.3
+VST,Base,Gas - West CCGT (CAISO),ccgt,1830.5,438.9,0.0,0.0,0.0,0.0,-1067.1,0.0,-308.3,0.0,0.0,894.0
+VST,Base,Gas/oil - East peakers,peaker,1394.1,940.4,0.0,0.0,0.0,0.0,-409.7,0.0,-387.8,0.0,0.0,1536.9
+VST,Base,"Coal - ERCOT (Martin Lake, Oak Grove, Coleto Creek)",coal,4755.5,0.0,0.0,0.0,0.0,0.0,-2675.8,0.0,-1397.2,0.0,0.0,682.5
+VST,Base,"Coal - IL/OH (Baldwin, Kincaid, Newton, Miami Fort) - retiring ~2027",coal,1002.9,313.3,0.0,0.0,0.0,0.0,-395.9,0.0,-206.7,0.0,0.0,713.6
+VST,Base,Solar & batteries (Vistra Zero),renewable,0.0,0.0,0.0,0.0,0.0,891.8,0.0,0.0,0.0,0.0,0.0,891.8
+VST,Base,"Cogentrix (pending) - modern CCGT, PJM",ccgt,9718.8,2464.0,0.0,0.0,0.0,0.0,-4703.5,0.0,-1541.9,0.0,0.0,5937.4
+VST,Base,"Cogentrix (pending) - modern CCGT, NE",ccgt,4167.7,470.3,0.0,0.0,0.0,0.0,-2529.1,0.0,-660.8,0.0,0.0,1448.1
+VST,High,"Nuclear - Comanche Peak (ERCOT) - 1,200 MW 20-yr PPA",nuclear,7789.9,0.0,5422.7,0.0,0.0,0.0,0.0,-8395.4,0.0,0.0,0.0,4817.2
+VST,High,Nuclear - Perry + Davis-Besse (PJM ATSI) - Meta 20-yr PPAs,nuclear,2374.2,469.1,13050.1,0.0,0.0,0.0,0.0,-8216.0,0.0,0.0,0.0,7677.4
+VST,High,Nuclear - Beaver Valley (PJM),nuclear,12338.6,2359.6,0.0,0.0,0.0,0.0,0.0,-6455.9,0.0,0.0,0.0,8242.4
+VST,High,Gas - ERCOT CCGT,ccgt,26588.0,0.0,0.0,0.0,0.0,0.0,-12539.1,0.0,-3443.9,0.0,0.0,10605.1
+VST,High,Gas - ERCOT peakers,peaker,1438.4,0.0,0.0,0.0,0.0,0.0,-398.4,0.0,-360.6,0.0,0.0,679.4
+VST,High,Gas - PJM CCGT (incl. Lotus),ccgt,22604.7,6451.7,0.0,0.0,0.0,0.0,-9757.6,0.0,-3081.3,0.0,0.0,16217.4
+VST,High,Gas - NY/NE CCGT,ccgt,8427.2,1183.2,0.0,0.0,0.0,0.0,-4568.0,0.0,-1148.1,0.0,0.0,3894.3
+VST,High,Gas - West CCGT (CAISO),ccgt,2107.8,533.5,0.0,0.0,0.0,0.0,-1067.1,0.0,-308.3,0.0,0.0,1265.8
+VST,High,Gas/oil - East peakers,peaker,1914.8,1193.4,0.0,0.0,0.0,0.0,-409.7,0.0,-387.8,0.0,0.0,2310.7
+VST,High,"Coal - ERCOT (Martin Lake, Oak Grove, Coleto Creek)",coal,5460.0,0.0,0.0,0.0,0.0,0.0,-2675.8,0.0,-1397.2,0.0,0.0,1387.0
+VST,High,"Coal - IL/OH (Baldwin, Kincaid, Newton, Miami Fort) - retiring ~2027",coal,1002.9,313.3,0.0,0.0,0.0,0.0,-395.9,0.0,-206.7,0.0,0.0,713.6
+VST,High,Solar & batteries (Vistra Zero),renewable,0.0,0.0,0.0,0.0,0.0,967.5,0.0,0.0,0.0,0.0,0.0,967.5
+VST,High,"Cogentrix (pending) - modern CCGT, PJM",ccgt,11322.7,3229.8,0.0,0.0,0.0,0.0,-4703.5,0.0,-1541.9,0.0,0.0,8307.0
+VST,High,"Cogentrix (pending) - modern CCGT, NE",ccgt,4855.4,685.4,0.0,0.0,0.0,0.0,-2529.1,0.0,-660.8,0.0,0.0,2350.9
+VST,Extreme,"Nuclear - Comanche Peak (ERCOT) - 1,200 MW 20-yr PPA",nuclear,9748.4,0.0,5422.7,0.0,0.0,0.0,0.0,-8395.4,0.0,0.0,0.0,6775.8
+VST,Extreme,Nuclear - Perry + Davis-Besse (PJM ATSI) - Meta 20-yr PPAs,nuclear,2852.7,642.5,13050.1,0.0,0.0,0.0,0.0,-8216.0,0.0,0.0,0.0,8329.3
+VST,Extreme,Nuclear - Beaver Valley (PJM),nuclear,14937.3,3278.5,0.0,0.0,0.0,0.0,0.0,-6455.9,0.0,0.0,0.0,11759.9
+VST,Extreme,Gas - ERCOT CCGT,ccgt,33392.6,0.0,0.0,0.0,0.0,0.0,-12539.1,0.0,-3443.9,0.0,0.0,17409.6
+VST,Extreme,Gas - ERCOT peakers,peaker,2147.1,0.0,0.0,0.0,0.0,0.0,-398.4,0.0,-360.6,0.0,0.0,1388.1
+VST,Extreme,Gas - PJM CCGT (incl. Lotus),ccgt,27064.9,8807.8,0.0,0.0,0.0,0.0,-9757.6,0.0,-3081.3,0.0,0.0,23033.8
+VST,Extreme,Gas - NY/NE CCGT,ccgt,10090.0,1671.3,0.0,0.0,0.0,0.0,-4568.0,0.0,-1148.1,0.0,0.0,6045.2
+VST,Extreme,Gas - West CCGT (CAISO),ccgt,2504.0,643.8,0.0,0.0,0.0,0.0,-1067.1,0.0,-308.3,0.0,0.0,1772.3
+VST,Extreme,Gas/oil - East peakers,peaker,2712.6,1592.8,0.0,0.0,0.0,0.0,-409.7,0.0,-387.8,0.0,0.0,3507.8
+VST,Extreme,"Coal - ERCOT (Martin Lake, Oak Grove, Coleto Creek)",coal,6634.1,0.0,0.0,0.0,0.0,0.0,-2675.8,0.0,-1397.2,0.0,0.0,2561.1
+VST,Extreme,"Coal - IL/OH (Baldwin, Kincaid, Newton, Miami Fort) - retiring ~2027",coal,1002.9,313.3,0.0,0.0,0.0,0.0,-395.9,0.0,-206.7,0.0,0.0,713.6
+VST,Extreme,Solar & batteries (Vistra Zero),renewable,0.0,0.0,0.0,0.0,0.0,1075.6,0.0,0.0,0.0,0.0,0.0,1075.6
+VST,Extreme,"Cogentrix (pending) - modern CCGT, PJM",ccgt,13613.9,4438.9,0.0,0.0,0.0,0.0,-4703.5,0.0,-1541.9,0.0,0.0,11807.4
+VST,Extreme,"Cogentrix (pending) - modern CCGT, NE",ccgt,5838.0,972.1,0.0,0.0,0.0,0.0,-2529.1,0.0,-660.8,0.0,0.0,3620.2

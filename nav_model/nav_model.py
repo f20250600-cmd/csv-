@@ -112,33 +112,63 @@ def df(rate, y):
     return (1 + rate) ** -(y + 0.5 - I.VALUATION_DATE)
 
 
+STREAMS = [  # (key, label, kind) - kind: rev / cost / adj
+    ("energy", "Merchant energy sales", "rev"),
+    ("capacity", "Capacity payments (PJM/NY/NE/MISO/CA RA)", "rev"),
+    ("ppa", "Long-term PPAs (data-center/hyperscaler, CCA)", "rev"),
+    ("zec", "State nuclear support (NY ZEC)", "rev"),
+    ("ptc45u", "Federal 45U nuclear PTC (untaxed credit)", "rev"),
+    ("renewable", "Wind/solar/storage (valued at $/kW)", "rev"),
+    ("fuel_var", "Fuel + variable O&M (thermal)", "cost"),
+    ("nuc_cost", "Nuclear all-in cost (fuel, O&M, sustaining capex)", "cost"),
+    ("fixed", "Fixed O&M + sustaining capex (non-nuclear)", "cost"),
+    ("capex", "One-off capex (Crane restart)", "cost"),
+    ("mothball", "Mothball floor (loss-making years avoided)", "adj"),
+]
+STREAM_KEYS = [k for k, _, _ in STREAMS]
+
+
 def value_asset(a, deck, opts):
-    """Return dict(pv=$mm, first_year_ebitda=$mm, cashflows=list)."""
+    """Value one asset group.
+
+    Returns dict(pv=$mm, ebitda27=$mm, cfs=[(year, ebitda $mm)],
+                 streams_pv={stream: after-tax PV $mm}, streams_yr={year: {stream: pre-tax nominal $mm}}).
+    Costs are negative. Sum of streams_pv == pv.
+    """
     tech = a["tech"]
     hub = a["hub"]
     tax = 1 - I.CASH_TAX_RATE
     ppa_adj = opts.get("ppa_adj", 0.0)
     disc_adj = opts.get("disc_adj", 0.0)
+    spv = dict.fromkeys(STREAM_KEYS, 0.0)
+    syr = {}
 
     if tech == "renewable":
         base_lr = Deck("Base").lr_atc_real("PJMW")
         rel = deck.lr_atc_real("PJMW") / base_lr - 1
         pv = a["mw"] * 1000 * a["usd_per_kw"] * (1 + 0.4 * rel) / 1e6
-        return {"pv": pv, "ebitda27": None, "cfs": []}
+        spv["renewable"] = pv
+        return {"pv": pv, "ebitda27": None, "cfs": [], "streams_pv": spv, "streams_yr": syr}
 
     T = I.TECH[tech]
     end = a["end"]
     if tech == "nuclear" and opts.get("nuc_end") is not None:
         end = opts["nuc_end"] if a["end"] >= 2050 else a["end"]
-    pv = 0.0
     ebitda27 = None
     cfs = []
-    for y in range(max(a["start"], I.FIRST_YEAR), end + 1):
+    first = min([a["start"]] + list(a.get("capex", {})))
+    for y in range(max(first, I.FIRST_YEAR), end + 1):
         P = deck.atc(hub, y)
+        if y < a["start"]:  # pre-COD year: only one-off capex (e.g. Crane restart spend)
+            r = T.get("disc", 0.08) + disc_adj
+            amt = -a["capex"].get(y, 0.0) * 1e9
+            spv["capex"] += amt * tax * df(r, y) / 1e6
+            syr.setdefault(y, dict.fromkeys(STREAM_KEYS, 0.0))["capex"] += amt / 1e6
+            continue
         capp = deck.cap(hub, y)
         infl = Deck.infl(y)
         mw = a["mw"]
-        pre_merch = pre_con = post_credit = 0.0
+        lines = []  # (stream, pre-tax nominal $, discount rate, taxed?)
 
         if tech == "nuclear":
             cf = T["cf"]
@@ -147,22 +177,22 @@ def value_asset(a, deck, opts):
             gen_m = mmw * 8760 * cf
             gen_c = cmw * 8760 * cf
             cost_mwh = T["cost_mwh"] * (1 + T["cost_esc"]) ** (y - 2026)
+            r_m = T["disc"] + disc_adj
+            r_c = T["disc_contract"] + disc_adj
             e_rev = gen_m * P * I.NUCLEAR_CAPTURE.get(hub, T["capture"])
             c_rev = mmw * capp * 365 * I.ACCREDITATION["nuclear"]
             zec = gen_m * a["zec"]["price"] if a.get("zec") and y <= a["zec"]["end"] else 0.0
-            pre_merch = e_rev + c_rev + zec - gen_m * cost_mwh
-            pre_con = gen_c * ((contract_price(a, y) + ppa_adj) - cost_mwh)
+            credit_amt = 0.0
             if y <= I.PTC45U["last_year"] and not opts.get("no_45u") and gen_m > 0:
                 k = (1 + I.INFLATION) ** (y - I.PTC45U["base_year"])
                 gr = (e_rev + c_rev + zec) / gen_m
-                credit = max(0.0, I.PTC45U["credit"] * k - 0.8 * max(0.0, gr - I.PTC45U["threshold"] * k))
-                post_credit = gen_m * credit
+                credit_amt = gen_m * max(0.0, I.PTC45U["credit"] * k - 0.8 * max(0.0, gr - I.PTC45U["threshold"] * k))
             capex = a.get("capex", {}).get(y, 0.0) * 1e9
-            pre_merch -= capex
-            r_m = T["disc"] + disc_adj
-            r_c = T["disc_contract"] + disc_adj
-            cf_after = (pre_merch * tax + post_credit) * df(r_m, y) + pre_con * tax * df(r_c, y)
-            ebitda = pre_merch + pre_con + capex
+            lines += [("energy", e_rev, r_m, True), ("capacity", c_rev, r_m, True), ("zec", zec, r_m, True),
+                      ("ptc45u", credit_amt, r_m, False), ("nuc_cost", -gen_m * cost_mwh, r_m, True),
+                      ("capex", -capex, r_m, True),
+                      ("ppa", gen_c * (contract_price(a, y) + ppa_adj), r_c, True), ("nuc_cost", -gen_c * cost_mwh, r_c, True)]
+            ebitda = e_rev + c_rev + zec - gen_m * cost_mwh + gen_c * ((contract_price(a, y) + ppa_adj) - cost_mwh)
 
         elif tech in ("ccgt", "peaker", "coal"):
             if tech == "ccgt":
@@ -177,35 +207,52 @@ def value_asset(a, deck, opts):
                 cf = T["cf"]
                 captured = P * T["capture"]
                 fuel = T["heat_rate"] * T["fuel"] * infl
+            r = T["disc"] + disc_adj
             gen = mw * 8760 * cf
-            margin = max(captured - fuel - T["vom"] * infl, 0.0) * gen
+            runs = captured - fuel - T["vom"] * infl > 0      # plant only dispatches when in the money
+            e_rev = captured * gen if runs else 0.0
+            var = (fuel + T["vom"] * infl) * gen if runs else 0.0
             c_rev = mw * capp * 365 * I.ACCREDITATION[tech]
             fixed = mw * 1000 * (T["fom_kw"] + T["capex_kw"]) * infl
-            ebitda = margin + c_rev - mw * 1000 * T["fom_kw"] * infl
-            pre = max(margin + c_rev - fixed, 0.0)  # mothball option: never worse than zero
-            cf_after = pre * tax * df(T["disc"] + disc_adj, y)
+            pre = e_rev - var + c_rev - fixed
+            lines += [("energy", e_rev, r, True), ("capacity", c_rev, r, True), ("fuel_var", -var, r, True),
+                      ("fixed", -fixed, r, True), ("mothball", max(-pre, 0.0), r, True)]
+            ebitda = e_rev - var + c_rev - mw * 1000 * T["fom_kw"] * infl
 
         elif tech == "hydro":
+            r = T["disc"] + disc_adj
             gen = mw * 8760 * T["cf"]
-            rev = gen * P * T["capture"] + mw * capp * 365 * I.ACCREDITATION["hydro"]
-            ebitda = rev - mw * 1000 * T["fom_kw"] * infl
-            cf_after = ebitda * tax * df(T["disc"] + disc_adj, y)
+            e_rev = gen * P * T["capture"]
+            c_rev = mw * capp * 365 * I.ACCREDITATION["hydro"]
+            fom = mw * 1000 * T["fom_kw"] * infl
+            lines += [("energy", e_rev, r, True), ("capacity", c_rev, r, True), ("fixed", -fom, r, True)]
+            ebitda = e_rev + c_rev - fom
 
         elif tech == "geothermal":
+            r = T["disc"] + disc_adj
             gen = mw * 8760 * T["cf"]
             cmw = contracted_mw(a, y)
-            price = (contract_price(a, y) + ppa_adj) if cmw else P * 1.10
-            rev = gen * price + (0 if cmw else mw * capp * 365 * I.ACCREDITATION["geothermal"])
-            ebitda = rev - gen * T["cost_mwh"] * (1.025 ** (y - 2026))
-            cf_after = ebitda * tax * df(T["disc"] + disc_adj, y)
+            cost = gen * T["cost_mwh"] * (1.025 ** (y - 2026))
+            if cmw:
+                lines.append(("ppa", gen * (contract_price(a, y) + ppa_adj), r, True))
+                rev = gen * (contract_price(a, y) + ppa_adj)
+            else:
+                c_rev = mw * capp * 365 * I.ACCREDITATION["geothermal"]
+                lines += [("energy", gen * P * 1.10, r, True), ("capacity", c_rev, r, True)]
+                rev = gen * P * 1.10 + c_rev
+            lines.append(("fixed", -cost, r, True))  # geothermal all-in cost
+            ebitda = rev - cost
         else:
             raise ValueError(tech)
 
-        pv += cf_after
-        if y == 2027 or (ebitda27 is None and y == a["start"]):
-            ebitda27 = ebitda / 1e6 if ebitda27 is None else ebitda27
+        yr = syr.setdefault(y, dict.fromkeys(STREAM_KEYS, 0.0))
+        for k, amt, r, taxed in lines:
+            spv[k] += amt * (tax if taxed else 1.0) * df(r, y) / 1e6
+            yr[k] += amt / 1e6
+        if ebitda27 is None:
+            ebitda27 = ebitda / 1e6
         cfs.append((y, ebitda / 1e6))
-    return {"pv": pv / 1e6, "ebitda27": ebitda27, "cfs": cfs}
+    return {"pv": sum(spv.values()), "ebitda27": ebitda27, "cfs": cfs, "streams_pv": spv, "streams_yr": syr}
 
 
 def corp_overhead_pv(co, disc_adj=0.0):
@@ -221,7 +268,8 @@ def company_nav(co, deck, opts=None):
     for a in assets:
         v = value_asset(a, deck, opts)
         rows.append({"asset": a["name"], "tech": a["tech"], "hub": a["hub"], "mw": a["mw"],
-                     "pv_mm": v["pv"], "usd_per_kw": v["pv"] * 1e6 / (a["mw"] * 1000), "ebitda27_mm": v["ebitda27"]})
+                     "pv_mm": v["pv"], "usd_per_kw": v["pv"] * 1e6 / (a["mw"] * 1000), "ebitda27_mm": v["ebitda27"],
+                     "streams_pv": v["streams_pv"], "streams_yr": v["streams_yr"]})
     gav = sum(r["pv_mm"] for r in rows) / 1000
     oh = corp_overhead_pv(co, opts.get("disc_adj", 0.0)) / 1000
     net_claims = sum(v for _, v in claims)
@@ -236,7 +284,13 @@ def company_nav(co, deck, opts=None):
     return {"rows": rows, "gav": gav, "overhead": oh, "net_claims": net_claims, "equity": eq,
             "shares": shares, "nav_ps": eq / shares * 1000, "platform": plat,
             "nav_ps_plat": (eq + plat) / shares * 1000, "by_tech": by_tech,
+            "streams_pv": {k: sum(r["streams_pv"][k] for r in rows) / 1000 for k in STREAM_KEYS},
             "mw": sum(r["mw"] for r in rows)}
+
+
+def annual_stream(R, y, k):
+    """Company total for stream k in year y, pre-tax nominal $bn."""
+    return sum(r["streams_yr"].get(y, {}).get(k, 0.0) for r in R["rows"]) / 1000
 
 
 def comps_lens(co, base):
@@ -363,6 +417,44 @@ def main():
         md.append(f"| GAV per kW ($) | " + " | ".join(f"{R[s]['gav']*1e9/(R[s]['mw']*1000):,.0f}" for s in I.SCENARIO_ORDER) + " |")
         md.append("")
         md.append(f"Market: market cap ${m['mcap']:.1f}bn; net claims ${m['net_claims']:.1f}bn; **EV ${m['ev']:.1f}bn**; {m['mw']:,} MW pro forma -> **${m['ev_per_kw']:,.0f}/kW**.\n")
+
+    # 3b. Revenue streams
+    label = {k: l for k, l, _ in STREAMS}
+    md.append("### Revenue streams - after-tax PV by stream ($bn); costs negative\n")
+    for co in ("CEG", "VST"):
+        R = results[co]
+        md.append(f"#### {co}\n")
+        md.append("| Stream | Low | Base | High | Extreme | Base share of gross revenue PV | Change Low->Extreme |")
+        md.append("|---|---|---|---|---|---|---|")
+        gross = sum(v for k, v in R["Base"]["streams_pv"].items() if dict((kk, kind) for kk, _, kind in STREAMS)[k] == "rev")
+        for k, l, kind in STREAMS:
+            vals = [R[s]["streams_pv"][k] for s in I.SCENARIO_ORDER]
+            if all(abs(v) < 0.005 for v in vals):
+                continue
+            share = f"{vals[1]/gross:.0%}" if kind == "rev" else ""
+            md.append(f"| {l} | " + " | ".join(fmt(v) for v in vals) + f" | {share} | {vals[3]-vals[0]:+.1f} |")
+        md.append("| **Gross asset value** | " + " | ".join(f"**{fmt(R[s]['gav'])}**" for s in I.SCENARIO_ORDER) + " | | |")
+        rev_keys = [k for k, _, kind in STREAMS if kind == "rev"]
+        md.append("| Contracted/policy revenue share of gross revenue PV (PPA + ZEC + 45U) | " + " | ".join(
+            f"{(R[s]['streams_pv']['ppa'] + R[s]['streams_pv']['zec'] + R[s]['streams_pv']['ptc45u']) / sum(R[s]['streams_pv'][k] for k in rev_keys):.0%}"
+            for s in I.SCENARIO_ORDER) + " | | |")
+        md.append("")
+    md.append("### Revenue streams - annual pre-tax, nominal ($bn) - Base and High\n")
+    yrs = [2027, 2030, 2035, 2040]
+    for co in ("CEG", "VST"):
+        md.append(f"#### {co}\n")
+        md.append("| Stream | " + " | ".join(f"Base {y}" for y in yrs) + " | " + " | ".join(f"High {y}" for y in yrs) + " |")
+        md.append("|---|" + "---|" * (2 * len(yrs)))
+        for k, l, kind in STREAMS:
+            if k in ("renewable", "mothball"):
+                continue
+            vals = [annual_stream(results[co][s], y, k) for s in ("Base", "High") for y in yrs]
+            if all(abs(v) < 0.005 for v in vals):
+                continue
+            md.append(f"| {l} | " + " | ".join(fmt(v, 2) for v in vals) + " |")
+        md.append("| **Asset cash margin (pre-tax, after mothball floor)** | " + " | ".join(
+            f"**{fmt(sum(annual_stream(results[co][s], y, k) for k in STREAM_KEYS), 2)}**" for s in ("Base", "High") for y in yrs) + " |")
+        md.append("")
 
     # 4. Market-implied solve
     md.append("### What the market price implies (solve: uniform long-run power price shift vs Base deck)\n")
@@ -512,6 +604,23 @@ def main():
         w.writeheader()
         w.writerows(sens_rows)
 
+    with open(os.path.join(OUT, "revenue_streams_pv.csv"), "w", newline="") as f:
+        w = csv.writer(f)
+        w.writerow(["company", "scenario", "asset", "tech"] + [f"pv_mm_{k}" for k in STREAM_KEYS] + ["pv_mm_total"])
+        for co in ("CEG", "VST"):
+            for s in I.SCENARIO_ORDER:
+                for r in results[co][s]["rows"]:
+                    w.writerow([co, s, r["asset"], r["tech"]] + [round(r["streams_pv"][k], 1) for k in STREAM_KEYS] + [round(r["pv_mm"], 1)])
+    with open(os.path.join(OUT, "revenue_streams_annual.csv"), "w", newline="") as f:
+        w = csv.writer(f)
+        w.writerow(["company", "scenario", "year"] + [f"{k}_mm" for k in STREAM_KEYS if k != "renewable"] + ["cash_margin_mm"])
+        for co in ("CEG", "VST"):
+            for s in I.SCENARIO_ORDER:
+                for y in range(I.FIRST_YEAR, 2066):
+                    vals = [annual_stream(results[co][s], y, k) * 1000 for k in STREAM_KEYS if k != "renewable"]
+                    if any(abs(v) > 0 for v in vals):
+                        w.writerow([co, s, y] + [round(v, 1) for v in vals] + [round(sum(vals), 1)])
+
     write_xlsx(results, mkt, sens_rows, other_rows, implied, shifts, caps)
 
     # console summary
@@ -586,6 +695,21 @@ def write_xlsx(results, mkt, sens_rows, other_rows, implied, shifts, caps):
           + [[f"{co} {'incl platform' if p else 'gen only'} - required LR Henry Hub $/MMBtu",
               None if implied.get((co, p, "gas")) is None else round(I.HENRY_HUB_LR_REAL + implied[(co, p, "gas")], 2)]
              for co in ("CEG", "VST") for p in (False, True)])
+    rows = []
+    for co in ("CEG", "VST"):
+        for k, l, _ in STREAMS:
+            rows.append([co, l] + [round(results[co][s]["streams_pv"][k], 2) for s in I.SCENARIO_ORDER])
+        rows.append([co, "Gross asset value"] + [round(results[co][s]["gav"], 2) for s in I.SCENARIO_ORDER])
+    sheet("Revenue streams PV", ["Company", "Stream", "Low $bn", "Base $bn", "High $bn", "Extreme $bn"], rows)
+    rows = []
+    for co in ("CEG", "VST"):
+        for s in I.SCENARIO_ORDER:
+            for y in range(I.FIRST_YEAR, 2061):
+                vals = [round(annual_stream(results[co][s], y, k) * 1000, 1) for k, _, _ in STREAMS if k != "renewable"]
+                if any(vals):
+                    rows.append([co, s, y] + vals + [round(sum(vals), 1)])
+    sheet("Revenue streams annual", ["Company", "Scenario", "Year"] + [f"{l} $mm" for k, l, _ in STREAMS if k != "renewable"]
+          + ["Asset cash margin $mm"], rows)
     claims = [["CEG", n, v] for n, v in I.CEG_CLAIMS] + [["VST", n, v] for n, v in I.VST_CLAIMS]
     sheet("Claims", ["Company", "Item", "$bn"], claims)
     assets = [[co, a["name"], a["tech"], a["hub"], a["mw"], a.get("start"), a.get("end"),
