@@ -351,6 +351,42 @@ FCF-horizon grids (0/3/5/7/10 years × scenario) and the DRC for each asset grou
   - The in-service years for each asset group are my estimates. Every 10 points of remaining-life fraction on nuclear moves CEG ~$78/share and VST ~$23/share on the like-for-like basis. That makes it the most sensitive input in this approach.
   - The near-term FCF may be ~15–25% high against company guidance (§4c).
 
+## 4e. Management build plans and entry prices
+
+### What management says about building new capacity (as of Q2-2026)
+| | CEG | VST |
+|---|---|---|
+| New nuclear | No large new reactors. Crane (835 MW) restart targeted for 2027; FERC approved the interconnection-rights transfer. Nuclear uprates are part of a 5 GW PJM queue (uprates + gas + batteries). A small venture stake in Blue Energy SMRs. | No new reactors. 433 MW of uprates (Perry, Davis-Besse, Beaver Valley) funded by the Meta PPAs, arriving 2031–34, plus subsequent license renewals at all PJM units. |
+| New gas | Pin Oak Creek 460 MW peaker (ERCOT) online Apr-2026; a proposed Harford County, MD plant (pipeline cost is a hurdle). Dominguez: CEG **won't build merchant gas** without policy certainty ("existing generation is the bedrock"). | Permian 860 MW under construction; up to 2 GW ERCOT gas; coal-to-gas conversions. 4.5 GW total additions. $4.5–5bn growth budget, mostly **acquisitions** (Lotus, Cogentrix). |
+| Demand view | Data-center customers are waiting on PJM co-location and backstop-auction rules. | Burke: ERCOT load +5–6%/yr and PJM +2–3%/yr through 2030, **below ISO forecasts**. "Both underbuilding and overbuilding have serious consequences." |
+| Buying vs building | Sold divested Calpine plants at ~$1,200–1,420/kW against ~$960/kW implied purchase cost. | Bought gas at $731/kW (Lotus) and ~$859/kW (Cogentrix), against ~$2,350/kW new-build. Burke: customers pay "a premium" for existing plants "because it's still a discount to what new build costs." |
+
+**How this bears on the valuation:**
+- **Neither company is building new nuclear, and both are buying gas plants rather than building them.** That is management's own vote that existing plants are worth *less* than new-build cost (Tobin's q < 1). It supports treating new-nuclear replacement cost as a ceiling (§4d).
+- **Vistra's own PJM load view is weaker than the High case.** At +2–3%/yr (~13–19 GW by 2030) it sits between our Low and Base PJM data-center assumptions. Management's demand view does not support the High case the share prices require.
+
+### Entry prices implied by the model (not derived from the current price)
+Method: take the value at end-2030 (FCF generated + forward NAV, §4c) and discount it back 4.25 years at the required return. The "haircut" version cuts 2027–30 FCF by 20% for possible over-optimism against guidance.
+
+| Price at which… | CEG | VST |
+|---|---|---|
+| High case earns 10%/yr | $252–266 | $133–142 |
+| High case earns 15%/yr | $209–220 | $110–118 |
+| Base case earns 10%/yr | $163–175 | $79–86 |
+| **Base case earns 15%/yr (fat pitch)** | **$135–145** | **$65–72** |
+| Hard-asset floor: gas-equivalent replacement + 5 yrs FCF, Low scenario | $177 | $100 |
+| Base NAV incl. platform | $190 | $82 (equity view ~$98) |
+| **Current price** | **$263.93** | **$138.76** |
+| 52-week low / high | $228.63 / $412.70 | $132.66 / $217.10 |
+
+**How to read it:**
+- **Today's prices are what you'd pay for ~10%/yr if the High case happens.** At about $264 and $139, both stocks earn roughly a cost-of-equity return only if AI-driven scarcity persists. If Base happens, the return is ~0%/yr (§4c).
+- **Fat pitch: CEG ~$135–145, VST ~$65–72.** At those prices the Base case alone earns ~15%/yr. Both prices are also below the hard-asset floor (CEG $177, VST $100), so even a Low outcome is covered by what it would cost to rebuild the fleet with new gas plus five years of cash. Any High/Extreme outcome is free upside.
+- **"Good, not fat": CEG ~$165–175, VST ~$80–86.** Here the Base case earns ~10%/yr.
+- **If you believe the High case:** CEG below ~$210–220 and VST below ~$110–118 earn 15%/yr. That is "if High is true, the math says…", not a forecast. Vistra's own load outlook argues against leaning on it.
+- **Both fat-pitch levels are far below the 52-week lows.** They would need a meaningful de-rating: an AI capex pause, PJM capacity-price reform, or gas below $3.
+- **VST's levels are more fragile.** Leverage makes its low-end values swing hard: the Low-case end-2030 value is only ~$50.
+
 ## 5. Sensitivity: long-run energy price × capacity price (NAV/share, generation only)
 
 **CEG** (current price $263.93)
