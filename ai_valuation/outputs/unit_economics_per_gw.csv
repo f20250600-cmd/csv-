@@ -1,0 +1,6 @@
+,"Yield ($ rev per $ equipment, 100% util)",Revenue per GW-year at 100% util ($bn),At 85% util ($bn),Per GPU-hour (~$70k all-in per GPU)
+MSFT Azure AI (calibrated to FY26),0.7384714124070522,25.846499434246827,21.9695245191098,5.901027268092883
+Meta new AI products - Bull,0.6,21.0,17.849999999999998,4.794520547945205
+Meta new AI products - Base,0.5,17.5,14.875,3.9954337899543377
+Meta new AI products - Bear,0.35,12.25,10.4125,2.7968036529680367
+Benchmark: Oracle-OpenAI (~$60bn/yr for ~4.5GW),0.380952380952381,13.333333333333334,11.333333333333334,3.0441400304414006
