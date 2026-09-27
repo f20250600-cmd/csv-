@@ -626,6 +626,16 @@ The original analysis left China out. It matters in three distinct ways, and the
   2. Intel itself depends on TSMC Taiwan for Lunar Lake and Arrow Lake compute tiles, Panther Lake GPU tiles, and some Nova Lake tiles, so a Taiwan disruption would also hit Intel's products.
   3. A second-source premium only turns into revenue after yield and cost parity (§3.3).
 
+### 10.3a Correction: Taiwan deserves its own scenario
+
+I originally treated a Taiwan disruption as a footnote. That was a mistake: it is one of the few scenarios in which Intel's position changes by an order of magnitude.
+
+- **Why it matters.** AMD, NVIDIA, Qualcomm and Apple depend almost entirely on TSMC Taiwan. If those fabs are cut off from the West (invasion, blockade, or reunification followed by US export controls treating Taiwan as China), Intel would become the main non-Asian source of leading-edge logic and x86 CPUs.
+- **What the model now includes.** A fourth "Taiwan" scenario. On the modeled payoffs it is worth about **$80/share** (about $116–139 at an 8.5% WACC).
+- **What the market price requires.** $123 needs either a lower discount rate or a near-certain Taiwan cut-off. The model's break-even test shows no probability justifies the price at default inputs, and about 95% is needed even with the most aggressive payoff variant.
+
+**[I]** The Taiwan scenario raises Intel's value, but on these numbers it doesn't bridge the gap to the current price by itself.
+
 ### 10.4 Net effect on the conclusions
 
 - **Rankings (§4):** unchanged.

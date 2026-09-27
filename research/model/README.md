@@ -9,7 +9,7 @@ File: `intel_valuation_model.xlsx`. It is built on the findings in `../intel-com
   - Yellow cells are key judgment calls, or placeholders to verify against the Q2-26 10-Q.
 - **Summary**: each scenario's value, the probability-weighted value, and a reverse DCF against today's price.
 - **Sensitivity**: live WACC × terminal-growth grids for all three scenarios, plus a Base-case tornado.
-- **Bear / Base / Bull**: identical 2026E–2033 forecasts by segment, discounted to 30 Sep 2026.
+- **Bear / Base / Bull / Taiwan**: identical 2026E–2033 forecasts by segment, discounted to 30 Sep 2026.
 
 The file was written without cached values; Excel or Google Sheets recalculates everything on open. The formulas were checked with a Python formula engine (0 errors), because LibreOffice's Calc engine isn't installed in the build environment.
 
@@ -45,6 +45,42 @@ Lost revenue is removed at full gross margin. A Taiwan disruption isn't modeled 
 | China erosion 10 pts/yr faster / 5 pts/yr slower | $20 – $24 |
 
 China is a real but second-order valuation driver. It is smaller than foundry, server or margin outcomes, because only an estimated ~12% of revenue (24% × 50%) is China domestic demand. If you believe the domestic fraction is higher, raise `Inputs` "Share of China-billed revenue that is China DOMESTIC end-demand".
+
+## Taiwan scenario (added)
+
+**Condition:** Taiwan's fabs are cut off from Western customers from 2027. This covers an invasion, a blockade, or reunification followed by US export controls that treat Taiwan as China. It is a *conditional* scenario: "if this happens, the math says…".
+
+**What's modeled:**
+
+| Driver | 2027 → 2033 |
+|---|---|
+| Server revenue | +10%, then +25% as Intel captures AMD's TSMC-dependent share |
+| Client revenue | −10% in the 2027 disruption year (Intel's own TSMC tiles are lost), then +20% |
+| External foundry + packaging revenue (capacity-limited) | $10bn → $70bn |
+| Gross margin | 45% → 62% |
+| China revenue | Goes to zero |
+| Capex | $40–50bn a year |
+
+**Result.** Revenue reaches about **$155bn in 2033**, operating income about $71bn, and value about **$80/share** at 10.4% WACC.
+
+| | Value per share |
+|---|---|
+| At 8.5% WACC / 3% growth | ~$116 |
+| At 8.5% WACC / 4% growth | ~$139 |
+| Foundry revenue ×1.5 | ~$112 |
+| Foundry revenue ×1.5 and gross margin +5 pts | ~$127 |
+
+**Break-even test.** At default inputs, no probability of the Taiwan scenario justifies $123, because the Taiwan value itself is below the price. With the most aggressive payoff variant above (foundry ×1.5 and gross margin +5 pts), the price requires about a **95% probability** of a Taiwan cut-off.
+
+**Weights are now:** Bear 28%, Base 43%, Bull 24%, Taiwan 5%. That gives a probability-weighted value of **~$26**.
+
+**Not modeled in the Taiwan scenario, all of which lower it:**
+- global recession
+- US price controls or Defense Production Act allocation of capacity
+- a higher cost of capital in wartime
+- damage to Intel's Malaysian assembly and test sites, and to its supply chain
+
+A friendlier outcome (TSMC keeps supplying the West after a peaceful reunification) would sit between Base and Taiwan.
 
 ## What to check before trusting this
 
