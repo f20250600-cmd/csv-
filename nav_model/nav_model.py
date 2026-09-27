@@ -624,6 +624,8 @@ def main():
     write_xlsx(results, mkt, sens_rows, other_rows, implied, shifts, caps)
     import fcf  # "NAV + FCF generated" layer (forward NAV); writes fcf_nav.md and adds two workbook sheets
     fcf.run(results, mkt, OUT)
+    import replacement  # replacement-cost theory + FCF; writes replacement_cost.md and two workbook sheets
+    replacement.run(results, mkt, OUT)
 
     # console summary
     for co in ("CEG", "VST"):

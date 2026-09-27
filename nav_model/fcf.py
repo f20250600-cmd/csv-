@@ -20,12 +20,12 @@ import nav_model as N
 YEARS = list(range(I.FIRST_YEAR, I.FCF_HORIZON_END + 1))
 
 
-def annual_equity_fcf(co, R):
+def annual_equity_fcf(co, R, years=None):
     """Per-year equity FCF build ($bn, nominal) for one company/scenario result R."""
     fin = I.FINANCING[co]
     ren_value = sum(r["pv_mm"] for r in R["rows"] if r["tech"] == "renewable") / 1000
     out = []
-    for y in YEARS:
+    for y in (years or YEARS):
         infl = N.Deck.infl(y)
         streams = {k: N.annual_stream(R, y, k) for k in N.STREAM_KEYS}
         revenue = sum(streams[k] for k in ("energy", "capacity", "ppa", "zec"))

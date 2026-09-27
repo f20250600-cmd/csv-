@@ -271,3 +271,39 @@ FINANCING = {
 }
 RENEWABLE_CASH_YIELD = 0.09        # ASSUMPTION: annual cash from $/kW-valued wind/solar/storage as % of value
 EQUITY_DISCOUNT_RATE = 0.09        # ASSUMPTION: used only to discount the end-2030 total back to today for reconciliation
+
+# ---------------------------------------------------------------------------
+# Replacement-cost layer (used by replacement.py): depreciated replacement cost (DRC) + FCF
+# ---------------------------------------------------------------------------
+# New-build cost, 2026 $/kW (overnight + financing, as reported)
+REPLACEMENT_COST_KW = {
+    "nuclear_like": 12100,    # EPRI base case for next AP1000 ($9,700-15,100); Vogtle 3&4 actual ~$17,500-21,700/kW
+    "ccgt": 2350,             # GridLab 2025-26: $2,200-2,500/kW
+    "peaker": 1970,           # recent SD peaker filing $1,969/kW; EIA AEO2026 +40% on simple-cycle costs
+    "coal": 2350,             # nobody builds coal: functional replacement = new CCGT
+    "hydro": 3500,            # NREL ATB pumped storage $2,000-5,500/kW (mid)
+    "geothermal": 5500,       # EST (NREL ATB hydrothermal flash range)
+    "renewable": 1600,        # EST blended wind/solar/storage
+}
+# Functional replacement of nuclear: new CCGT per MW of accredited capacity (not carbon-free)
+NUCLEAR_FUNCTIONAL_KW = 2350 * 0.95 / 0.78
+# Approximate average in-service year per asset group (EST from unit COD dates); remaining-life fraction =
+# (end year - valuation date) / (end year - COD). `life_frac` overrides where straight-line misleads.
+ASSET_COD = {
+    "Nuclear - PJM East": 1979, "Nuclear - PJM ComEd": 1980, "Nuclear - Clinton": 1987, "Nuclear - New York": 1974,
+    "Nuclear - South Texas": 1988, "Nuclear - Crane": 1974, "Nuclear - Comanche": 1991, "Nuclear - Perry": 1983,
+    "Nuclear - Beaver": 1981,
+    "Gas - ERCOT CCGT (Colorado": 2017, "Gas/oil - ERCOT peakers & steam": 1990, "Gas/oil - PJM/NE/other": 1995,
+    "Calpine - ERCOT CCGT": 2002, "Calpine - ERCOT peakers": 2000, "Calpine - West CCGT": 2003, "Calpine - West peakers": 2002,
+    "Calpine - The Geysers": 1985, "Calpine - East CCGT": 2003, "RISEC": 2002,
+    "Gas - ERCOT CCGT": 2003, "Gas - ERCOT peakers": 2000, "Gas - PJM CCGT": 2004, "Gas - NY/NE CCGT": 2002,
+    "Gas - West CCGT": 2002, "Gas/oil - East peakers": 1998, "Coal - ERCOT": 1980, "Coal - IL/OH": 1975,
+    "Cogentrix": 2012,
+}
+LIFE_FRAC_OVERRIDE = {
+    "Hydro": 0.50,                        # civil works (dams) last ~100+ yrs; EST
+    "Wind & solar (legacy CEG": 0.35,     # ~2010 fleet, 25-yr life
+    "Solar & batteries (Vistra": 0.55,    # ~2021 fleet, less Moss Landing fire damage
+}
+RC_FCF_HORIZONS = [0, 3, 5, 7, 10]     # years of FCF added (build lead time); headline = 5 (gas turbine backlog ~2031)
+RC_HEADLINE_HORIZON = 5

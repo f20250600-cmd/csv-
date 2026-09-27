@@ -19,6 +19,8 @@
 | Or, holding heat rates at Base: long-run Henry Hub required | $4.92–5.13 (Base $4.00) | $5.70–6.46 |
 | **NAV + FCF generated:** value at end-2030 (cumulative FCF + forward NAV), Low / **Base** / High / Extreme | $128 / **$262** / $399 / $601 | $50 / **$130** / $214 / $342 |
 | Implied annual return from today's price, Base / High | **−0.1% / +10.2%** | **−1.6% / +10.7%** |
+| **Replacement cost + 5 yrs FCF**, nuclear rebuilt as new nuclear ($12,100/kW), Low / **Base** / High / Extreme | $405 / **$422** / $440 / $468 | $171 / **$184** / $198 / $220 |
+| **Replacement cost + 5 yrs FCF**, nuclear replaced by new gas, Low / **Base** / High / Extreme | $177 / **$195** / $213 / $240 | $100 / **$113** / $127 / $148 |
 
 1. **What the assets are worth today.** If long-run prices settle near the cost of building new gas plants (the Base case), the assets support **~$173–190/share for CEG** and **~$55–80/share for VST**. Both stocks trade well above that.
 2. **What they could be worth with more AI demand.** The High case (data centers at ~14% of US load by 2030 and new supply held back) gives about CEG $270–287 and VST $115–140. That is roughly today's prices. The Extreme case (PJM's capacity price cap removed, a decade of shortage) gives CEG ~$415–432 and VST ~$205–230.
@@ -298,6 +300,56 @@ Asset cash margin is total revenue minus fuel, O&M and capex, before overhead, r
 Files: `outputs/fcf_nav.md`, `outputs/equity_fcf_annual.csv`, `outputs/nav_plus_fcf_summary.csv`, and the workbook sheets "NAV + FCF" and "Equity FCF annual". The code is in `fcf.py`.
 
 ---
+
+## 4d. Replacement cost + FCF
+
+**The approach:** value the fleet at what it would cost to build it again today, reduced for age, then add the cash the existing plants generate while no one can build replacements.
+
+> **Value/share = [depreciated replacement cost (DRC) − net debt & claims + PV of equity FCF over the replacement lead time] ÷ shares**
+
+- **DRC** = MW × 2026 new-build $/kW × remaining-life fraction. The fraction is years left to the assumed end of life divided by total life. Hydro is set at 50% because dams last 100+ years. DRC uses **no earnings and no power prices**.
+- **New-build costs:**
+  - Nuclear (next AP1000, EPRI base): $12,100/kW. EPRI's range is $9,700–15,100, and Vogtle 3&4 actually cost ~$17,500–21,700.
+  - CCGT: $2,350/kW (GridLab).
+  - Peaker: $1,970/kW (recent filing).
+  - Pumped storage: $3,500/kW (NREL range $2,000–5,500).
+  - Geothermal: $5,500/kW (estimate).
+  - Wind/solar/storage: $1,600/kW (estimate).
+  - Coal: nobody builds coal, so it is replaced at the CCGT cost.
+- **FCF** is equity FCF after overhead, interest, tax and preferred dividends, and includes retail cash. It is discounted at 9%. The headline adds **5 years**, which is roughly when turbine backlogs let new gas reach the grid (GE Vernova's backlog is ~116 GW). New nuclear takes 10+ years. FCF is the only part that changes with the AI scenario.
+- **Two bases for nuclear:**
+  - **Like-for-like:** rebuild it as new nuclear.
+  - **Functional:** replace its capacity with new gas. That costs $2,350 × 0.95/0.78 = $2,862 per kW, adjusting for the higher share of capacity the grid credits nuclear with. It isn't carbon-free.
+
+| | CEG | VST |
+|---|---|---|
+| Replacement cost new: nuclear as new nuclear / as new gas | $341bn / $130bn | $176bn / $116bn |
+| **DRC**: nuclear as new nuclear / as new gas | **$134bn / $54bn** | **$70bn / $45bn** |
+| Equity at DRC before FCF: as new nuclear / as new gas | $337 / $109 per share | $126 / $54 per share |
+| **+ 5 yrs FCF, as new nuclear**: Low / **Base** / High / Extreme | $405 / **$422** / $440 / $468 | $171 / **$184** / $198 / $220 |
+| **+ 5 yrs FCF, as new gas**: Low / **Base** / High / Extreme | $177 / **$195** / $213 / $240 | $100 / **$113** / $127 / $148 |
+| Share price | $263.93 | $138.76 |
+| Market EV ÷ DRC: as new nuclear / as new gas | 0.81x / 2.02x | 1.06x / 1.64x |
+| Nuclear new-build cost the share price implies (Base, 5-yr FCF, same age haircut) | **~$5,700/kW** | **~$6,200/kW** |
+
+FCF-horizon grids (0/3/5/7/10 years × scenario) and the DRC for each asset group are in `outputs/replacement_cost.md`, `outputs/replacement_cost_*.csv`, and the workbook sheets "Replacement cost" and "Replacement + FCF".
+
+**What it shows:**
+- **The gas-plant DRC matches what buyers actually pay.** Depreciated CCGTs come to ~$1,040–1,080/kW (45% of $2,350). Recent deals were $1,142/kW for LS Power's PJM package and ~$1,023/kW for Calpine. So for gas, replacement cost and the market agree, which independently supports the approach.
+- **For nuclear, the answer depends on the replacement basis:**
+  - **Rebuilt as new nuclear,** both stocks look cheap: CEG ~$422 vs $264, VST ~$184 vs $139. CEG's EV is only 0.81x the depreciated cost of rebuilding its fleet.
+  - **Replaced by new gas,** both look expensive: CEG ~$195, VST ~$113.
+  - **The market sits between the two.** It values nuclear as if new nuclear cost **~$5,700–6,200/kW**. That is roughly the "Nth-of-a-kind" AP1000 cost MIT projects for the 4th plant ($6,200/kW), about half of EPRI's next-plant estimate, and a third of Vogtle.
+- **Why new-nuclear replacement cost is a ceiling, not a floor.** Replacement cost only sets value if someone would pay it to replicate the plant. Tobin's q (the cash-flow value from the NAV model divided by DRC on the new-nuclear basis) shows when that happens:
+  - CEG: 0.35 Low / 0.60 Base / 0.86 High / 1.24 Extreme.
+  - VST: 0.44 / 0.71 / 1.00 / 1.44.
+  - A q below 1 means building new nuclear doesn't pay. At the ~$80–100/MWh hyperscalers are paying, that's true: a $12,100/kW reactor needs roughly $130–150/MWh.
+  - So the like-for-like figure becomes a real valuation only in the **Extreme** case, or if the US commits to new nuclear and AP1000 costs fall toward $6,000/kW.
+  - In Base and High, the functional (gas) basis plus the scarcity cash is the more defensible anchor. On that basis, today's prices already exceed the value.
+- **What five years of FCF adds.** About $85/share for CEG (Base) and $59 for VST. That is 20–32% of the like-for-like value and 44–52% of the functional value. From Low to Extreme the value moves only ~$50–65/share, because 2027–28 are marked to today's forwards in every scenario. With this approach, the nuclear replacement basis matters far more than the AI scenario.
+- **Caveats:**
+  - The in-service years for each asset group are my estimates. Every 10 points of remaining-life fraction on nuclear moves CEG ~$78/share and VST ~$23/share on the like-for-like basis. That makes it the most sensitive input in this approach.
+  - The near-term FCF may be ~15–25% high against company guidance (§4c).
 
 ## 5. Sensitivity: long-run energy price × capacity price (NAV/share, generation only)
 
