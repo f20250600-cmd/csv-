@@ -5,7 +5,7 @@ from openpyxl.comments import Comment
 from openpyxl.utils import get_column_letter as L
 
 OUT = sys.argv[1]
-flex = dict(gm=0.0, dcai=0.0, fdy=1.0, capex=1.0)
+flex = dict(gm=0.0, dcai=0.0, fdy=1.0, capex=1.0, cn=0.0)
 if len(sys.argv) > 2:
     for kv in sys.argv[2].split(","):
         k, v = kv.split("="); flex[k] = float(v)
@@ -51,6 +51,10 @@ lines = [
  ("METHOD", BOLD),
  ("- Base year 2026E = Q1 + Q2 actuals + Q3 guidance midpoint + Q4 assumption, split by segment using the Q2 2026 mix.", BLACK),
  ("- 2027-2033 explicit forecast by segment: DCAI (server), CCPG (client), external foundry + packaging, other.", BLACK),
+ ("- China layer: the China DOMESTIC share of DCAI+CCPG revenue (China-billed share x domestic fraction) erodes at a scenario-specific annual rate", BLACK),
+ ("  (xinchuang substitution, Hygon/Loongson/Kunpeng, retaliatory tariffs on US-fabbed chips); the loss is subtracted from revenue at full gross margin.", BLACK),
+ ("- Not modeled as a line item: a Taiwan disruption. It would hit Intel too (TSMC makes Lunar/Arrow Lake tiles, part of Panther/Nova Lake).", BLACK),
+ ("  Geopolitical second-source demand for US fabs is already inside the external-foundry drivers (Base/Bull), so it isn't added twice.", BLACK),
  ("- Margins on a non-GAAP basis, then stock-based comp deducted as a real cost. Unlevered FCF = NOPAT + D&A - capex - change in NWC.", BLACK),
  ("- Discounted from 30 Sep 2026; Gordon-growth terminal value on normalized 2034 FCF (terminal capex = D&A x ratio).", BLACK),
  ("", BLACK),
@@ -148,6 +152,22 @@ for lab, f, nm, note in derived:
     inrow(r, lab, f, USD, nm, note, False, True); r += 1
 inp[ref("oth26")].value = f"={ref('rev26')}-{ref('dcai26')}-{ref('ccg26')}-{ref('fdy26')}"
 
+r += 1; put(inp, f"A{r}", "CHINA EXPOSURE", BOLD); r += 1
+header(inp, r, ["Item", "Value"], 1); r += 1
+for lab, v, fmt, nm, note, key in [
+ ("FY2024 China (incl. HK) billed revenue", 15.53, USD, "cn24", "Intel FY2024 10-K geographic note (billing location); 29% of revenue", False),
+ ("FY2025 total revenue", 52.9, USD, "rev25", "Intel Q4/FY2025 results (22 Jan 2026)", False),
+ ("FY2025 US + Taiwan + Singapore + Other billed revenue", "=15.76+7.67+9.54+7.20", USD, "noncn25", "FY2025 10-K geographic note via search extract (US 15.76, Taiwan 7.67, Singapore 9.54, Other 7.20); VERIFY", True),
+ ("FY2025 China billed revenue (derived residual)", "=B{r}", USD, "cn25", "Derived = total - other regions. Not read directly from the 10-K; VERIFY", True),
+ ("China billed share of revenue (FY2025)", "=0", PCT, "cnshare", "Formula", False),
+ ("Share of China-billed revenue that is China DOMESTIC end-demand", 0.50, PCT, "cndom", "JUDGMENT. Billing location includes PCs/servers assembled in China for export (Lenovo, ODMs), which domestic substitution does not hit. No source splits this; test 0.35-0.70", True),
+]:
+    inrow(r, lab, v, fmt, nm, note, key, isinstance(v, str)); r += 1
+inp[ref("cn25")].value = f"={ref('rev25')}-{ref('noncn25')}"
+inp[ref("cnshare")].value = f"=IF({ref('rev25')}=0,0,{ref('cn25')}/{ref('rev25')})"
+put(inp, f"J{r}", "China levers: xinchuang bans Intel/AMD in government PCs & servers (Mar 2024); Hygon+Zhaoxin ~15-20% of China server CPUs, Kunpeng 8-12% (2026 est.); Loongson 1M desktop CPUs; China customs treats WAFER-FAB location as origin -> US-fabbed chips (Intel) face retaliatory tariffs, TSMC-made rivals don't; US-China truce expires 10 Nov 2026.")
+r += 1
+
 r += 1; put(inp, f"A{r}", "VALUATION PARAMETERS", BOLD); r += 1
 header(inp, r, ["Item", "Value"], 1); r += 1
 rows3 = [
@@ -180,6 +200,7 @@ for lab, v, fmt, nm, note in [
  ("DCAI growth shift per year (pts)", flex["dcai"], PCT, "fx_dcai", "e.g. 0.03 = +3 pts/yr"),
  ("External foundry revenue multiplier", flex["fdy"], MULT, "fx_fdy", "e.g. 0.5 = half"),
  ("Capex multiplier (2027+)", flex["capex"], MULT, "fx_capex", "e.g. 1.15 = 15% more"),
+ ("China domestic revenue change shift per year (pts)", flex["cn"], PCT, "fx_cn", "e.g. -0.10 = 10 pts faster erosion every year"),
 ]:
     inrow(r, lab, v, fmt, nm, note); r += 1
 
@@ -215,6 +236,11 @@ drivers = {
  "Non-GAAP opex growth": ("opx", PCT, {
    "Bear": [0.01]*7, "Base": [0.03]*7, "Bull": [0.04]*7},
    "Bull spends more (AI GPU, foundry customer support)"),
+ "China domestic end-demand revenue change per year": ("cn", PCT, {
+   "Bear": [-0.20, -0.15, -0.15, -0.10, -0.10, -0.10, -0.10],
+   "Base": [-0.08, -0.08, -0.07, -0.07, -0.06, -0.06, -0.05],
+   "Bull": [-0.03, -0.03, -0.03, -0.03, -0.03, -0.03, -0.03]},
+   "Bear: truce lapses Nov-26, xinchuang spreads from government to SOEs/finance/telecom, and origin rule hits 18A (US-fabbed) parts. Base: steady localization. Bull: truce holds, erosion slow"),
  "Gross capex ($bn)": ("cpx", USD, {
    "Bear": [20, 18, 16, 15, 15, 15, 15],
    "Base": [26, 26, 24, 22, 20, 20, 20],
@@ -240,11 +266,12 @@ def scen(sc):
     put(ws, "A1", f"{sc} scenario: US$ bn", TITLE)
     header(ws, 3, ["Line item", "2026E"] + YEARS + ["Terminal"], 1)
     lab = {}
-    items = ["period", "dcai", "dcai_g", "ccg", "ccg_g", "fdy", "oth", "rev", "rev_g", "gm", "gp", "opex", "oi", "oi_m",
+    items = ["period", "dcai", "dcai_g", "ccg", "ccg_g", "fdy", "oth", "chx", "chf", "chl", "rev", "rev_g", "gm", "gp", "opex", "oi", "oi_m",
              "sbc", "ebit", "tax", "nopat", "da", "capex", "nwc", "fcf", "fcf_m", "df", "pv"]
     names = {"period": "Discount period (yrs from 30 Sep 2026)", "dcai": "DCAI (server/data center) revenue", "dcai_g": "  growth",
              "ccg": "CCPG (client) revenue", "ccg_g": "  growth", "fdy": "External foundry + packaging revenue", "oth": "Other revenue (Mobileye etc.)",
-             "rev": "Total revenue", "rev_g": "  growth", "gm": "Non-GAAP gross margin", "gp": "Gross profit", "opex": "Non-GAAP opex",
+             "chx": "China domestic-demand revenue exposed (pre-erosion)", "chf": "  China erosion index (2026 = 1.00)",
+             "chl": "Less: China localization / trade revenue loss", "rev": "Total revenue", "rev_g": "  growth", "gm": "Non-GAAP gross margin", "gp": "Gross profit", "opex": "Non-GAAP opex",
              "oi": "Non-GAAP operating income", "oi_m": "  operating margin", "sbc": "Stock-based compensation", "ebit": "EBIT after SBC",
              "tax": "Taxes on EBIT", "nopat": "NOPAT", "da": "D&A", "capex": "Capex", "nwc": "Change in net working capital",
              "fcf": "Unlevered free cash flow", "fcf_m": "  FCF margin", "df": "Discount factor", "pv": "PV of FCF"}
@@ -257,7 +284,10 @@ def scen(sc):
     put(ws, f"B{R['ccg']}", f"={I('ccg26')}", GREEN, USD)
     put(ws, f"B{R['fdy']}", f"={I('fdy26')}", GREEN, USD)
     put(ws, f"B{R['oth']}", f"={I('oth26')}", GREEN, USD)
-    put(ws, f"B{R['rev']}", f"=SUM(B{R['dcai']},B{R['ccg']},B{R['fdy']},B{R['oth']})", BLACK, USD, bold=True)
+    put(ws, f"B{R['chx']}", f"=(B{R['dcai']}+B{R['ccg']})*{I('cnshare')}*{I('cndom')}", BLACK, USD)
+    put(ws, f"B{R['chf']}", 1, BLUE, '0.00')
+    put(ws, f"B{R['chl']}", f"=-B{R['chx']}*(1-B{R['chf']})", BLACK, USD)
+    put(ws, f"B{R['rev']}", f"=SUM(B{R['dcai']},B{R['ccg']},B{R['fdy']},B{R['oth']},B{R['chl']})", BLACK, USD, bold=True)
     put(ws, f"B{R['gm']}", f"={I('gm26')}+{I('fx_gm')}", GREEN, PCT)
     put(ws, f"B{R['gp']}", f"=B{R['rev']}*B{R['gm']}", BLACK, USD)
     put(ws, f"B{R['opex']}", f"={I('opex26')}", GREEN, USD)
@@ -276,7 +306,10 @@ def scen(sc):
         put(ws, f"{c}{R['ccg']}", f"={p}{R['ccg']}*(1+{c}{R['ccg_g']})", BLACK, USD)
         put(ws, f"{c}{R['fdy']}", f"=Inputs!{dcol}{DR[('fdy', sc)]}*{I('fx_fdy')}", GREEN, USD)
         put(ws, f"{c}{R['oth']}", f"={p}{R['oth']}*(1+{I('othg')})", BLACK, USD)
-        put(ws, f"{c}{R['rev']}", f"=SUM({c}{R['dcai']},{c}{R['ccg']},{c}{R['fdy']},{c}{R['oth']})", BLACK, USD, bold=True)
+        put(ws, f"{c}{R['chx']}", f"=({c}{R['dcai']}+{c}{R['ccg']})*{I('cnshare')}*{I('cndom')}", BLACK, USD)
+        put(ws, f"{c}{R['chf']}", f"=MAX(0,{p}{R['chf']}*(1+Inputs!{dcol}{DR[('cn', sc)]}+{I('fx_cn')}))", BLACK, '0.00')
+        put(ws, f"{c}{R['chl']}", f"=-{c}{R['chx']}*(1-{c}{R['chf']})", BLACK, USD)
+        put(ws, f"{c}{R['rev']}", f"=SUM({c}{R['dcai']},{c}{R['ccg']},{c}{R['fdy']},{c}{R['oth']},{c}{R['chl']})", BLACK, USD, bold=True)
         put(ws, f"{c}{R['rev_g']}", f"=IF({p}{R['rev']}=0,0,{c}{R['rev']}/{p}{R['rev']}-1)", BLACK, PCT)
         put(ws, f"{c}{R['gm']}", f"=Inputs!{dcol}{DR[('gm', sc)]}+{I('fx_gm')}", GREEN, PCT)
         put(ws, f"{c}{R['gp']}", f"={c}{R['rev']}*{c}{R['gm']}", BLACK, USD)
@@ -307,7 +340,7 @@ def scen(sc):
         for col in "ABCDEFGHIJ": ws[f"{col}{R[k]}"].border = thin
     # valuation block
     v0 = R["pv"] + 3
-    put(ws, f"A{v0-1}", "VALUATION", BOLD)
+    put(ws, f"A{v0-1}", "VALUATION (value per share floored at $0: equity has limited liability)", BOLD)
     V = {}
     vrows = [
      ("pvsum", "Sum of PV of explicit FCF (2027-2033)", f"=SUM(C{R['pv']}:I{R['pv']})", USD),
@@ -319,7 +352,7 @@ def scen(sc):
      ("nci", "- Non-controlling interests", f"=-{I('nci')}", USD),
      ("eq", "Equity value", "=EV+NETCASH+ALTERA+NCI", USD),
      ("sh", "Diluted shares (bn)", f"={I('shares')}", NUM),
-     ("vps", "Value per share ($)", "=IF(SH=0,0,EQ/SH)", USD2),
+     ("vps", "Value per share ($)", "=IF(SH=0,0,MAX(0,EQ/SH))", USD2),
      ("px", "Current share price ($)", f"={I('price')}", USD2),
      ("up", "Upside / (downside) vs price", "=IF(PX=0,0,VPS/PX-1)", PCT),
      ("tvpct", "Terminal value as % of EV", "=IF(EV=0,0,PVTV/EV)", PCT),
@@ -361,6 +394,7 @@ metrics = [
  ("2030 non-GAAP gross margin", ("row", "gm", "F"), None, PCT),
  ("2030 non-GAAP operating margin", ("row", "oi_m", "F"), None, PCT),
  ("2033 external foundry + packaging revenue", ("row", "fdy", "I"), None, USD),
+ ("2033 revenue lost to China localization / trade", ("row", "chl", "I"), None, USD),
  ("2030 unlevered FCF", ("row", "fcf", "F"), None, USD),
  ("Cumulative FCF 2027-2033", ("sum", "fcf"), None, USD),
 ]
@@ -447,6 +481,7 @@ def grid(top, sc, title):
                   f"-{I('nwc')}*{sc}!$I${Rs['rev']}*{gg})/({w}-{gg})/(1+{w})^{sc}!$I${Rs['period']}")
             f = (f"=IF({w}<={gg},0,(SUMPRODUCT({fcf},1/(1+{w})^{per})+{tv}"
                  f"+{I('netcash')}+{I('altera')}-{I('nci')})/{I('shares')})")
+            f = "=MAX(0," + f[1:] + ")"
             put(se, f"{cc}{rr}", f, BLACK, USD2)
     return top + 2 + len(waccs) + 1
 t = 3

@@ -13,36 +13,44 @@ File: `intel_valuation_model.xlsx`. It is built on the findings in `../intel-com
 
 The file was written without cached values; Excel or Google Sheets recalculates everything on open. The formulas were checked with a Python formula engine (0 errors), because LibreOffice's Calc engine isn't installed in the build environment.
 
-## Results at default inputs (price $123.00 on 25 Sep 2026; about 5.48bn diluted shares; WACC 10.4%; terminal growth 3%)
+## Results at default inputs, including the China layer (price $123.00 on 25 Sep 2026; about 5.48bn diluted shares; WACC 10.4%; terminal growth 3%)
 
 | | Bear | Base | Bull | Probability-weighted (30/45/25) |
 |---|---|---|---|---|
-| Value per share | ~$1 | ~$24 | ~$55 | ~$25 |
-| vs. price | −99% | −80% | −55% | −80% |
-| Terminal value as % of EV | 28% | 83% | 82% | |
+| Value per share | $0 (equity is −$6.9/share before the floor) | ~$22 | ~$53 | ~$23 |
+| vs. price | −100% | −82% | −57% | −81% |
+| Before the China layer | ~$1 | ~$24 | ~$55 | ~$25 |
+| 2033 revenue lost to China localization and trade | $3.8bn | $3.3bn | $2.0bn | |
 
-**Reverse DCF.** Hold the Base explicit years fixed. Today's roughly $666bn EV then requires about **$97bn of normalized 2034 free cash flow**. That is **6.2×** the Base case and about 3× the Bull case (about $34bn in 2033). At a 25–30% FCF margin, that means **$325–390bn of revenue** in 2034, against $128bn in the Bull case.
+**China layer.** Take the China-billed share of revenue (FY2025 about 24%, derived) times the fraction that is China *domestic* demand (50%, a judgment call; billings include PCs assembled in China for export). Apply that to DCAI and CCPG revenue, then erode it each year at a scenario rate:
 
-The market is pricing an outcome well beyond my Bull scenario, or it is using a much lower discount rate. Neither the Base nor the Bull case reaches $123/share even at an 8.5% WACC and 4% terminal growth:
-
-| Case at 8.5% WACC / 4% growth | Value per share |
+| Scenario | Annual erosion |
 |---|---|
-| Base | $41 |
-| Bull | $94 |
+| Bear | −20% → −10% (truce lapses, xinchuang widens, origin rule hits 18A US-fabbed parts) |
+| Base | −8% → −5% |
+| Bull | −3% |
+
+Lost revenue is removed at full gross margin. A Taiwan disruption isn't modeled as a line item: it would hurt Intel too, and the geopolitical second-source upside is already inside the external-foundry drivers.
+
+**Reverse DCF.** Today's roughly $666bn EV requires about **$98bn of normalized 2034 FCF**. That is **6.9×** the Base case, or $325–390bn of revenue at a 25–30% FCF margin, against $125bn in the Bull case. At 8.5% WACC and 4% terminal growth, the Base case reaches only about $38 and the Bull case about $91.
 
 **Tornado (Base, one input at a time):**
 
-| Input flexed | Range of value per share | Swing |
-|---|---|---|
-| External foundry revenue ×0.5 / ×2 | $19 – $37 | $18 |
-| DCAI growth ±3 pts per year | $20 – $29 | $9 |
-| Gross margin ±3 pts | $20 – $29 | $9 |
-| Capex ±15% | $22 – $27 | $5 |
+| Input flexed | Range of value per share |
+|---|---|
+| External foundry revenue ×0.5 / ×2 | $17 – $32 |
+| DCAI growth ±3 pts per year | $18 – $27 |
+| Gross margin ±3 pts | $18 – $26 |
+| Capex ±15% | $20 – $24 |
+| China erosion 10 pts/yr faster / 5 pts/yr slower | $20 – $24 |
+
+China is a real but second-order valuation driver. It is smaller than foundry, server or margin outcomes, because only an estimated ~12% of revenue (24% × 50%) is China domestic demand. If you believe the domestic fraction is higher, raise `Inputs` "Share of China-billed revenue that is China DOMESTIC end-demand".
 
 ## What to check before trusting this
 
-1. **Placeholders.** D&A, stock-based comp, non-controlling interests (SCIP fab partners and the Mobileye minority), and Q1-26 external foundry revenue were not sourceable here. NCI is set to 0, which *overstates* value.
-2. **Share count.** It is derived as Q2 non-GAAP net income ÷ EPS, plus the August offering shares; verify it against the 10-Q.
-3. **Gross capex.** Partner and government offsets are ignored. The effect on value is small; see the tornado.
-4. **Consensus comparison.** Consensus 2027 EPS is about $2.04; the Base case gives about $1.59 before SBC. Consensus sits between the Base and Bull cases.
-5. **Scenario drivers are hypotheticals.** They are tied to the product evidence and were fixed before the valuation was computed. They were not tuned toward the market price.
+1. **China inputs.** FY2025 China revenue is a derived residual, and the 50% domestic-demand share is my judgment. Verify both.
+2. **Placeholders.** D&A, stock-based comp, non-controlling interests (SCIP fab partners and the Mobileye minority), and Q1-26 external foundry revenue were not sourceable here. NCI is set to 0, which *overstates* value.
+3. **Share count.** It is derived as Q2 non-GAAP net income ÷ EPS, plus the August offering shares; verify it against the 10-Q.
+4. **Gross capex.** Partner and government offsets are ignored. The effect on value is small; see the tornado.
+5. **Consensus comparison.** Consensus 2027 EPS is about $2.04; the Base case gives about $1.59 before SBC. Consensus sits between the Base and Bull cases.
+6. **Scenario drivers are hypotheticals.** They are tied to the product evidence and were fixed before the valuation was computed. They were not tuned toward the market price.

@@ -594,6 +594,47 @@ Each of these is either unmeasurable today or directly contradicted by Intel's r
 
 ---
 
+---
+
+## 10. Addendum: the China factor (added after initial publication)
+
+The original analysis left China out. It matters in three distinct ways, and they don't all point the same direction.
+
+### 10.1 Revenue exposure: large, but overstated by the headline number
+
+- **Billed revenue.** China (including Hong Kong) accounted for **$15.5B, or 29% of revenue, in FY2024** [R] (Intel FY2024 10-K, via [Bullfincher](https://bullfincher.io/companies/intel-corporation/revenue-by-geography)).
+  - For FY2025, the regions disclosed in the extracts (US $15.76B, Taiwan $7.67B, Singapore $9.54B, other $7.20B) sum to $40.2B out of $52.9B total. That leaves a **China residual of about $12.7B, roughly 24%** [I, derived; verify against the [FY2025 10-K](https://www.sec.gov/Archives/edgar/data/50863/000005086326000011/intc-20251227.htm)].
+- **Billing location, not demand.** Intel reports geography by the customer's billing location [R]. Much China-billed revenue is chips bought by Lenovo and Chinese ODMs to build PCs and servers that ship worldwide. Domestic substitution only threatens the part consumed *in* China.
+- **No split exists.** I found no source dividing China billings into domestic and export. The model assumes 50% is domestic demand [I] and lets you flex it.
+
+### 10.2 Why China is getting harder for Intel specifically (not just for US chips)
+
+| Factor | Evidence | Direction for Intel |
+|---|---|---|
+| **Xinchuang (IT localization)** | In March 2024, China issued guidelines removing Intel and AMD CPUs (and Windows) from government PCs and servers. Xinchuang servers are expected to reach about 23% of China's server shipments by 2026 [R/A] ([Tom's Hardware](https://www.tomshardware.com/pc-components/cpus/china-bans-intel-and-amd-cpus-for-government-offices-and-servers-plans-to-switch-to-domestic-made-alternatives), [TechPowerUp](https://www.techpowerup.com/320795/china-bans-amd-and-intel-cpus-from-government-systems)). | Negative, and spreading from government to state-owned enterprises |
+| **Domestic CPUs are getting usable** | 2026 estimates [A]: Hygon + Zhaoxin (x86-compatible) about 15–20% of China server CPU units; Huawei Kunpeng (Arm) about 8–12%. Loongson has shipped 1M+ 3A6000 desktop CPUs; the 3B6600 targets Intel 12th-gen-class performance in 2027 [C] ([Tom's Hardware](https://www.tomshardware.com/pc-components/cpus/chinas-next-gen-cpus-and-gpus-prepare-to-challenge-last-gen-intel-and-amd-in-2027-loongson-3b6600-and-9a1000-aim-to-match-intels-12th-gen-and-amds-rx-550), [Seoul Economic Daily, May 2026](https://en.sedaily.com/international/2026/05/14/chinas-loongson-tops-1-million-desktop-cpu-shipments)) | Negative. These chips are still generations behind, but "good enough" for mandated segments. |
+| **Origin rule punishes US fabs** | China's customs authority treats the **wafer-fab location** as a chip's origin. Chips made in Taiwan by fabless firms (AMD, NVIDIA, Qualcomm) escape retaliatory tariffs; **US-fabbed chips from Intel, TI and GlobalFoundries don't** [R] ([Tom's Hardware](https://www.tomshardware.com/tech-industry/chinas-new-semiconductor-rule-spares-taiwan-fabs-punishes-intel-globalfoundries-and-texas-instruments)). | **Negative, and uniquely Intel's among the CPU vendors.** [I] Intel's own strategy makes this worse: moving production from TSMC in Taiwan to 18A in Arizona converts more of its product to US origin. |
+| **Trade-truce timing** | The US–China truce expires on **10 Nov 2026**. US Section 301 tariffs on Chinese chips rise from 0% in June 2027, at a rate not yet set [R] ([CNBC](https://www.cnbc.com/2025/12/23/us-china-chip-tariffs.html), [Tom's Hardware](https://www.tomshardware.com/tech-industry/semiconductors/trump-administration-announces-new-tariffs-on-chinese-chips-and-electronic-components-but-fresh-sanctions-wont-take-effect-until-2027-and-rates-remain-unknown)). | A binary risk within weeks of this report |
+| **US export controls** | Since January 2026, the US reviews advanced AI chip exports to China case by case [R] ([Morgan Lewis](https://www.morganlewis.com/pubs/2026/01/bis-revises-export-review-policy-for-advanced-ai-chips-destined-for-china-and-macau)). | Small for Intel, which has little AI accelerator revenue to lose; more relevant to NVIDIA and AMD |
+| **AMD's relative position** | AMD's fabless model (TSMC-made) sidesteps the origin rule. Hygon's x86 designs come from a licensed AMD Zen derivative. | Relative negative for Intel vs AMD in China [I] |
+
+### 10.3 The other side: Taiwan risk as an Intel tailwind, with limits
+
+- **Concentration.** Taiwan hosts more than 90% of leading-edge logic manufacturing [A]. Customers want a US second source, and Intel is the only US-headquartered leading-edge option ([Trefis, Jun 2026](https://www.trefis.com/stock/intc/articles/602947/intel-foundry-geopolitics-got-it-here-now-the-tech-has-to-deliver/2026-06-16)). This is plausibly part of why Apple and Microsoft are engaging (§3.1).
+- **Limits [I]:**
+  1. TSMC Arizona and Samsung Taylor offer US capacity too.
+  2. Intel itself depends on TSMC Taiwan for Lunar Lake and Arrow Lake compute tiles, Panther Lake GPU tiles, and some Nova Lake tiles, so a Taiwan disruption would also hit Intel's products.
+  3. A second-source premium only turns into revenue after yield and cost parity (§3.3).
+
+### 10.4 Net effect on the conclusions
+
+- **Rankings (§4):** unchanged.
+- **Moat (§8):** "installed base" is weaker than stated. Up to about a quarter of billings sit in a market that is actively replacing Intel for policy reasons, not product reasons.
+- **Weakness list (§9D):** China becomes a sixth weakness. Intel is structurally worse placed in China than AMD, because of the origin rule and because Hygon is built on AMD-licensed x86.
+- **Turnaround assumptions (§9H):** add a tenth assumption: *China domestic-demand losses stay gradual, and the truce doesn't collapse after 10 Nov 2026.*
+- **Valuation model:** the China layer lowers Base value per share from about $24 to about $22, and the probability-weighted value from about $25 to about $23 (see `model/README.md`).
+
+
 ## Sources (by topic, with dates where known)
 
 **Intel financials and management commentary**
