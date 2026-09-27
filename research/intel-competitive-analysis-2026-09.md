@@ -648,6 +648,24 @@ The status of each deal as of September 2026:
 
 The remaining gap of about $90/share (about $496bn) would require a new foundry business of roughly **$167bn a year of revenue at TSMC-like margins by 2031. That is about the size of TSMC today.** The deal *news* is real, but the deals as reported are an order of magnitude too small to explain the valuation by themselves. The price is betting that these are the first of many such customers.
 
+### 10.3c China tailwinds for Intel
+
+China isn't only a headwind. There are three documented tailwinds:
+
+1. **China's own AI-server boom.**
+   - Server CPU prices in China are up more than 40% since January 2026, with lead times of up to six months.
+   - Intel is rationing Xeon shipments there, and Intel and AMD are signing multi-year supply deals with Chinese AI data centers [R/A] ([Tom's Hardware](https://www.tomshardware.com/pc-components/cpus/intel-amd-server-cpus-reportedly-suffering-from-supply-shortages-in-china-leading-to-increased-prices-sources-say-orders-could-be-delayed-by-as-much-as-6-months), [TechNode, Apr 2026](https://technode.com/2026/04/27/intel-warns-china-of-severe-server-cpu-shortage-as-ai-demand-surges/), [Startup Fortune](https://startupfortune.com/intel-and-amd-are-locking-chinese-ai-data-centers-into-multi-year-cpu-deals-as-a-40-price-surge-signals-a-shortage-nobody-saw-coming/)).
+   - Near-term, domestic CPUs can't fill this demand.
+2. **The US policy response to China favors US fabs.**
+   - A Section 232 25% tariff on advanced chips made outside the US took effect in January 2026.
+   - Phase 2 ("build in America or pay") was confirmed in September 2026, with a 1:1 domestic-production rule and tariff offsets tied to US capacity [R] ([White House](https://www.whitehouse.gov/presidential-actions/2026/01/adjusting-imports-of-semiconductors-semiconductor-manufacturing-equipment-and-their-derivative-products-into-the-united-states/), [EY](https://globaltaxnews.ey.com/news/2026-0209-us-section-232-proclamation-imposes-25-percent-tariff-on-certain-semiconductors), [TechTimes, Sep 2026](https://www.techtimes.com/articles/326474/20260903/chip-tariff-phase-two-confirmed-build-america-pay-lutnick-announces.htm)).
+   - Intel benefits, but it competes for this demand with TSMC Arizona and Samsung Taylor [I].
+3. **Fab subsidies.** The 48D credit gives 35% on fabs started by 31 Dec 2026, plus partner co-funding.
+
+**[I] Model impact.** With these tailwinds, Base rises from about $22 to about $28 and Bull from about $53 to about $67. The probability-weighted value rises from about $26 to about $32. The tailwinds are real but don't close the gap to a $123 price.
+
+**Net China effect in Base** (headwinds and tailwinds combined): China domestic revenue is still down about $2.6bn by 2033, against about $3.3bn without the tailwinds. In Bull, China ends *up* about $1.1bn.
+
 ### 10.4 Net effect on the conclusions
 
 - **Rankings (§4):** unchanged.

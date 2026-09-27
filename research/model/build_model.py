@@ -5,7 +5,7 @@ from openpyxl.comments import Comment
 from openpyxl.utils import get_column_letter as L
 
 OUT = sys.argv[1]
-flex = dict(gm=0.0, dcai=0.0, fdy=1.0, capex=1.0, cn=0.0)
+flex = dict(gm=0.0, dcai=0.0, fdy=1.0, capex=1.0, cn=0.0, cpxoff=0.10, tw=1.0)
 if len(sys.argv) > 2:
     for kv in sys.argv[2].split(","):
         k, v = kv.split("="); flex[k] = float(v)
@@ -54,6 +54,8 @@ lines = [
  ("- 2027-2033 explicit forecast by segment: DCAI (server), CCPG (client), external foundry + packaging, other.", BLACK),
  ("- China layer: the China DOMESTIC share of DCAI+CCPG revenue (China-billed share x domestic fraction) erodes at a scenario-specific annual rate", BLACK),
  ("  (xinchuang substitution, Hygon/Loongson/Kunpeng, retaliatory tariffs on US-fabbed chips); the loss is subtracted from revenue at full gross margin.", BLACK),
+ ("- China TAILWINDS (switchable on Inputs): (1) China AI-server demand boost to China domestic revenue; (2) US onshoring / Section 232", BLACK),
+ ("  tariff-driven extra foundry revenue; (3) capex offset from the 48D 35% fab credit and partner funding (default 10% of gross capex).", BLACK),
  ("- Not modeled as a line item: a Taiwan disruption. It would hit Intel too (TSMC makes Lunar/Arrow Lake tiles, part of Panther/Nova Lake).", BLACK),
  ("  Geopolitical second-source demand for US fabs is already inside the external-foundry drivers (Base/Bull), so it isn't added twice.", BLACK),
  ("- TAIWAN scenario (4th): Taiwan fabs cut off from Western customers from 2027 (invasion, blockade, or reunification followed by US export controls", BLACK),
@@ -207,6 +209,8 @@ for lab, v, fmt, nm, note in [
  ("External foundry revenue multiplier", flex["fdy"], MULT, "fx_fdy", "e.g. 0.5 = half"),
  ("Capex multiplier (2027+)", flex["capex"], MULT, "fx_capex", "e.g. 1.15 = 15% more"),
  ("China domestic revenue change shift per year (pts)", flex["cn"], PCT, "fx_cn", "e.g. -0.10 = 10 pts faster erosion every year"),
+ ("CHINA TAILWIND 3: capex offset from 48D 35% fab tax credit + SCIP partner funding (share of gross capex)", flex.get("cpxoff", 0.10), PCT, "cpxoff", "ASSUMPTION 10% (conservative). 48D gives a 35% refundable credit for fabs started by 31 Dec 2026; partners (Brookfield/Apollo) co-fund Arizona/Ireland. Set 0 to turn off"),
+ ("Tailwind switch: include China tailwinds 1 and 2 (1 = on, 0 = off)", flex.get("tw", 1.0), '0', "tw_on", "Set 0 to see the model without the China tailwinds"),
 ]:
     inrow(r, lab, v, fmt, nm, note); r += 1
 
@@ -253,6 +257,18 @@ drivers = {
    "Bull": [-0.03, -0.03, -0.03, -0.03, -0.03, -0.03, -0.03],
    "Taiwan": [-1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]},
    "Bear: truce lapses Nov-26, xinchuang spreads from government to SOEs/finance/telecom, and origin rule hits 18A (US-fabbed) parts. Base: steady localization. Bull: truce holds, erosion slow"),
+ "CHINA TAILWIND 1: China AI-server demand boost to China domestic revenue (pts/yr, added to erosion)": ("cnb", PCT, {
+   "Bear": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+   "Base": [0.08, 0.04, 0.0, 0.0, 0.0, 0.0, 0.0],
+   "Bull": [0.15, 0.10, 0.05, 0.02, 0.0, 0.0, 0.0],
+   "Taiwan": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]},
+   "China server CPU prices +40% since Jan-26, 6-month lead times, multi-year supply deals with Chinese AI data centers; domestic CPUs can't fill AI-server demand near term. Fades as Hygon/Kunpeng scale"),
+ "CHINA TAILWIND 2: US onshoring / tariff-driven extra foundry revenue ($bn)": ("ons", USD, {
+   "Bear": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+   "Base": [0.0, 0.5, 1.5, 3.0, 4.0, 5.0, 5.0],
+   "Bull": [0.0, 1.0, 3.0, 6.0, 9.0, 11.0, 12.0],
+   "Taiwan": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]},
+   "Sec. 232 25% tariff on advanced chips made outside US (Jan-26); Phase 2 'build in America or pay' + 1:1 rule + tariff offsets (Sep-26). Intel competes with TSMC Arizona and Samsung Taylor for this demand. Taiwan scenario already includes it"),
  "Gross capex ($bn)": ("cpx", USD, {
    "Bear": [20, 18, 16, 15, 15, 15, 15],
    "Base": [26, 26, 24, 22, 20, 20, 20],
@@ -279,12 +295,12 @@ def scen(sc):
     put(ws, "A1", f"{sc} scenario: US$ bn", TITLE)
     header(ws, 3, ["Line item", "2026E"] + YEARS + ["Terminal"], 1)
     lab = {}
-    items = ["period", "dcai", "dcai_g", "ccg", "ccg_g", "fdy", "oth", "chx", "chf", "chl", "rev", "rev_g", "gm", "gp", "opex", "oi", "oi_m",
+    items = ["period", "dcai", "dcai_g", "ccg", "ccg_g", "fdy", "ons", "oth", "chx", "chf", "chl", "rev", "rev_g", "gm", "gp", "opex", "oi", "oi_m",
              "sbc", "ebit", "tax", "nopat", "da", "capex", "nwc", "fcf", "fcf_m", "df", "pv"]
     names = {"period": "Discount period (yrs from 30 Sep 2026)", "dcai": "DCAI (server/data center) revenue", "dcai_g": "  growth",
-             "ccg": "CCPG (client) revenue", "ccg_g": "  growth", "fdy": "External foundry + packaging revenue", "oth": "Other revenue (Mobileye etc.)",
+             "ccg": "CCPG (client) revenue", "ccg_g": "  growth", "fdy": "External foundry + packaging revenue", "ons": "China tailwind: US onshoring / tariff-driven foundry revenue", "oth": "Other revenue (Mobileye etc.)",
              "chx": "China domestic-demand revenue exposed (pre-erosion)", "chf": "  China erosion index (2026 = 1.00)",
-             "chl": "Less: China localization / trade revenue loss", "rev": "Total revenue", "rev_g": "  growth", "gm": "Non-GAAP gross margin", "gp": "Gross profit", "opex": "Non-GAAP opex",
+             "chl": "China domestic revenue change vs 2026 (loss negative, tailwind gain positive)", "rev": "Total revenue", "rev_g": "  growth", "gm": "Non-GAAP gross margin", "gp": "Gross profit", "opex": "Non-GAAP opex",
              "oi": "Non-GAAP operating income", "oi_m": "  operating margin", "sbc": "Stock-based compensation", "ebit": "EBIT after SBC",
              "tax": "Taxes on EBIT", "nopat": "NOPAT", "da": "D&A", "capex": "Capex", "nwc": "Change in net working capital",
              "fcf": "Unlevered free cash flow", "fcf_m": "  FCF margin", "df": "Discount factor", "pv": "PV of FCF"}
@@ -300,7 +316,8 @@ def scen(sc):
     put(ws, f"B{R['chx']}", f"=(B{R['dcai']}+B{R['ccg']})*{I('cnshare')}*{I('cndom')}", BLACK, USD)
     put(ws, f"B{R['chf']}", 1, BLUE, '0.00')
     put(ws, f"B{R['chl']}", f"=-B{R['chx']}*(1-B{R['chf']})", BLACK, USD)
-    put(ws, f"B{R['rev']}", f"=SUM(B{R['dcai']},B{R['ccg']},B{R['fdy']},B{R['oth']},B{R['chl']})", BLACK, USD, bold=True)
+    put(ws, f"B{R['ons']}", 0, BLUE, USD)
+    put(ws, f"B{R['rev']}", f"=SUM(B{R['dcai']},B{R['ccg']},B{R['fdy']},B{R['ons']},B{R['oth']},B{R['chl']})", BLACK, USD, bold=True)
     put(ws, f"B{R['gm']}", f"={I('gm26')}+{I('fx_gm')}", GREEN, PCT)
     put(ws, f"B{R['gp']}", f"=B{R['rev']}*B{R['gm']}", BLACK, USD)
     put(ws, f"B{R['opex']}", f"={I('opex26')}", GREEN, USD)
@@ -320,9 +337,10 @@ def scen(sc):
         put(ws, f"{c}{R['fdy']}", f"=Inputs!{dcol}{DR[('fdy', sc)]}*{I('fx_fdy')}", GREEN, USD)
         put(ws, f"{c}{R['oth']}", f"={p}{R['oth']}*(1+{I('othg')})", BLACK, USD)
         put(ws, f"{c}{R['chx']}", f"=({c}{R['dcai']}+{c}{R['ccg']})*{I('cnshare')}*{I('cndom')}", BLACK, USD)
-        put(ws, f"{c}{R['chf']}", f"=MAX(0,{p}{R['chf']}*(1+Inputs!{dcol}{DR[('cn', sc)]}+{I('fx_cn')}))", BLACK, '0.00')
+        put(ws, f"{c}{R['chf']}", f"=MAX(0,{p}{R['chf']}*(1+Inputs!{dcol}{DR[('cn', sc)]}+{I('tw_on')}*Inputs!{dcol}{DR[('cnb', sc)]}+{I('fx_cn')}))", BLACK, '0.00')
         put(ws, f"{c}{R['chl']}", f"=-{c}{R['chx']}*(1-{c}{R['chf']})", BLACK, USD)
-        put(ws, f"{c}{R['rev']}", f"=SUM({c}{R['dcai']},{c}{R['ccg']},{c}{R['fdy']},{c}{R['oth']},{c}{R['chl']})", BLACK, USD, bold=True)
+        put(ws, f"{c}{R['ons']}", f"={I('tw_on')}*Inputs!{dcol}{DR[('ons', sc)]}", GREEN, USD)
+        put(ws, f"{c}{R['rev']}", f"=SUM({c}{R['dcai']},{c}{R['ccg']},{c}{R['fdy']},{c}{R['ons']},{c}{R['oth']},{c}{R['chl']})", BLACK, USD, bold=True)
         put(ws, f"{c}{R['rev_g']}", f"=IF({p}{R['rev']}=0,0,{c}{R['rev']}/{p}{R['rev']}-1)", BLACK, PCT)
         put(ws, f"{c}{R['gm']}", f"=Inputs!{dcol}{DR[('gm', sc)]}+{I('fx_gm')}", GREEN, PCT)
         put(ws, f"{c}{R['gp']}", f"={c}{R['rev']}*{c}{R['gm']}", BLACK, USD)
@@ -333,7 +351,7 @@ def scen(sc):
         put(ws, f"{c}{R['ebit']}", f"={c}{R['oi']}-{c}{R['sbc']}", BLACK, USD)
         put(ws, f"{c}{R['tax']}", f"=MAX(0,{c}{R['ebit']})*{I('tax')}", BLACK, USD)
         put(ws, f"{c}{R['nopat']}", f"={c}{R['ebit']}-{c}{R['tax']}", BLACK, USD)
-        put(ws, f"{c}{R['capex']}", f"=Inputs!{dcol}{DR[('cpx', sc)]}*{I('fx_capex')}", GREEN, USD)
+        put(ws, f"{c}{R['capex']}", f"=Inputs!{dcol}{DR[('cpx', sc)]}*{I('fx_capex')}*(1-{I('cpxoff')})", GREEN, USD)
         put(ws, f"{c}{R['da']}", f"={p}{R['da']}+{I('dacu')}*({p}{R['capex']}-{p}{R['da']})", BLACK, USD)
         put(ws, f"{c}{R['nwc']}", f"={I('nwc')}*({c}{R['rev']}-{p}{R['rev']})", BLACK, USD)
         put(ws, f"{c}{R['fcf']}", f"={c}{R['nopat']}+{c}{R['da']}-{c}{R['capex']}-{c}{R['nwc']}", BLACK, USD, bold=True)
@@ -407,7 +425,8 @@ metrics = [
  ("2030 non-GAAP gross margin", ("row", "gm", "F"), None, PCT),
  ("2030 non-GAAP operating margin", ("row", "oi_m", "F"), None, PCT),
  ("2033 external foundry + packaging revenue", ("row", "fdy", "I"), None, USD),
- ("2033 revenue lost to China localization / trade", ("row", "chl", "I"), None, USD),
+ ("2033 China domestic revenue change vs 2026 (net of tailwind)", ("row", "chl", "I"), None, USD),
+ ("2033 US onshoring / tariff-driven foundry revenue", ("row", "ons", "I"), None, USD),
  ("2030 unlevered FCF", ("row", "fcf", "F"), None, USD),
  ("Cumulative FCF 2027-2033", ("sum", "fcf"), None, USD),
 ]

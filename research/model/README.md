@@ -105,6 +105,37 @@ Each deal is valued as extra free cash flow *on top of* the Base case. That is g
 - To close that gap, the deals would need to be **about 9.6×** the sizes assumed here.
 - Put another way: the gap equals a new foundry business earning about $59bn a year of FCF from 2031. At TSMC-like 35% FCF margins, that is about **$167bn of extra annual revenue, roughly 104% of TSMC's entire current revenue**.
 
+## China tailwinds (added, switchable on Inputs)
+
+These are the China-related forces that *help* Intel, modeled alongside the China headwinds above:
+
+| Tailwind | Evidence | How it's modeled | Base | Bull |
+|---|---|---|---|---|
+| 1. China AI-server demand | China server CPU prices up 40%+ since Jan 2026; 6-month lead times; Intel and AMD signing multi-year supply deals with Chinese AI data centers; domestic CPUs can't fill AI-server demand near-term | Extra growth added to China domestic revenue, fading as Hygon/Kunpeng scale | +8% in 2027, +4% in 2028 | +15%, +10%, +5%, +2% |
+| 2. US onshoring response to China | Section 232 25% tariff on advanced chips made outside the US (Jan 2026); Phase 2 "build in America or pay" with a 1:1 rule and tariff offsets (Sep 2026) | Extra US-fab foundry revenue. Intel shares this demand with TSMC Arizona and Samsung Taylor | → $5bn/yr by 2032 | → $12bn/yr by 2033 |
+| 3. US fab subsidies | 48D 35% refundable credit for fabs started by 31 Dec 2026; SCIP partner co-funding | 10% of gross capex offset (conservative) | All scenarios | All scenarios |
+
+**Impact on value per share:**
+
+| | Bear | Base | Bull | Taiwan | Weighted |
+|---|---|---|---|---|---|
+| Without tailwinds | $0 | $22.1 | $53.3 | $80.4 | $26.3 |
+| + Tailwinds 1 and 2 (China demand, onshoring) | — | $26.1 | $65.1 | — | — |
+| + Tailwind 3 (capex offset) alone | — | $23.7 | $55.3 | — | — |
+| **All tailwinds (new default)** | **$0** | **$27.7** | **$67.1** | **$83.4** | **$32.2** |
+
+**With tailwinds on:**
+
+| | Value per share |
+|---|---|
+| Base + all deals certain | ~$38 |
+| Base at 8.5% WACC | ~$39 |
+| Bull at 8.5% WACC | ~$96 |
+
+The reverse DCF now needs 5.7× Base terminal FCF (it was 6.9×).
+
+To see the model without the tailwinds, set "Tailwind switch" to 0 and the capex offset to 0% on Inputs.
+
 ## What to check before trusting this
 
 1. **China inputs.** FY2025 China revenue is a derived residual, and the 50% domestic-demand share is my judgment. Verify both.
