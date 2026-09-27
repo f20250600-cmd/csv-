@@ -1,0 +1,14 @@
+
+CEG: price $263.93 | mcap $93.5bn | EV $108.5bn | $2,171/kW
+  Low      GAV $  47.4bn  equity $  27.6bn  NAV/sh $     78  incl platform $     95
+  Base     GAV $  81.4bn  equity $  61.6bn  NAV/sh $    174  incl platform $    191
+  High     GAV $ 115.9bn  equity $  96.1bn  NAV/sh $    271  incl platform $    288
+  Extreme  GAV $ 167.1bn  equity $ 147.3bn  NAV/sh $    416  incl platform $    433
+  implied shift gen-only 14.1, incl platform 11.5
+
+VST: price $138.76 | mcap $47.3bn | EV $73.9bn | $1,504/kW
+  Low      GAV $  30.8bn  equity $   0.5bn  NAV/sh $      1  incl platform $     27
+  Base     GAV $  49.6bn  equity $  19.2bn  NAV/sh $     56  incl platform $     82
+  High     GAV $  69.4bn  equity $  39.1bn  NAV/sh $    115  incl platform $    140
+  Extreme  GAV $  99.8bn  equity $  69.4bn  NAV/sh $    204  incl platform $    229
+  implied shift gen-only 22.5, incl platform 15.5
