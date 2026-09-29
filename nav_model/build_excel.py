@@ -147,6 +147,11 @@ scalar("Scenario (Low / Base / High / Extreme)", "Scenario", "Base", lever=True,
 dv = DataValidation(type="list", formula1='"Low,Base,High,Extreme"', allow_blank=False)
 ws.add_data_validation(dv)
 dv.add(f"B{r-1}")
+scalar("ERCOT (Texas) scenario - 'Same' follows the main scenario", "ERCOTScen", "Same", lever=True,
+       src="Lets ERCOT tighten (or loosen) independently of PJM: sets ERCOT heat rate and ERCOT peaker scarcity")
+dv3 = DataValidation(type="list", formula1='"Same,Low,Base,High,Extreme"', allow_blank=False)
+ws.add_data_validation(dv3)
+dv3.add(f"B{r-1}")
 scalar("Long-run power price shift ($/MWh, 2026$, all hubs)", "PriceShift", 0.0, USD1, lever=True, src="Added to every hub's long-run ATC from 2030 (half in 2029)")
 scalar("Henry Hub shift ($/MMBtu, all years)", "GasShift", 0.0, USD2, lever=True, src="Moves gas costs AND power prices (price = heat rate x gas)")
 scalar("PJM capacity price override ($/MW-day, 2026$; blank = scenario)", "PJMCapOverride", None, USD, lever=True)
@@ -204,7 +209,7 @@ r += 2
 
 section(ws, r, "Scenario table (long-run, 2026$)", 7)
 r += 1
-header(ws, r, ["Parameter", "Low", "Base", "High", "Extreme", "ACTIVE"])
+header(ws, r, ["Parameter", "Low", "Base", "High", "Extreme", "ACTIVE", "ACTIVE ERCOT"])
 scen_hdr = r
 r += 1
 params = [("Implied heat rate PJM (MMBtu/MWh)", "ihr_pjm", "IHRPJM", USD2), ("Implied heat rate ERCOT", "ihr_ercot", "IHRERC", USD2),
@@ -217,6 +222,9 @@ for lab, key, nm, fmt in params:
         put(ws, f"{L(2+j)}{r}", I.SCENARIOS[s][key], BLUE, fmt)
     put(ws, f"F{r}", f"=INDEX(B{r}:E{r},MATCH(Scenario,$B${scen_hdr}:$E${scen_hdr},0))", fmt=fmt, bold=True)
     name(nm, f"Inputs!$F${r}")
+    if key in ("ihr_ercot", "scarcity_mult"):
+        put(ws, f"G{r}", f'=INDEX(B{r}:E{r},MATCH(IF(ERCOTScen="Same",Scenario,ERCOTScen),$B${scen_hdr}:$E${scen_hdr},0))', fmt=fmt, bold=True)
+        name("IHRERC" if key == "ihr_ercot" else "ScarcityERC", f"Inputs!$G${r}")
     if key in ("ihr_pjm", "other_cap", "west_cap"):
         name(nm + "Base", f"Inputs!$C${r}")
     r += 1
@@ -331,8 +339,10 @@ cinp("Fixed O&M adjustment", "OMAdj", [0, 0], PCT, lever=True)
 cinp("Capex adjustment (sustaining + one-off)", "CapexAdj", [0, 0], PCT, lever=True)
 cinp("PPA price adjustment ($/MWh)", "PPAAdj", [0, 0], USD2, lever=True, src="Undisclosed contract prices - analyst estimates")
 cinp("FCF haircut (years up to horizon)", "Haircut", [0, 0], PCT, lever=True, src="Model's 2027 FCF looks ~15-25% above guidance run-rate")
+cinp("Other value ($mm): growth projects, site / data-center (Helix) options", "OtherVal", [0, 0], USD, lever=True,
+     src="Not modelled by default. E.g. Talen sold its Cumulus data-center campus to Amazon for $650mm (2024)")
 cinp("Price-target weight: NAV incl. platform", "W1", [1, 1], "0.00", lever=True)
-cinp("Price-target weight: forward value (FCF + NAV at horizon), PV at equity rate", "W2", [1, 1], "0.00", lever=True)
+cinp("Price-target weight: levered equity value (FCF to horizon + NAV at horizon, PV at equity rate)", "W2", [1, 1], "0.00", lever=True)
 cinp("Price-target weight: replacement cost + FCF", "W3", [1, 1], "0.00", lever=True)
 r += 1
 
@@ -498,7 +508,7 @@ def build_assets(co, assets):
                 put(sh, f"{AC['capture']}{row}", f"=Inputs!$E${hr_}", GREEN, USD2)
             elif t == "peaker":
                 put(sh, f"{AC['cf']}{row}", link("cf"), GREEN, PCT)
-                put(sh, f"{AC['capture']}{row}", "=Scarcity", GREEN, USD2)
+                put(sh, f"{AC['capture']}{row}", "=ScarcityERC" if a["hub"] == "ERCOT" else "=Scarcity", GREEN, USD2)
             elif t == "nuclear":
                 put(sh, f"{AC['cf']}{row}", link("cf"), GREEN, PCT)
                 put(sh, f"{AC['capture']}{row}", f"=Inputs!$F${hr_}", GREEN, USD2)
@@ -798,7 +808,8 @@ srow_add("oh", "Less: capitalised corporate overhead ($mm)", "=" + crow_ref("CEG
 srow_add("eqnav", "Equity NAV - generation only ($mm)", f"=B{srow['gav']}-B{srow['oh']}-B{srow['claims']}", f"=C{srow['gav']}-C{srow['oh']}-C{srow['claims']}", USD, True)
 srow_add("navps", "NAV per share - generation only ($)", f"=B{srow['eqnav']}/B{srow['shares']}", f"=C{srow['eqnav']}/C{srow['shares']}", USD2, True)
 srow_add("plat", "Add: retail/platform value ($mm)", "=CEG_PlatEBITDA*CEG_PlatMult", "=VST_PlatEBITDA*VST_PlatMult", USD, note="Earnings-based; shown separately")
-srow_add("navpsp", "NAV per share incl. platform ($)", f"=(B{srow['eqnav']}+B{srow['plat']})/B{srow['shares']}", f"=(C{srow['eqnav']}+C{srow['plat']})/C{srow['shares']}", USD2, True)
+srow_add("other", "Add: other value - growth / site options ($mm)", "=CEG_OtherVal", "=VST_OtherVal", USD, note="Input on Inputs; 0 by default")
+srow_add("navpsp", "NAV per share incl. platform & other ($)", f"=(B{srow['eqnav']}+B{srow['plat']}+B{srow['other']})/B{srow['shares']}", f"=(C{srow['eqnav']}+C{srow['plat']}+C{srow['other']})/C{srow['shares']}", USD2, True)
 
 sec("2. Forward value: FCF generated to horizon + NAV at horizon")
 srow_add("cumfcf", "Cumulative equity FCF to horizon ($mm, after haircut)",
@@ -808,20 +819,30 @@ srow_add("fwdgav", "Gross asset value at horizon ($mm)", "=" + blk_sum("CEG", "p
          "=" + blk_sum("VST", "pv_m", "E") + "+" + blk_sum("VST", "pv_c", "E") + "+" + blk_sum("VST", "fixedval", "E"), USD)
 srow_add("fwdoh", "Less: overhead at horizon ($mm)", "=" + crow_ref("CEG", "c_ohfwd"), "=" + crow_ref("VST", "c_ohfwd"), USD)
 srow_add("fwdplat", "Add: platform value at horizon ($mm)", f"=B{srow['plat']}*(1+Infl)^(Horizon-2026)", f"=C{srow['plat']}*(1+Infl)^(Horizon-2026)", USD)
-srow_add("fwdeq", "Equity NAV at horizon ($mm)", f"=B{srow['fwdgav']}-B{srow['fwdoh']}-B{srow['claims']}+B{srow['fwdplat']}",
-         f"=C{srow['fwdgav']}-C{srow['fwdoh']}-C{srow['claims']}+C{srow['fwdplat']}", USD)
+srow_add("fwdeq", "Equity NAV at horizon incl. other value ($mm)", f"=B{srow['fwdgav']}-B{srow['fwdoh']}-B{srow['claims']}+B{srow['fwdplat']}+B{srow['other']}",
+         f"=C{srow['fwdgav']}-C{srow['fwdoh']}-C{srow['claims']}+C{srow['fwdplat']}+C{srow['other']}", USD)
 srow_add("fwdps", "Value per share at horizon = FCF + NAV ($)", f"=(B{srow['cumfcf']}+B{srow['fwdeq']})/B{srow['shares']}",
          f"=(C{srow['cumfcf']}+C{srow['fwdeq']})/C{srow['shares']}", USD2, True)
 srow_add("yrs", "Years to horizon", "=Horizon+1-ValDate", "=Horizon+1-ValDate", "0.00")
 srow_add("irr", "Implied annual return from current price", f"=IF(B{srow['fwdps']}>0,(B{srow['fwdps']}/B{srow['price']})^(1/B{srow['yrs']})-1,-1)",
          f"=IF(C{srow['fwdps']}>0,(C{srow['fwdps']}/C{srow['price']})^(1/C{srow['yrs']})-1,-1)", PCT, True)
-srow_add("fwdpv", "Forward value discounted at equity rate ($/share)", f"=B{srow['fwdps']}/(1+EquityDisc)^B{srow['yrs']}", f"=C{srow['fwdps']}/(1+EquityDisc)^C{srow['yrs']}", USD2)
+def lev(co, col):
+    cr = built[co][3]
+    yrs_rng = f"'{co}_Model'!${YL}$3:${YR}$3"
+    fcf = f"'{co}_Model'!${YL}${cr['c_fcfadj']}:${YR}${cr['c_fcfadj']}"
+    dfe = f"'{co}_Model'!${YL}${cr['c_dfeq']}:${YR}${cr['c_dfeq']}"
+    return (f"=(SUMPRODUCT(({yrs_rng}<=Horizon)*{fcf}*{dfe})+{col}{srow['fwdeq']}*(1+EquityDisc)^-{col}{srow['yrs']})/{col}{srow['shares']}")
+
+
+srow_add("fwdpv", "LEVERED EQUITY VALUE today: PV of FCF to horizon + PV of NAV at horizon ($/share)", lev("CEG", "B"), lev("VST", "C"), USD2, True,
+         note="Discounted at the equity rate; credits cheap debt and the interest tax shield")
+srow_add("levgap", "  of which cheap debt & interest tax shield vs asset NAV ($/share)", f"=B{srow['fwdpv']}-B{srow['navpsp']}", f"=C{srow['fwdpv']}-C{srow['navpsp']}", USD2)
 srow_add("entry", "Entry price for target return (fat pitch, $)", f"=MAX(0,B{srow['fwdps']})/(1+TargetReturn)^B{srow['yrs']}",
          f"=MAX(0,C{srow['fwdps']})/(1+TargetReturn)^C{srow['yrs']}", USD2, True)
 
 sec("3. Replacement cost + FCF")
 srow_add("drc", "Depreciated replacement cost of fleet ($mm)", f"='CEG_Assets'!{AC['drc']}{built['CEG'][1]+1}", f"='VST_Assets'!{AC['drc']}{built['VST'][1]+1}", USD)
-srow_add("eqdrc", "Less claims = equity replacement value ($mm)", f"=B{srow['drc']}-B{srow['claims']}", f"=C{srow['drc']}-C{srow['claims']}", USD)
+srow_add("eqdrc", "Less claims, plus other value = equity replacement value ($mm)", f"=B{srow['drc']}-B{srow['claims']}+B{srow['other']}", f"=C{srow['drc']}-C{srow['claims']}+C{srow['other']}", USD)
 srow_add("rcfcf", "PV of equity FCF over replacement lead time ($mm)",
          "=SUMPRODUCT(('CEG_Model'!$" + YL + "$3:$" + YR + "$3<=2026+RCYears)*'CEG_Model'!$" + YL + f"${built['CEG'][3]['c_fcfadj']}:${YR}${built['CEG'][3]['c_fcfadj']}*'CEG_Model'!${YL}${built['CEG'][3]['c_dfeq']}:${YR}${built['CEG'][3]['c_dfeq']})",
          "=SUMPRODUCT(('VST_Model'!$" + YL + "$3:$" + YR + "$3<=2026+RCYears)*'VST_Model'!$" + YL + f"${built['VST'][3]['c_fcfadj']}:${YR}${built['VST'][3]['c_fcfadj']}*'VST_Model'!${YL}${built['VST'][3]['c_dfeq']}:${YR}${built['VST'][3]['c_dfeq']})", USD)

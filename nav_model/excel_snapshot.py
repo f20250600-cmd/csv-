@@ -2,15 +2,21 @@ import json, shutil, subprocess
 from openpyxl import load_workbook
 RECALC="/root/.claude/skills/synced/259bac5f-5645-4e19-ad23-31ee399e7c06_bc96653a-afc7-48e6-bcc3-3e49cadaee29/xlsx/scripts/recalc.py"
 SRC="outputs/CEG_VST_NAV_Model.xlsx"; lay=json.load(open("outputs/.xlsx_layout.json")); sr=lay["srow"]
-keys=["navps","navpsp","fwdps","irr","entry","rcps","pt","updown"]
-def run(scen, shift=0.0):
-    wb=load_workbook(SRC); wb["Inputs"]["B4"]=scen; wb["Inputs"]["B5"]=shift; wb.save("outputs/.tmp.xlsx")
+keys=["navps","navpsp","fwdpv","fwdps","irr","entry","rcps","pt","updown"]
+def setname(wb, nm, val):
+    sheet, cell = wb.defined_names[nm].attr_text.split("!")
+    wb[sheet][cell.replace("$", "")] = val
+def run(scen, shift=0.0, **over):
+    wb=load_workbook(SRC); setname(wb,"Scenario",scen); setname(wb,"PriceShift",shift)
+    for k,v in over.items(): setname(wb,k,v)
+    wb.save("outputs/.tmp.xlsx")
     out=json.loads(subprocess.run(["python3",RECALC,"outputs/.tmp.xlsx","300"],capture_output=True,text=True).stdout)
     assert out.get("status")=="success" and out["total_errors"]==0, out
     s=load_workbook("outputs/.tmp.xlsx",data_only=True)["Summary"]
     return {k:(s[f"B{sr[k]}"].value, s[f"C{sr[k]}"].value) for k in keys}
 res={sc:run(sc) for sc in ["Low","Base","High","Extreme"]}
-res["Base +14.3 shift (lever test)"]=run("Base",14.3)
+res["Base, ERCOT at High"]=run("Base",ERCOTScen="High")
+res["Bull bridge: Base, ERCOT High, retail 10x"]=run("Base",ERCOTScen="High",CEG_PlatMult=10,VST_PlatMult=10)
 json.dump(res,open("outputs/.snap.json","w"),indent=1)
 for k,v in res.items(): print(k,{kk:(round(a,3),round(b,3)) for kk,(a,b) in v.items()})
 
@@ -22,10 +28,10 @@ r = lay["snap_row"]
 A = lambda **k: Font(name="Arial", size=10, **k)
 s[f"A{r}"] = "6. Scenario snapshot at default inputs (STATIC values - rerun excel_snapshot.py or switch the Scenario cell to update)"
 s[f"A{r}"].font = A(bold=True)
-for col in "ABCDEFGHIJ":
+for col in "ABCDEFGHIJK":
     s[f"{col}{r}"].fill = PatternFill("solid", fgColor="F2F2F2")
 r += 1
-labels = {"navps": "NAV/sh gen-only", "navpsp": "NAV/sh incl. platform", "fwdps": "FCF + NAV at horizon", "irr": "Implied return/yr",
+labels = {"navps": "NAV/sh gen-only", "navpsp": "NAV/sh incl. platform", "fwdpv": "Levered equity value", "fwdps": "FCF + NAV at horizon", "irr": "Implied return/yr",
           "entry": "Fat-pitch entry", "rcps": "Replacement + FCF", "pt": "Price target", "updown": "Up/(down)side"}
 for co_i, co in enumerate(("CEG", "VST")):
     s[f"A{r}"] = co
@@ -40,7 +46,7 @@ for co_i, co in enumerate(("CEG", "VST")):
             c.font = A(); c.number_format = '0.0%;(0.0%);"-"' if k in ("irr", "updown") else '#,##0.00;(#,##0.00);"-"'
         r += 1
     r += 1
-for col in "DEFGHI":
+for col in "DEFGHIJ":
     s.column_dimensions[col].width = 15
 wb.save(SRC)
 out = json.loads(subprocess.run(["python3", RECALC, SRC, "300"], capture_output=True, text=True).stdout)

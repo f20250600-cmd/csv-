@@ -387,6 +387,31 @@ Method: take the value at end-2030 (FCF generated + forward NAV, §4c) and disco
 - **Both fat-pitch levels are far below the 52-week lows.** They would need a meaningful de-rating: an AI capex pause, PJM capacity-price reform, or gas below $3.
 - **VST's levels are more fragile.** Leverage makes its low-end values swing hard: the Low-case end-2030 value is only ~$50.
 
+## 4f. What VST's high-profile buyers may be seeing (Pelosi, Thiel Macro)
+
+**The trades:**
+- **Pelosi:** deep in-the-money Jan-2026 call options ($50 strike), bought Jan-2025 and exercised into 5,000 shares on 16-Jan-2026, disclosed as a $100k–250k transaction.
+- **Thiel Macro:** 372,755 shares ($59.1mm, 14% of a $419mm 13F) bought in Q2-2026, worth ~$159/share at quarter-end. The fund's other holdings: Amazon, Vista Energy (an Argentine oil and gas producer), the regulated utilities AEP, DTE, FirstEnergy and CMS, and X-Energy (a nuclear developer). It is a power-demand and energy-price theme basket, not a Vistra valuation call.
+- **What the filings don't show:** 13F filings list long positions only and arrive ~6 weeks late, so neither trade shows current holdings or hedges.
+
+**What they would need to believe, measured in the Excel model** (VST, $/share; "levered" = equity FCF to 2030 plus NAV at 2030, discounted at 9%):
+
+| Step | NAV incl. platform | Levered equity value |
+|---|---|---|
+| Base | $82 | $98 (cheap debt + interest tax shield ≈ +$16) |
+| + ERCOT at High, PJM stays Base (Burke expects ERCOT load +5–6%/yr) | $101 | $117 |
+| + retail valued at 10x instead of 6x | $118 | $130 |
+| Remaining gap to $138.76 | | ~$9/share ≈ $3bn of Helix / site options, growth projects, or higher gas (+$1 HH ≈ +$33) |
+
+The model had two genuine gaps, both now switches in the Excel model:
+- **An ERCOT-only scenario.** Texas can now tighten while PJM stays at Base.
+- **A levered equity value.** It credits the cheap debt and the interest tax shield.
+
+**What the price requires:**
+- Every bull item has to go right at once, and even then the price still needs some unmodelled option value on top.
+- The Low case still leaves VST's levered value near $43.
+- On the levered Base value (~$98), the $105 entry level discussed in §4e pays roughly for Base plus a little. The Texas and retail upside come without paying for them, but the Low-case downside is not protected.
+
 ## 5. Sensitivity: long-run energy price × capacity price (NAV/share, generation only)
 
 **CEG** (current price $263.93)
