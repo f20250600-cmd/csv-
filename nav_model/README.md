@@ -19,3 +19,7 @@ To test a view, edit the scenario heat rates, capacity prices or gas deck in `in
 - **CEG_Model / VST_Model:** annual revenue → gross margin → EBITDA → cash flow → PV for every asset, plus consolidated FCF.
 - **Summary:** NAV, FCF + NAV at the horizon, replacement cost + FCF, **price target**, fat-pitch entry, and revenue/margin/FCF by year.
 Rebuild with `python3 build_excel.py && python3 excel_snapshot.py` (needs LibreOffice Calc for the recalc and snapshot).
+
+## Vista Energy (VIST)
+- `vista_nav.py`: E&P NAV engine (producing base + proved-undeveloped wells + risked unbooked inventory, minus net debt), with Brent scenarios and an Argentina-risk discount rate.
+- `build_vista_excel.py` builds `outputs/VIST_NAV_Model.xlsx` (formula-driven: Inputs, Summary, Model, Cohorts) and writes the static scenario and sensitivity snapshots.

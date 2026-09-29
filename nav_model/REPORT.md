@@ -573,3 +573,77 @@ The market is not obviously wrong, because the High case is plausible. But it is
 - NEI nuclear costs ($36.46/MWh in 2025): https://www.nei.org/getContentAsset/47fa8caa-9b0d-4029-932c-07f902e82f4f/8d8ff8d6-b2ae-401b-a63c-f6b108e809d2/2024-Costs-in-Context-final.pdf?language=en-US
 - 45U nuclear credit (CRS): https://www.congress.gov/crs-product/IN12557
 - GridLab gas-turbine costs: https://gridlab.org/wp-content/uploads/2025/09/GridLab_Gas-Turbine-Costs-Report-1.pdf
+
+## 9. Vista Energy (VIST) — Thiel Macro's largest energy position
+
+*Editable model: `outputs/VIST_NAV_Model.xlsx` (engine: `vista_nav.py`, builder: `build_vista_excel.py`).*
+
+### Method
+Vista is an oil producer, so the asset NAV follows the standard E&P method:
+- **PV of the producing base** (wells online at 1-Oct-2026 on their decline, with no new drilling).
+- **Plus PV of drilling the proved-undeveloped wells** (~450).
+- **Plus a risked PV of the unbooked inventory** (~1,020 further locations, at a 60% chance factor).
+- **Minus net debt and other claims.**
+
+Scenarios are long-run Brent decks, the oil equivalent of the AI-demand scenarios. The Argentina risk is carried in the discount rate (12% base).
+
+### Inputs
+- **Production and margin:** 156 kboe/d in Q2-26 (guidance 158 for 2026, a 250 target by 2030). EBITDA was $805mm in Q2, a ~70% margin.
+- **Costs and prices:** lifting $4.5/boe; realized oil $89.4/bbl.
+- **Balance sheet and reserves:** net debt $3.06bn; 1P reserves 588 MMboe at YE-25 (PV-10 $6.61bn at SEC prices, before Equinor).
+- **Drilling:** well cost $14.2mm, falling to an $11mm target by 2028. Inventory of >1,320 locations plus the Equinor blocks ($712mm, closed May-26).
+- **Oil price deck:** Brent ~$101–105 spot (Hormuz disruption); futures ~$77 by late 2027 and ~$75 in 2028.
+- **Calibration:** P1 ~177 kboe/d and ~237 kboe/d by 2030; EBITDA/boe matches Q2.
+
+| Long-run Brent (2026$) | Low $60 | **Base $72** | High $85 | Extreme $100 |
+|---|---|---|---|---|
+| Risked NAV/ADS | $52 | **$80** | $110 | $144 |
+| Unrisked NAV/ADS | $61 | $95 | $133 | $176 |
+| Producing-base-only floor/ADS | $20 | $28 | $36 | $45 |
+| vs price $73.35 | −30% | **+8%** | +49% | +96% |
+
+**Risked NAV/ADS: long-run Brent (rows) × discount rate (columns)**
+
+| Brent LR | 10% | **12%** | 15% | 18% |
+|---|---|---|---|---|
+| $55 | 50 | 40 | 28 | 19 |
+| $60 | 64 | 52 | 38 | 27 |
+| $65 | 78 | 63 | 47 | 35 |
+| **$72** | 96 | **80** | 61 | 47 |
+| $80 | 117 | 98 | 76 | 59 |
+| $85 | 131 | 110 | 85 | 67 |
+| $95 | 157 | 133 | 104 | 83 |
+
+**Other levers (Base, NAV/ADS $80):**
+- Reinstating an 8% export duty: −$19.
+- EUR ±15%: ±$15.
+- Well cost +20%: −$10.
+- Inventory −30%: −$8.
+- Unbooked inventory risked at 100% / 30%: $95 / $68.
+- War lasts (Brent $100/95/90 for three years, then Base): $90.
+
+**Market view:**
+- **Multiples:** EV $11.5bn equals ~3.4× next-12-month EBITDA, ~$70k per flowing boe/d, $19.5 per 1P boe, and an ~12% unlevered FCF yield.
+- **What the price implies:** long-run Brent of **~$69** at a 12% discount rate, or a **~12.9%** discount rate at Base oil. That is roughly the futures curve plus a normal Argentina premium. **VIST is close to fair value on Base, not deeply discounted.**
+
+### What Thiel Macro may be seeing
+- **The entry:** ~1.2mm ADS worth $75.9mm at 30-Jun-26, about $63/ADS, bought when Brent had briefly dropped to ~$70.
+  - At that price our Base risked NAV (~$80) offered a ~20% discount.
+  - At $73 today it offers ~8%.
+- **Oil convexity:** the Hormuz disruption. If the war premium persists for three years, VIST is worth ~$90. In the Extreme case, ~$144. VIST is effectively an unhedged call on oil.
+- **Argentina normalisation:** each step in country risk is worth a lot. Moving from a 12% to a 10% discount rate adds ~$17/ADS. Reform backsliding to 15% removes ~$19.
+- **Portfolio fit:** Vista (oil) sits beside Vistra and four regulated utilities (power) and Amazon (a power buyer). That is a basket built around energy scarcity. VIST is its oil leg, not a standalone valuation call.
+
+### Entry levels (from the model, not the price)
+| | $/ADS |
+|---|---|
+| Base earns ~15%/yr (NAV at a 15% discount rate) | ~$61 |
+| 30% margin of safety to Base risked NAV | ~$56 |
+| High case earns ~15%/yr | ~$85 |
+| Current price | $73.35 |
+| Hard floor (producing base only) | ~$28 |
+
+- **Fat pitch: ~$55–61.** At that price the Base case alone earns ~15%/yr.
+- **At $73 you are paying fair value for Base plus a moderate premium on oil and Argentina.** It is a reasonable holding if you want oil exposure through the Hormuz risk, not a margin-of-safety buy.
+- **Unlike CEG and VST, the downside is not protected by replacement cost.** The producing base covers only ~$28.
+
