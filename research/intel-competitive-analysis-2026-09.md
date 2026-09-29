@@ -636,6 +636,17 @@ I originally treated a Taiwan disruption as a footnote. That was a mistake: it i
 
 **[I]** The Taiwan scenario raises Intel's value, but on these numbers it doesn't bridge the gap to the current price by itself.
 
+### 10.3a-2 TaiwanMax: Taiwan falls, TSMC Arizona goes to Intel, TSMC engineers join Intel
+
+This extends the Taiwan case. Taiwan's fabs are destroyed or seized; the US transfers TSMC Arizona to Intel; and TSMC engineers move to Intel.
+
+- **What Intel would inherit:** Arizona Fab 1 makes 10–30k N4 wafers a month, with N3 (H2 2027) and N2/A16 fabs coming, $265bn of committed build-out and about 3,000 staff.
+- **The critical constraint:** every Arizona chip is currently packaged in Taiwan. US advanced packaging arrives only in 2028–29, which makes Intel's own EMIB and Foveros packaging strategically central.
+
+**[I] Model result.** About **$130/share at a 10.4% discount rate**: the only scenario above the current price. Revenue reaches about $218bn and operating income about $114bn by 2033. The value is about $93 at a wartime 12.5% discount rate, and $103–112 if Intel must pay $100–150bn for the assets.
+
+The current price is consistent with this outcome only at about a 93% probability. Put differently, the price is roughly what Intel would be worth if the US lost access to Taiwan's fabs and handed Intel TSMC's American footprint.
+
 ### 10.3b Do the Apple, Tesla/Terafab and OpenAI deals explain the price?
 
 The status of each deal as of September 2026:

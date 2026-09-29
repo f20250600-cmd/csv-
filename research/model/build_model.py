@@ -32,7 +32,7 @@ def header(ws, row, labels, start=1):
         c = ws.cell(row=row, column=start + i, value=t); c.font = HDR; c.fill = HFILL
         c.alignment = Alignment(horizontal="center")
 
-SCEN = ["Bear", "Base", "Bull", "Taiwan"]
+SCEN = ["Bear", "Base", "Bull", "Taiwan", "TaiwanMax"]
 YEARS = [str(y) for y in range(2027, 2034)]  # 7 explicit years
 YC = [L(3 + i) for i in range(7)]              # C..I
 
@@ -63,6 +63,10 @@ lines = [
  ("  share capture after a 2027 disruption year, external foundry revenue up to $70bn (capacity-limited), GM to 62%, China revenue to zero, capex ~$40-50bn.", BLACK),
  ("  Not modeled: global recession depth, US price controls/Defense Production Act allocation, higher cost of capital, loss of Intel's own TSMC-made tiles", BLACK),
  ("  beyond 2027, damage to Asian packaging/test sites (Malaysia) and suppliers. The Summary sheet solves for the probability that justifies the price.", BLACK),
+ ("- TAIWANMAX scenario (5th): Taiwan fabs destroyed or seized, the US transfers TSMC Arizona to Intel, and TSMC engineers join Intel. On top of Taiwan:", BLACK),
+ ("  Arizona wafer revenue ramps with its fabs ($8bn 2027 -> $60bn 2033 at crisis pricing; Fab 1 N4 10-30k wafers/mo today, N3 H2-27, N2/A16 next),", BLACK),
+ ("  talent lifts gross margin to 65%, a smaller 2027 client hit (TSMC-made tiles move to Arizona), capex $55-75bn/yr to finish the Arizona fabs.", BLACK),
+ ("  Payment for the assets is an input (default $0 = government transfer). Caveat: until 2028-29 ALL Arizona chips are packaged in Taiwan, so 2027 output is packaging-bound.", BLACK),
  ("- Margins on a non-GAAP basis, then stock-based comp deducted as a real cost. Unlevered FCF = NOPAT + D&A - capex - change in NWC.", BLACK),
  ("- Discounted from 30 Sep 2026; Gordon-growth terminal value on normalized 2034 FCF (terminal capex = D&A x ratio).", BLACK),
  ("", BLACK),
@@ -209,6 +213,7 @@ for lab, v, fmt, nm, note in [
  ("External foundry revenue multiplier", flex["fdy"], MULT, "fx_fdy", "e.g. 0.5 = half"),
  ("Capex multiplier (2027+)", flex["capex"], MULT, "fx_capex", "e.g. 1.15 = 15% more"),
  ("China domestic revenue change shift per year (pts)", flex["cn"], PCT, "fx_cn", "e.g. -0.10 = 10 pts faster erosion every year"),
+ ("TaiwanMax only: payment by Intel for TSMC Arizona assets ($bn)", flex.get("acq", 0.0), USD, "acq", "ASSUMPTION 0 = US government transfers the fabs to Intel at no cost to shareholders (generous). TSMC has committed ~$265bn to Arizona; try 65-150 if Intel must pay"),
  ("CHINA TAILWIND 3: capex offset from 48D 35% fab tax credit + SCIP partner funding (share of gross capex)", flex.get("cpxoff", 0.10), PCT, "cpxoff", "ASSUMPTION 10% (conservative). 48D gives a 35% refundable credit for fabs started by 31 Dec 2026; partners (Brookfield/Apollo) co-fund Arizona/Ireland. Set 0 to turn off"),
  ("Tailwind switch: include China tailwinds 1 and 2 (1 = on, 0 = off)", flex.get("tw", 1.0), '0', "tw_on", "Set 0 to see the model without the China tailwinds"),
 ]:
@@ -217,9 +222,10 @@ for lab, v, fmt, nm, note in [
 r += 1; put(inp, f"A{r}", "SCENARIO WEIGHTS (judgment; must sum to 100%)", BOLD); r += 1
 header(inp, r, ["Scenario", "Weight"], 1); r += 1
 for lab, v, nm, note in [("Bear", 0.28, "w_bear", "My judgment; edit"), ("Base", 0.43, "w_base", "My judgment; edit"), ("Bull", 0.24, "w_bull", "My judgment; edit"),
-                          ("Taiwan (disruption / cut-off of Taiwan fabs from Western customers, from 2027)", 0.05, "w_tw", "My judgment; edit. The Summary sheet solves for the probability that would justify the current price")]:
+                          ("Taiwan (disruption / cut-off of Taiwan fabs from Western customers, from 2027)", 0.03, "w_tw", "My judgment; edit. The Summary sheet solves for the probability that would justify the current price"),
+                          ("TaiwanMax (Taiwan fabs destroyed or seized + TSMC Arizona transferred to Intel + TSMC engineers join Intel)", 0.02, "w_twm", "My judgment; edit. A subset of a Taiwan conflict, so Taiwan + TaiwanMax together = 5%")]:
     inrow(r, lab, v, PCT, nm, note, True); r += 1
-inrow(r, "Check: sum of weights", f"={ref('w_bear')}+{ref('w_base')}+{ref('w_bull')}+{ref('w_tw')}", PCT, "w_sum", "Must equal 100%", False, True); r += 1
+inrow(r, "Check: sum of weights", f"={ref('w_bear')}+{ref('w_base')}+{ref('w_bull')}+{ref('w_tw')}+{ref('w_twm')}", PCT, "w_sum", "Must equal 100%", False, True); r += 1
 
 # driver tables
 r += 1; put(inp, f"A{r}", "SCENARIO DRIVERS (2027-2033). Hypothetical paths tied to product evidence; NOT forecasts I endorse", BOLD); r += 1
@@ -228,52 +234,61 @@ drivers = {
    "Bear": [-0.12, -0.03, 0.00, 0.02, 0.02, 0.02, 0.02],
    "Base": [0.04, 0.05, 0.06, 0.06, 0.05, 0.04, 0.04],
    "Bull": [0.15, 0.12, 0.10, 0.08, 0.07, 0.06, 0.05],
-   "Taiwan": [0.10, 0.25, 0.15, 0.08, 0.05, 0.04, 0.04]},
+   "Taiwan": [0.10, 0.25, 0.15, 0.08, 0.05, 0.04, 0.04],
+   "TaiwanMax": [0.10, 0.25, 0.15, 0.08, 0.05, 0.04, 0.04]},
    "Bear: shortage ASP spike (+48% YoY in Q2-26) reverses as Venice ships Q4-26 and Diamond Rapids slips; Bull: DMR competitive + agentic CPU demand persists"),
  "CCPG (client) revenue growth": ("ccg", PCT, {
    "Bear": [-0.08, -0.04, -0.03, -0.02, -0.02, -0.01, -0.01],
    "Base": [-0.02, 0.01, 0.02, 0.02, 0.02, 0.02, 0.02],
    "Bull": [0.04, 0.04, 0.03, 0.03, 0.03, 0.03, 0.03],
-   "Taiwan": [-0.10, 0.20, 0.10, 0.03, 0.03, 0.03, 0.03]},
+   "Taiwan": [-0.10, 0.20, 0.10, 0.03, 0.03, 0.03, 0.03],
+   "TaiwanMax": [-0.05, 0.22, 0.10, 0.03, 0.03, 0.03, 0.03]},
    "Mercury: AMD client share 30.3% Q2-26 and rising; Arm WoA ~3%. Bull assumes Nova Lake + NVIDIA x86 RTX SoCs hold share"),
  "External foundry + packaging revenue ($bn)": ("fdy", USD, {
    "Bear": [1.3, 1.6, 2.0, 2.5, 3.0, 3.5, 4.0],
    "Base": [1.8, 3.5, 6.0, 8.5, 11.0, 13.0, 15.0],
    "Bull": [3.0, 7.0, 12.0, 18.0, 24.0, 29.0, 33.0],
-   "Taiwan": [10.0, 30.0, 45.0, 55.0, 60.0, 65.0, 70.0]},
+   "Taiwan": [10.0, 30.0, 45.0, 55.0, 60.0, 65.0, 70.0],
+   "TaiwanMax": [18.0, 50.0, 77.0, 97.0, 110.0, 120.0, 130.0]},
    "Today ~$1.2bn annualized, mostly Altera. Base = EMIB-T packaging + Apple 18A-P ramp. Bull = 14A anchor customer. All ABOVE Intel's historical base rate"),
  "Non-GAAP gross margin": ("gm", PCT, {
    "Bear": [0.39, 0.39, 0.40, 0.40, 0.40, 0.40, 0.40],
    "Base": [0.43, 0.45, 0.47, 0.48, 0.49, 0.50, 0.50],
    "Bull": [0.46, 0.49, 0.52, 0.54, 0.55, 0.56, 0.57],
-   "Taiwan": [0.45, 0.55, 0.60, 0.62, 0.62, 0.62, 0.62]},
+   "Taiwan": [0.45, 0.55, 0.60, 0.62, 0.62, 0.62, 0.62],
+   "TaiwanMax": [0.45, 0.57, 0.63, 0.65, 0.65, 0.65, 0.65]},
    "Q2-26 41.8%. Compare TSMC 67.7% (Q2-26), Intel ~60% in the 2010s. Base requires 18A industry-standard yields in 2027 (CFO's own timeline)"),
  "Non-GAAP opex growth": ("opx", PCT, {
-   "Bear": [0.01]*7, "Base": [0.03]*7, "Bull": [0.04]*7, "Taiwan": [0.06]*7},
+   "Bear": [0.01]*7, "Base": [0.03]*7, "Bull": [0.04]*7, "Taiwan": [0.06]*7,
+   "TaiwanMax": [0.08]*7},
    "Bull spends more (AI GPU, foundry customer support)"),
  "China domestic end-demand revenue change per year": ("cn", PCT, {
    "Bear": [-0.20, -0.15, -0.15, -0.10, -0.10, -0.10, -0.10],
    "Base": [-0.08, -0.08, -0.07, -0.07, -0.06, -0.06, -0.05],
    "Bull": [-0.03, -0.03, -0.03, -0.03, -0.03, -0.03, -0.03],
-   "Taiwan": [-1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]},
+   "Taiwan": [-1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+   "TaiwanMax": [-1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]},
    "Bear: truce lapses Nov-26, xinchuang spreads from government to SOEs/finance/telecom, and origin rule hits 18A (US-fabbed) parts. Base: steady localization. Bull: truce holds, erosion slow"),
  "CHINA TAILWIND 1: China AI-server demand boost to China domestic revenue (pts/yr, added to erosion)": ("cnb", PCT, {
    "Bear": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
    "Base": [0.08, 0.04, 0.0, 0.0, 0.0, 0.0, 0.0],
    "Bull": [0.15, 0.10, 0.05, 0.02, 0.0, 0.0, 0.0],
-   "Taiwan": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]},
+   "Taiwan": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+   "TaiwanMax": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]},
    "China server CPU prices +40% since Jan-26, 6-month lead times, multi-year supply deals with Chinese AI data centers; domestic CPUs can't fill AI-server demand near term. Fades as Hygon/Kunpeng scale"),
  "CHINA TAILWIND 2: US onshoring / tariff-driven extra foundry revenue ($bn)": ("ons", USD, {
    "Bear": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
    "Base": [0.0, 0.5, 1.5, 3.0, 4.0, 5.0, 5.0],
    "Bull": [0.0, 1.0, 3.0, 6.0, 9.0, 11.0, 12.0],
-   "Taiwan": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]},
+   "Taiwan": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+   "TaiwanMax": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]},
    "Sec. 232 25% tariff on advanced chips made outside US (Jan-26); Phase 2 'build in America or pay' + 1:1 rule + tariff offsets (Sep-26). Intel competes with TSMC Arizona and Samsung Taylor for this demand. Taiwan scenario already includes it"),
  "Gross capex ($bn)": ("cpx", USD, {
    "Bear": [20, 18, 16, 15, 15, 15, 15],
    "Base": [26, 26, 24, 22, 20, 20, 20],
    "Bull": [30, 32, 30, 28, 26, 26, 26],
-   "Taiwan": [40, 50, 50, 45, 40, 35, 35]},
+   "Taiwan": [40, 50, 50, 45, 40, 35, 35],
+   "TaiwanMax": [60, 75, 75, 70, 60, 55, 55]},
    "2027 guided 'significantly above' 2026 (>$20bn). Gross; excludes SCIP partner/government offsets (conservative)"),
 }
 DR = {}  # (key, scen) -> row
@@ -381,7 +396,8 @@ def scen(sc):
      ("netcash", "+ Net cash (incl. Aug-26 raise)", f"={I('netcash')}", USD),
      ("altera", "+ Altera stake", f"={I('altera')}", USD),
      ("nci", "- Non-controlling interests", f"=-{I('nci')}", USD),
-     ("eq", "Equity value", "=EV+NETCASH+ALTERA+NCI", USD),
+     ("acq", "- Payment for TSMC Arizona assets (TaiwanMax only)", f"=-{I('acq')}" if sc == "TaiwanMax" else "=0", USD),
+     ("eq", "Equity value", "=EV+NETCASH+ALTERA+NCI+ACQ", USD),
      ("sh", "Diluted shares (bn)", f"={I('shares')}", NUM),
      ("vps", "Value per share ($)", "=IF(SH=0,0,MAX(0,EQ/SH))", USD2),
      ("px", "Current share price ($)", f"={I('price')}", USD2),
@@ -394,7 +410,7 @@ def scen(sc):
     for i, (k, lbl, f, fmt) in enumerate(vrows):
         rr = v0 + i
         import re as _re
-        f = _re.sub(r"\b(PVSUM|PVTV|TV|EV|NETCASH|ALTERA|NCI|EQ|SH|VPS|PX|UP|TVPCT)\b", lambda m: f"B{V[m.group(1).lower()]}", f)
+        f = _re.sub(r"\b(PVSUM|PVTV|TV|EV|NETCASH|ALTERA|NCI|ACQ|EQ|SH|VPS|PX|UP|TVPCT)\b", lambda m: f"B{V[m.group(1).lower()]}", f)
         font = GREEN if f.startswith("=Inputs") or f.startswith("=-Inputs") else BLACK
         put(ws, f"A{rr}", lbl, BOLD if k in ("ev", "eq", "vps") else BLACK)
         c = put(ws, f"B{rr}", f, font, fmt, bold=k in ("vps",))
@@ -410,10 +426,10 @@ R, V = SR["Base"]
 # ---------------- SUMMARY ----------------
 sm = wb.create_sheet("Summary", 1)
 sm.column_dimensions["A"].width = 58
-for col in "BCDEF": sm.column_dimensions[col].width = 15
-sm.column_dimensions["G"].width = 70
+for col in "BCDEFG": sm.column_dimensions[col].width = 15
+sm.column_dimensions["H"].width = 70
 put(sm, "A1", "Summary: scenario values vs market price (US$ bn unless stated)", TITLE)
-header(sm, 3, ["Metric", "Bear", "Base", "Bull", "Taiwan", "Prob-weighted"], 1)
+header(sm, 3, ["Metric", "Bear", "Base", "Bull", "Taiwan", "TaiwanMax", "Prob-weighted"], 1)
 metrics = [
  ("Scenario weight", None, "w", PCT),
  ("Value per share ($)", "vps", None, USD2),
@@ -430,24 +446,24 @@ metrics = [
  ("2030 unlevered FCF", ("row", "fcf", "F"), None, USD),
  ("Cumulative FCF 2027-2033", ("sum", "fcf"), None, USD),
 ]
-wref = {"Bear": I('w_bear'), "Base": I('w_base'), "Bull": I('w_bull'), "Taiwan": I('w_tw')}
+wref = {"Bear": I('w_bear'), "Base": I('w_base'), "Bull": I('w_bull'), "Taiwan": I('w_tw'), "TaiwanMax": I('w_twm')}
 for i, (lbl, key, special, fmt) in enumerate(metrics):
     rr = 4 + i
     put(sm, f"A{rr}", lbl, BOLD if key == "vps" else BLACK)
     for j, sc in enumerate(SCEN):
-        col = "BCDE"[j]; Rs, Vs = SR[sc]
+        col = "BCDEF"[j]; Rs, Vs = SR[sc]
         if special == "w": f = f"={wref[sc]}"
         elif isinstance(key, tuple) and key[0] == "row": f = f"={sc}!{key[2]}{Rs[key[1]]}"
         elif isinstance(key, tuple): f = f"=SUM({sc}!C{Rs[key[1]]}:I{Rs[key[1]]})"
         else: f = f"={sc}!B{Vs[key]}"
         put(sm, f"{col}{rr}", f, GREEN, fmt)
     if key == "vps":
-        put(sm, f"F{rr}", "=SUMPRODUCT(B4:E4,B5:E5)", BLACK, USD2, fill=GREY, bold=True)
-        VPSW = f"F{rr}"
+        put(sm, f"G{rr}", "=SUMPRODUCT(B4:F4,B5:F5)", BLACK, USD2, fill=GREY, bold=True)
+        VPSW = f"G{rr}"
     elif key == "up":
-        put(sm, f"F{rr}", f"=IF({I('price')}=0,0,{VPSW}/{I('price')}-1)", BLACK, PCT, bold=True)
-put(sm, "G4", "Weights are my judgment (Inputs sheet); they must sum to 100%")
-put(sm, "G5", "Check weights sum:"); put(sm, "G6", f'=IF(ABS({I("w_sum")}-1)<0.0001,"OK","WEIGHTS DO NOT SUM TO 100%")')
+        put(sm, f"G{rr}", f"=IF({I('price')}=0,0,{VPSW}/{I('price')}-1)", BLACK, PCT, bold=True)
+put(sm, "H4", "Weights are my judgment (Inputs sheet); they must sum to 100%")
+put(sm, "H5", "Check weights sum:"); put(sm, "H6", f'=IF(ABS({I("w_sum")}-1)<0.0001,"OK","WEIGHTS DO NOT SUM TO 100%")')
 
 rr = 4 + len(metrics) + 1
 put(sm, f"A{rr}", "MARKET SNAPSHOT", BOLD); rr += 1
@@ -480,8 +496,8 @@ rev = [
 for i, (lbl, f, fmt) in enumerate(rev):
     put(sm, f"A{rv0+i}", lbl)
     put(sm, f"B{rv0+i}", f, BLUE if not isinstance(f, str) else (GREEN if "Base!" in f and "-" not in f[1:] else BLACK), fmt)
-put(sm, f"G{rv0+9}", "Source: TSMC Q2 2026 results (60.3% op margin). Context only")
-put(sm, f"G{rv0+3}", "FCF in 2034 that the Base explicit years plus the market price imply")
+put(sm, f"H{rv0+9}", "Source: TSMC Q2 2026 results (60.3% op margin). Context only")
+put(sm, f"H{rv0+3}", "FCF in 2034 that the Base explicit years plus the market price imply")
 rr = rv0 + len(rev) + 1
 put(sm, f"A{rr}", "TAIWAN TEST: WHAT PROBABILITY OF THE TAIWAN SCENARIO WOULD JUSTIFY TODAY'S PRICE?", BOLD); rr += 1
 tw0 = rr
@@ -490,10 +506,12 @@ twrows = [
  ("Non-Taiwan value per share, re-weighted (Bear/Base/Bull weights normalized)", f"=IF(({I('w_bear')}+{I('w_base')}+{I('w_bull')})=0,0,(B5*{I('w_bear')}+C5*{I('w_base')}+D5*{I('w_bull')})/({I('w_bear')}+{I('w_base')}+{I('w_bull')}))", USD2),
  ("Current share price ($)", f"={I('price')}", USD2),
  ("Break-even probability of Taiwan scenario to justify price", f'=IF(B{tw0}<=B{tw0+2},"Not reachable: Taiwan value < price",(B{tw0+2}-B{tw0+1})/(B{tw0}-B{tw0+1}))', PCT),
+ ("TaiwanMax-scenario value per share ($)", "=F5", USD2),
+ ("Break-even probability of TaiwanMax scenario to justify price", f'=IF(B{tw0+4}<=B{tw0+2},"Not reachable: TaiwanMax value < price",(B{tw0+2}-B{tw0+1})/(B{tw0+4}-B{tw0+1}))', PCT),
 ]
 for i, (lbl, f, fmt) in enumerate(twrows):
     put(sm, f"A{tw0+i}", lbl); put(sm, f"B{tw0+i}", f, BLACK, fmt)
-put(sm, f"G{tw0+3}", "Read as: 'the market price is fair IF you believe this is the probability of a Taiwan cut-off (with Taiwan-scenario payoffs as modeled)'.")
+put(sm, f"H{tw0+3}", "Read as: 'the market price is fair IF you believe this is the probability of a Taiwan cut-off (with Taiwan-scenario payoffs as modeled)'.")
 rr = tw0 + len(twrows) + 1
 put(sm, f"A{rr}", "HOW TO READ THIS", BOLD); rr += 1
 for t in [
@@ -592,7 +610,7 @@ def grid(top, sc, title):
             tv = (f"({sc}!$I${Rs['nopat']}*(1+{gg})+{sc}!$I${Rs['da']}*(1+{gg})*(1-{I('tcapex')})"
                   f"-{I('nwc')}*{sc}!$I${Rs['rev']}*{gg})/({w}-{gg})/(1+{w})^{sc}!$I${Rs['period']}")
             f = (f"=IF({w}<={gg},0,(SUMPRODUCT({fcf},1/(1+{w})^{per})+{tv}"
-                 f"+{I('netcash')}+{I('altera')}-{I('nci')})/{I('shares')})")
+                 f"+{I('netcash')}+{I('altera')}-{I('nci')}" + (f"-{I('acq')}" if sc == "TaiwanMax" else "") + f")/{I('shares')})")
             f = "=MAX(0," + f[1:] + ")"
             put(se, f"{cc}{rr}", f, BLACK, USD2)
     return top + 2 + len(waccs) + 1

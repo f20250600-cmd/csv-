@@ -10,7 +10,7 @@ File: `intel_valuation_model.xlsx`. It is built on the findings in `../intel-com
 - **Summary**: each scenario's value, the probability-weighted value, and a reverse DCF against today's price.
 - **Sensitivity**: live WACC × terminal-growth grids for all three scenarios, plus a Base-case tornado.
 - **Deals**: values the Apple, Tesla/Terafab and OpenAI deals as extra cash flow on top of the Base case, and tests whether they explain the price.
-- **Bear / Base / Bull / Taiwan**: identical 2026E–2033 forecasts by segment, discounted to 30 Sep 2026.
+- **Bear / Base / Bull / Taiwan / TaiwanMax**: identical 2026E–2033 forecasts by segment, discounted to 30 Sep 2026.
 
 The file was written without cached values; Excel or Google Sheets recalculates everything on open. The formulas were checked with a Python formula engine (0 errors), because LibreOffice's Calc engine isn't installed in the build environment.
 
@@ -135,6 +135,51 @@ These are the China-related forces that *help* Intel, modeled alongside the Chin
 The reverse DCF now needs 5.7× Base terminal FCF (it was 6.9×).
 
 To see the model without the tailwinds, set "Tailwind switch" to 0 and the capex offset to 0% on Inputs.
+
+## TaiwanMax scenario (added): Taiwan falls, TSMC Arizona goes to Intel, TSMC engineers join Intel
+
+**Condition.** Taiwan's fabs are destroyed or seized from 2027. The US government transfers TSMC Arizona to Intel, and a large share of TSMC's engineers join Intel. This builds on the Taiwan scenario.
+
+**TSMC Arizona today [R]:**
+- Fab 1 makes 10–30k N4 wafers a month.
+- Fab 2 (N3) starts volume production in H2 2027. Fab 3 (N2/A16) has had tools going in since Q3 2026.
+- TSMC has committed $265bn to six fabs and employs about 3,000 people on site.
+- **All Arizona chips are still packaged in Taiwan.** US advanced packaging arrives only in 2028–29 (Amkor, then TSMC). ([TrendForce](https://www.trendforce.com/news/2026/03/24/news-tsmc-reportedly-eyes-2h27-3nm-mass-production-at-arizona-fab-2-four-u-s-fabs-said-to-be-fully-booked/), [Tweaktown](https://www.tweaktown.com/news/106094/tsmc-arizona-chips-being-flown-back-to-in-taiwan-for-advanced-packaging/index.html), [TechTimes](https://www.techtimes.com/articles/316921/20260520/tsmc-arizona-fab-posts-514m-year-one-profit-q1-2026-earnings-surpass-full-2025-figure.htm))
+
+**What's modeled (on top of Taiwan):**
+
+| Driver | Taiwan | TaiwanMax |
+|---|---|---|
+| External foundry revenue, 2027 → 2033 | $10bn → $70bn | $18bn → $130bn (Intel fabs plus Arizona at crisis pricing; 2027 is packaging-bound) |
+| Client revenue in 2027 | −10% | −5% (TSMC-made tiles move to Arizona) |
+| Gross margin by 2030 | 62% | 65% (TSMC talent speeds yield and cost) |
+| Capex per year | $35–50bn | $55–75bn (finishing the Arizona fabs) |
+| Opex growth | 6% | 8% (integrating TSMC Arizona and its staff) |
+| Payment for TSMC Arizona | — | $0 by default (government transfer); editable input |
+
+**Results:**
+
+| | Value per share |
+|---|---|
+| TaiwanMax at 10.4% WACC | **~$130** (above the $123 price) |
+| At 8.5% WACC | ~$189 |
+| At 12.5% WACC (wartime cost of capital) | ~$93 |
+| If Intel pays $100bn for Arizona | ~$112 |
+| If Intel pays $150bn for Arizona | ~$103 |
+| If foundry revenue is 30% lower | ~$93 |
+
+Revenue reaches about $218bn in 2033, with operating income of about $114bn. FCF is −$32bn in 2027 and −$15bn in 2028, turns positive in 2029, and reaches about $83bn by 2033.
+
+**Break-even test.** The current price requires about a **93% probability** of the TaiwanMax outcome, with the other four scenarios taking the rest.
+
+**Weights:** Bear 28%, Base 43%, Bull 24%, Taiwan 3%, TaiwanMax 2%. That gives a probability-weighted value of **~$33**.
+
+**Not modeled, all of which lower it:**
+- a global depression and demand collapse
+- US price controls, or Defense Production Act allocation of output
+- export bans on ASML and Japanese tools and materials to a war zone
+- how long the Taiwan packaging gap would halt Arizona output (the real bottleneck in 2027–28)
+- dilution if Intel issues shares for the assets
 
 ## What to check before trusting this
 
